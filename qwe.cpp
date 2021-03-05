@@ -18,105 +18,138 @@ ld get_radius(int cnt) {
 
 int main() {
 	SVG svg;
-	vector<Circle<ld>> layer;
 	svg.draw(Circle<ld>{{0, 0}, 1}, "blue", "black", .1);
-	for (int i = 0; i < 6; ++i) {
-		layer.push_back({{2 * cos(pi / 3 * i), 2 * sin(pi / 3 * i)}, 1});
-	}
-	for (auto c : layer) {
-		svg.draw(c, "gray", "black", .1);
-	}
 
-	int k = 1;
-	int total = 6;
-	bool need = true;
-	while ((int)layer.size() <= 6 * k) {
-		if (need) {
-			vector<Circle<ld>> nw;
-			for (auto [p, c] : layer) {
-				nw.push_back({p + (p / p.len()).rotated(-pi / 6) * 2 * c, c});
-				nw.push_back({p + (p / p.len()).rotated(pi / 6) * 2 * c, c});
-			}
-			nw.swap(layer);
-			need = false;
-		} else if (sign(layer[0].p.len() + 2 - get_radius(2 * layer.size())) >= 0) {
-			vector<Circle<ld>> nw;
-			nw.push_back(Circle<ld>{Circle<ld>{layer[0].p, 2}.intersect(Circle<ld>{{0, 0}, get_radius(2 * layer.size())})[0], 1});
-			for (int i = 1; i < (int)layer.size(); ++i) {
-				auto q = nw.back().p.rotated(2 * pi / layer.size());
-				nw.push_back(Circle<ld>{q, 1});
-			}
-			nw.swap(layer);
-			need = true;
-		} else {
-			for (auto& c : layer) {
-				c.p = c.p * (1 + 2 / (c.p.len()));
-			}
-		}
-		k += 1;
+	vector<Circle<ld>> layer;
+	auto draw_layer = [&]() {
 		for (auto c : layer) {
 			svg.draw(c, "gray", "black", .1);
 		}
-		total += layer.size();
-		if (k >= 100) {
-			cerr << ":(\n";
+	};
+	auto create_circle = [&](int cur) {
+		layer = {};
+		ld r = 1 / sin(pi / cur);
+		for (int i = 0; i < cur; ++i) {
+			layer.push_back({{cos(2 * pi / cur * i) * r, sin(2 * pi / cur * i) * r}, 1});
+		}
+	};
+
+	const ld a = 1.3;
+	int cur = 200;
+
+	create_circle(cur);
+	draw_layer();
+	create_circle(ceil(cur * a));
+	draw_layer();
+	vector<Circle<ld>> nw;
+
+	vector<pair<int, int>> segs = {{0, 0}};
+	for (int i = 0; i < cur; ++i) {
+		int l = i * ceil(cur * a) / cur;
+		int r = (i + 1) * ceil(cur * a) / cur;
+		assert(r == l + 1 || r == l + 2);
+		if (r == l + 2) {
+			auto rd = get_radius(layer.size());
+			ld phi = pi * 2 * (l + 0.5) / layer.size();
+			nw.push_back(Circle<ld>{{cos(phi) * rd, sin(phi) * rd}, 1});
+		} else {
+			if (segs.back().second == l) {
+				segs.back().second = r;
+			} else {
+				segs.push_back({l, r});
+			}
+		}
+	}
+	for (auto [l, r] : segs) {
+		ld phi = pi * (l + r - 1) / layer.size();
+		for (int i = l; i < r; ++i) {
+			nw.push_back(Circle<ld>{layer[i].p - Point<ld>{cos(phi), sin(phi)} * 2, 1});
+		}
+		// ld phi1 = 2 * pi / layer.size() * (l - 1.5);
+		// ld phi2 = 2 * pi / layer.size() * (r + 0.5);
+		// for (int i = l; i < r; ++i) {
+		// 	ld phi = phi1 + (phi2 - phi1) / (r - l + 1) * (i - l + 1);
+		// 	ld alpha = phi - 2 * pi / layer.size() * i;
+		// 	ld rd = 1 / sin(pi / layer.size());
+		// 	ld x = -sqrt(4 - rd * rd * sin(alpha) * sin(alpha)) + rd * cos(alpha);
+		// 	assert(sign(x * x + rd * rd - 2 * x * rd * cos(alpha) - 4) == 0);
+		// 	// cerr << rd << " " << alpha << " " << x << " | ";
+		// 	nw.push_back(Circle<ld>{{x * cos(phi), x * sin(phi)}, 1.});
+		// }
+	}
+
+	int len = ceil((get_radius(layer.size()) - 1 / sin(pi / cur)) / 2) - 1;
+	sort(all(nw), [](const Circle<ld>& p, const Circle<ld>& q) {
+		return atan2(-p.p.y, -p.p.x) < atan2(-q.p.y, -q.p.x);
+	});
+	draw_layer();
+
+	// nw.swap(layer);
+	// draw_layer();
+	// nw.swap(layer);
+
+	create_circle(cur);
+	assert((int)nw.size() == cur);
+	// for (int i = 0; i < cur; ++i) {
+	// 	svg.draw(Segment<ld>{layer[i].p, nw[i].p}, "black", .1);
+	// }
+
+	for (int i = 0; i < cur; ++i) {
+		ld d = dist(layer[i].p, nw[i].p);
+		assert(sign(d - 2 * (len + 1)) < 0);
+		ld le = d / 2, ri = 1e9;
+		for (int it = 0; it < 50; ++it) {
+			ld mid = (le + ri) / 2;
+			ld phi = asin(1 / mid);
+			if (mid * sin((len + 1) * phi) < d / 2) {
+				le = mid;
+			} else {
+				ri = mid;
+			}
+		}
+		Point<ld> center = (layer[i].p + nw[i].p) / 2;
+		ld rd = (le + ri) / 2;
+		ld opp = sqrtl(rd * rd - (center - nw[i].p).sqr());
+		center += (layer[i].p - nw[i].p).rotated(pi / 2) / (layer[i].p - nw[i].p).len() * opp;
+		ld phi = asin(1 / rd) * 2;
+		for (int j = 0; j <= len; ++j) {
+			svg.draw(Circle<ld>{center + (nw[i].p - center).rotated(phi * j), 1.}, "gray", "black", .1);
+		}
+	}
+
+	/*for (int j = 0; j < len + 1; ++j) {
+		for (auto c : nw) {
+			svg.draw(c, "gray", "black", .1);
+		}
+		if (j == len) {
 			break;
 		}
-	}
-	cerr << k << ": " << layer.size() << "\n";
+		vector<Circle<ld>> nnw;
+		for (int i = 0; i < cur; ++i) {
+			auto cp = Circle<ld>{layer[i].p, (len - j) * 2.};
+			auto cq = Circle<ld>{nw[i].p, 2.};
+			assert(cp.intersects(cq));
+			auto pt = cp.intersect(cq)[0];
+			if (Circle<ld>{pt, 1.}.strictly_intersects(nw[(i + cur - 1) % cur])) {
+				pt = cq.intersect(Circle<ld>{nw[(i + cur - 1) % cur].p, 2.})[0];
+			}
+			nnw.push_back({pt, 1.});
+		}
+		nw.swap(nnw);
+	}*/
 
-	while (total <= 3 * k * (k + 1)) {
-		cerr << 3 * k * (k + 1) - total << " ";
-		vector<Circle<ld>> boundary;
-		for (auto [p, r] : layer) {
-			boundary.push_back({p, 2 * r});
+	/*for (int i = 0; i < cur; ++i) {
+		// svg.draw(Segment<ld>{layer[i].p, nw[i].p}, "black", .1);
+		auto p = layer[i].p;
+		auto q = nw[i].p;
+		auto cp = Circle<ld>{p, len * 2.};
+		auto cq = Circle<ld>{q, 2.};
+		assert(cp.intersects(cq));
+		auto r = cp.intersect(cq)[0];
+		for (int j = 0; j < len; ++j) {
+			svg.draw(Circle<ld>{r + (p - r) / len * j, 1}, "gray", "black", .1);
 		}
-		layer.clear();
-		Point<ld> pt = {0, 0};
-		for (auto [p, r] : boundary) {
-			pt = max(pt, {p.x + r, p.y});
-		}
-		int i = 0;
-		while (sign(dist(boundary[i].p, pt) - boundary[i].r)) {
-			++i;
-		}
-		pt = (pt - boundary[i].p).rotated(pi / 6 * gen(rr)) + boundary[i].p;
-		layer.push_back({pt, 1});
-		while (true) {
-			if ((int)boundary.size() > 1) {
-				while (true) {
-					auto vec = boundary[i].intersect(boundary[(i + 1) % boundary.size()]);
-					auto p = *max_element(all(vec), [](const Point<ld>& p1, const Point<ld>& p2) {
-						return p1.sqr() < p2.sqr();
-					});
-					if (sign(2 - dist(pt, p)) >= 0) {
-						i = (i + 1) % boundary.size();
-					} else {
-						break;
-					}
-				}
-			}
-			auto vec = boundary[i].intersect({pt, 2});
-			auto p = vec[0];
-			if (sign(cross(pt - boundary[i].p, p - boundary[i].p)) < 0) {
-				p = vec[1];
-			}
-			if (layer[0].strictly_intersects({p, 1})) {
-				break;
-			} else {
-				pt = p;
-				layer.push_back({pt, 1});
-			}
-		}
-		for (auto c : layer) {
-			svg.draw(c, "gray", "black", .1);
-		}
-		total += layer.size();
-		k += 1;
-	}
-	cerr << k << " layers\n";
-	cerr << "total " << total << " balls\n";
-	cerr << "hexagonal embedding would give only " << 3 * k * (k + 1) << " balls\n";
+	}*/
 
 	svg.save("out.svg");
  

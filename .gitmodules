@@ -1,0 +1,3 @@
+[submodule "pe"]
+	path = pe
+	url = https://github.com/Golovanov399/pe

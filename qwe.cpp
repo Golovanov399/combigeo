@@ -35,18 +35,19 @@ int main() {
 	};
 
 	const ld a = 1.3;
-	int cur = 200;
+	int cur = 300;
 
 	create_circle(cur);
 	draw_layer();
-	create_circle(ceil(cur * a));
+	int len = floor((layer[0].p.len() * (a - 1)) - 1);
+	create_circle(floor(pi * (layer[0].p.len() + 2 * (len + 1))));
 	draw_layer();
 	vector<Circle<ld>> nw;
 
 	vector<pair<int, int>> segs = {{0, 0}};
 	for (int i = 0; i < cur; ++i) {
-		int l = i * ceil(cur * a) / cur;
-		int r = (i + 1) * ceil(cur * a) / cur;
+		int l = i * (ld)layer.size() / cur;
+		int r = (i + 1) * (ld)layer.size() / cur;
 		assert(r == l + 1 || r == l + 2);
 		if (r == l + 2) {
 			auto rd = get_radius(layer.size());
@@ -78,7 +79,7 @@ int main() {
 		// }
 	}
 
-	int len = ceil((get_radius(layer.size()) - 1 / sin(pi / cur)) / 2) - 1;
+	// int len = ceil((get_radius(layer.size()) - 1 / sin(pi / cur)) / 2) - 1;
 	sort(all(nw), [](const Circle<ld>& p, const Circle<ld>& q) {
 		return atan2(-p.p.y, -p.p.x) < atan2(-q.p.y, -q.p.x);
 	});
@@ -94,7 +95,7 @@ int main() {
 	// 	svg.draw(Segment<ld>{layer[i].p, nw[i].p}, "black", .1);
 	// }
 
-	for (int i = 0; i < cur; ++i) {
+	/*for (int i = 0; i < cur; ++i) {
 		ld d = dist(layer[i].p, nw[i].p);
 		assert(sign(d - 2 * (len + 1)) < 0);
 		ld le = d / 2, ri = 1e9;
@@ -115,7 +116,7 @@ int main() {
 		for (int j = 0; j <= len; ++j) {
 			svg.draw(Circle<ld>{center + (nw[i].p - center).rotated(phi * j), 1.}, "gray", "black", .1);
 		}
-	}
+	}*/
 
 	/*for (int j = 0; j < len + 1; ++j) {
 		for (auto c : nw) {
@@ -138,18 +139,21 @@ int main() {
 		nw.swap(nnw);
 	}*/
 
-	/*for (int i = 0; i < cur; ++i) {
+	for (auto c : nw) {
+		svg.draw(c, "gray", "black", .1);
+	}
+	for (int i = 0; i < cur; ++i) {
 		// svg.draw(Segment<ld>{layer[i].p, nw[i].p}, "black", .1);
 		auto p = layer[i].p;
 		auto q = nw[i].p;
-		auto cp = Circle<ld>{p, len * 2.};
+		auto cp = Circle<ld>{p, (len - 1) * 2.};
 		auto cq = Circle<ld>{q, 2.};
 		assert(cp.intersects(cq));
 		auto r = cp.intersect(cq)[0];
-		for (int j = 0; j < len; ++j) {
-			svg.draw(Circle<ld>{r + (p - r) / len * j, 1}, "gray", "black", .1);
+		for (int j = 0; j < (len - 1); ++j) {
+			svg.draw(Circle<ld>{r + (p - r) / (len - 1) * j, 1}, "gray", "black", .1);
 		}
-	}*/
+	}
 
 	svg.save("out.svg");
  

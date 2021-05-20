@@ -9,70 +9,40 @@ using namespace std;
 using ld = long double;
 const ld pi = acosl(-1);
 
-ld h(ld c) {
-	return abs(c) > 0.5 ? 0 : sqrt(0.25 - c * c);
+ld inner_rad(ld r, ld phi, ld d = 1) {
+	ld psi = pi - asin(sin(phi) * r);
+	return sqrt(r * r + d * d - 2 * r * d * cos(psi));
 }
 
-const int N = 9;
-const ld l = 1, r = 3;
-
-ld get_r(int i) {
-	return l + (r - l) * i / (N - 1);
+ld outer_rad(ld r, ld phi, ld d = 1) {
+	ld psi = asin(sin(phi) * r);
+	return sqrt(r * r + d * d - 2 * r * d * cos(psi));
 }
 
-ld rem[N];
-ld hc[2 * N + 1];
-vector<int> cur;
-
-bool add(int i) {
-	cur.push_back(i);
-	bool success = true;
-	for (int j = -i; j < N - i; ++j) {
-		rem[i + j] -= hc[j + N];
-		if (rem[i + j] < 0) {
-			success = false;
-		}
-	}
-	return success;
+ld takes(ld r, ld where, ld d = 1) {
+	return 2 * where * acos((r * r + where * where - d * d) / (2 * r * where));
 }
 
-void del(int i) {
-	cur.pop_back();
-	for (int j = -i; j < N - i; ++j) {
-		rem[i + j] += hc[j + N];
-	}
-}
-
-pair<int, vector<int>> mx = {0, {}};
-void rec(int i) {
-	if (i == N) {
-		mx = max(mx, {(int)cur.size(), cur});
-		return;
-	}
-	if (add(i)) {
-		rec(i);
-	}
-	del(i);
-	rec(i + 1);
+ld sqr(ld x) {
+	return x * x;
 }
 
 int main() {
-	for (int i = 0; i < N; ++i) {
-		rem[i] = pi * get_r(i);
+	ld le = 2, ri = 3;
+	for (int it = 0; it < 30; ++it) {
+		ld r1 = (le + ri) / 2, r2 = 1 + sqrt(15) / 2;
+		ld r = hypot((r1 + r2) / 2, sqrt(0.25 - sqr((r2 - r1) / 2)));
+		if ((2 * pi * r - 6 * takes(3, r, 0.5)) / takes(r1, r, 0.5) + 6 >= 19) {
+			le = r1;
+		} else {
+			ri = r1;
+		}
 	}
-	for (int i = -N; i <= N; ++i) {
-		hc[N + i] = h((r - l) / (N - 1) * i);
-	}
-
-	for (int i = 0; i < 6; ++i) {
-		add(0);
-	}
-	rec(1);
-	cerr << mx.first << "\n";
-	for (int x : mx.second) {
-		cerr << get_r(x) << " ";
-	}
-	cerr << "\n";
+	ld r1 = (le + ri) / 2, r2 = 1 + sqrt(15) / 2;
+	ld r = hypot((r1 + r2) / 2, sqrt(0.25 - sqr((r2 - r1) / 2)));
+	cerr << r1 << " " << r2 << " " << r << "\n";
+	cerr << takes(r1, r, 0.5) << " " << takes(r2, r, 0.5) << "\n";
+	cout << (2 * pi * r - 6 * takes(3, r, 0.5)) / takes(r1, r, 0.5) + 6 << "\n";
  
 	return 0;
 }

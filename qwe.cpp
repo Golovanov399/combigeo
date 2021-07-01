@@ -24,6 +24,12 @@ int main() {
 	layer[2].push_back(u.rotated(deg(30)) + u.rotated(deg(85)));
 	layer[2].push_back(u.rotated(deg(150)) + u.rotated(deg(95)));
 
+	for (int i = 0; i < 3; ++i) {
+		layer[2].push_back(layer[1][i] + u.rotated(deg(170 + 60 * i)));
+		layer[2].push_back(layer[1][i + 1] + u.rotated(deg(170 + 60 * i)));
+	}
+	layer[2].push_back(layer[1][3] + u);
+
 	cout << R"qwe(r = 1cm;
 % pair u;
 % u = (r, 0);
@@ -42,9 +48,10 @@ pair d[][];
 		}
 	}
 
-	cout << "\n\n";
+	cout << "\nfill small withcolor .7 * white;\n";
 	for (int i = 0; i < 3; ++i) {
-		cout << "for i := 0 step 1 until " << (int)layer[i].size() - 1 << ":\n  draw small shifted d[" << i << "][i];" <<
+		cout << "for i := 0 step 1 until " << (int)layer[i].size() - 1 << ":\n" << 
+				"  draw small shifted d[" << i << "][i];" <<
 				"  pickup pencircle scaled 0.25;\n" <<
 				"  draw big shifted d[" << i << "][i] dashed evenly scaled 0.5;\n" <<
 				"  pickup pencircle scaled 0.5;\n" <<

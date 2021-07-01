@@ -15,6 +15,8 @@ ld deg(int degs) {
 	return degs * pi / 180;
 }
 
+// #define REGIONS
+
 int main() {
 	vector<Pt> layer[3];
 	layer[0].push_back({0, 0});
@@ -31,6 +33,7 @@ int main() {
 	layer[2].push_back(layer[1][3] + u);
 
 	cout << R"qwe(r = 1cm;
+R = 4r;
 % pair u;
 % u = (r, 0);
 
@@ -48,15 +51,39 @@ pair d[][];
 		}
 	}
 
+#ifndef REGIONS
 	cout << "\nfill small withcolor .7 * white;\n";
+#else
+	cout << "\n\n";
+#endif
+
 	for (int i = 0; i < 3; ++i) {
 		cout << "for i := 0 step 1 until " << (int)layer[i].size() - 1 << ":\n" << 
+#ifndef REGIONS
 				"  draw small shifted d[" << i << "][i];" <<
+#else
+				"  draw d[" << i << "][i] withpen pencircle scaled 2;" <<
+#endif
 				"  pickup pencircle scaled 0.25;\n" <<
 				"  draw big shifted d[" << i << "][i] dashed evenly scaled 0.5;\n" <<
 				"  pickup pencircle scaled 0.5;\n" <<
 				"endfor;\n\n";
 	}
+
+#ifdef REGIONS
+	for (int i = 1; i < 3; ++i) {
+		for (int j = 0; j < (int)layer[i].size(); ++j) {
+			int idx = 0;
+			while (sign(dist(layer[i][j], layer[i - 1][idx]) - 1) != 0) {
+				++idx;
+			}
+			cout << "draw d[" << i << "][" << j << "]--d[" << i - 1 << "][" << idx << "];\n";
+		}
+	}
+	cout << "for i := 0 step 1 until " << (int)layer[2].size() - 1 << ":\n" <<
+			"  draw d[2][i]--(d[2][i] scaled (R / abs(d[2][i])));\n" <<
+			"endfor;\n\n";
+#endif
 
 	vector<Circle<ld>> circles[3];
 	vector<Circle<ld>> all_circles;
@@ -110,7 +137,11 @@ pair d[][];
 					}
 					for (auto [b, e] : bes) {
 						if (sign(e - b) > 0) {
+#ifdef REGIONS
+							cout << "draw subpath(" << b * 4 / pi << ", " << e * 4 / pi << ") of (big shifted d[" << i << "][" << j << "]) withcolor .5 * white;\n";
+#else
 							cout << "draw subpath(" << b * 4 / pi << ", " << e * 4 / pi << ") of (big shifted d[" << i << "][" << j << "]) withcolor .3 * white;\n";
+#endif
 						}
 					}
 				}

@@ -21,15 +21,18 @@ int main() {
 	vector<Pt> layer[3];
 	layer[0].push_back({0, 0});
 	for (int i = 0; i < 5; ++i) {
-		layer[1].push_back(u.rotated(deg(150 + 60 * i)));
+		if (i != 2) {
+			layer[1].push_back(u.rotated(deg(150 + 60 * i)));
+		}
 	}
 	layer[2].push_back(u.rotated(deg(30)) + u.rotated(deg(85)));
 	layer[2].push_back(u.rotated(deg(150)) + u.rotated(deg(95)));
 
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 2; ++i) {
 		layer[2].push_back(layer[1][i] + u.rotated(deg(170 + 60 * i)));
 		layer[2].push_back(layer[1][i + 1] + u.rotated(deg(170 + 60 * i)));
 	}
+	layer[2].back() = layer[1][2] + u.rotated(deg(-45));
 	layer[2].push_back(layer[1][3] + u);
 
 	cout << R"qwe(r = 1cm;
@@ -61,12 +64,13 @@ pair d[][];
 		cout << "for i := 0 step 1 until " << (int)layer[i].size() - 1 << ":\n" << 
 #ifndef REGIONS
 				"  draw small shifted d[" << i << "][i];" <<
-#else
-				"  draw d[" << i << "][i] withpen pencircle scaled 2;" <<
-#endif
 				"  pickup pencircle scaled 0.25;\n" <<
 				"  draw big shifted d[" << i << "][i] dashed evenly scaled 0.5;\n" <<
 				"  pickup pencircle scaled 0.5;\n" <<
+#else
+				"  draw d[" << i << "][i] withpen pencircle scaled 2;" <<
+				"  fill big shifted d[" << i << "][i] withcolor .8 * white;" <<
+#endif
 				"endfor;\n\n";
 	}
 

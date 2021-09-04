@@ -62,19 +62,19 @@ pair d[][];
 
 	for (int i = 0; i < 3; ++i) {
 		cout << "for i := 0 step 1 until " << (int)layer[i].size() - 1 << ":\n" << 
-#ifndef REGIONS
 				"  draw small shifted d[" << i << "][i];" <<
 				"  pickup pencircle scaled 0.25;\n" <<
+#ifndef REGIONS
 				"  draw big shifted d[" << i << "][i] dashed evenly scaled 0.5;\n" <<
-				"  pickup pencircle scaled 0.5;\n" <<
 #else
-				"  draw d[" << i << "][i] withpen pencircle scaled 2;" <<
-				"  fill big shifted d[" << i << "][i] withcolor .8 * white;" <<
+				"  draw big shifted d[" << i << "][i] dashed withdots scaled 0.2;\n" <<
 #endif
+				"  pickup pencircle scaled 0.5;\n" <<
 				"endfor;\n\n";
 	}
 
 #ifdef REGIONS
+	cout << "pickup pencircle;\n";
 	for (int i = 1; i < 3; ++i) {
 		for (int j = 0; j < (int)layer[i].size(); ++j) {
 			int idx = 0;
@@ -87,6 +87,11 @@ pair d[][];
 	cout << "for i := 0 step 1 until " << (int)layer[2].size() - 1 << ":\n" <<
 			"  draw d[2][i]--(d[2][i] scaled (R / abs(d[2][i])));\n" <<
 			"endfor;\n\n";
+	cout << "pickup pencircle scaled 0.25;\n";
+	cout << "for i := 0 step 1 until " << (int)layer[2].size() - 1 << ":\n" <<
+			"  draw d[0][0]--d[2][i] dashed evenly;\n" <<
+			"endfor;\n\n";
+	cout << "pickup pencircle scaled 0.5;\n";
 #endif
 
 	vector<Circle<ld>> circles[3];

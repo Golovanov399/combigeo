@@ -54,26 +54,26 @@ pair d[][];
 		}
 	}
 
-#ifndef REGIONS
-	cout << "\nfill small withcolor .7 * white;\n";
-#else
-	cout << "\n\n";
-#endif
+// #ifndef REGIONS
+// 	cout << "\nfill small withcolor .7 * white;\n";
+// #else
+// 	cout << "\n\n";
+// #endif
 
 	for (int i = 0; i < 3; ++i) {
 		cout << "for i := 0 step 1 until " << (int)layer[i].size() - 1 << ":\n" << 
-				"  draw small shifted d[" << i << "][i];" <<
 				"  pickup pencircle scaled 0.25;\n" <<
-#ifndef REGIONS
-				"  draw big shifted d[" << i << "][i] dashed evenly scaled 0.5;\n" <<
-#else
-				"  draw big shifted d[" << i << "][i] dashed withdots scaled 0.2;\n" <<
-#endif
+				"  draw small shifted d[" << i << "][i];" <<
+// #ifndef REGIONS
+// 				"  draw big shifted d[" << i << "][i] dashed evenly scaled 0.5;\n" <<
+// #else
+// 				"  draw big shifted d[" << i << "][i] dashed withdots scaled 0.2;\n" <<
+// #endif
 				"  pickup pencircle scaled 0.5;\n" <<
 				"endfor;\n\n";
 	}
 
-#ifdef REGIONS
+// #ifdef REGIONS
 	cout << "pickup pencircle;\n";
 	for (int i = 1; i < 3; ++i) {
 		for (int j = 0; j < (int)layer[i].size(); ++j) {
@@ -81,18 +81,19 @@ pair d[][];
 			while (sign(dist(layer[i][j], layer[i - 1][idx]) - 1) != 0) {
 				++idx;
 			}
-			cout << "draw d[" << i << "][" << j << "]--d[" << i - 1 << "][" << idx << "];\n";
+			// cout << "draw d[" << i << "][" << j << "]--d[" << i - 1 << "][" << idx << "];\n";
+			cout << "drawarrow d[" << i - 1 << "][" << idx << "]--d[" << i << "][" << j << "];\n";
 		}
 	}
-	cout << "for i := 0 step 1 until " << (int)layer[2].size() - 1 << ":\n" <<
-			"  draw d[2][i]--(d[2][i] scaled (R / abs(d[2][i])));\n" <<
-			"endfor;\n\n";
-	cout << "pickup pencircle scaled 0.25;\n";
-	cout << "for i := 0 step 1 until " << (int)layer[2].size() - 1 << ":\n" <<
-			"  draw d[0][0]--d[2][i] dashed evenly;\n" <<
-			"endfor;\n\n";
-	cout << "pickup pencircle scaled 0.5;\n";
-#endif
+	// cout << "for i := 0 step 1 until " << (int)layer[2].size() - 1 << ":\n" <<
+	// 		"  draw d[2][i]--(d[2][i] scaled (R / abs(d[2][i])));\n" <<
+	// 		"endfor;\n\n";
+	// cout << "pickup pencircle scaled 0.25;\n";
+	// cout << "for i := 0 step 1 until " << (int)layer[2].size() - 1 << ":\n" <<
+	// 		"  draw d[0][0]--d[2][i] dashed evenly;\n" <<
+	// 		"endfor;\n\n";
+	// cout << "pickup pencircle scaled 0.5;\n";
+// #endif
 
 	vector<Circle<ld>> circles[3];
 	vector<Circle<ld>> all_circles;
@@ -103,7 +104,7 @@ pair d[][];
 		}
 	}
 
-	cout << "pickup pencircle;\n";
+	/*cout << "pickup pencircle;\n";
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < (int)layer[i].size(); ++j) {
 			const auto& circle = circles[i][j];
@@ -156,7 +157,7 @@ pair d[][];
 				}
 			}
 		}
-	}
+	}*/
 
 	return 0;
 }

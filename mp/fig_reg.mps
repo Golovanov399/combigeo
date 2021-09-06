@@ -1,8 +1,8 @@
 %!PS-Adobe-3.0 EPSF-3.0
-%%BoundingBox: -113 -74 111 97 
-%%HiResBoundingBox: -112.1631 -73.38255 110.02264 96.12885 
+%%BoundingBox: -85 -65 83 73 
+%%HiResBoundingBox: -84.24733 -64.7341 82.64198 72.22163 
 %%Creator: MetaPost 2.00
-%%CreationDate: 2021.09.04:2156
+%%CreationDate: 2021.09.06:1646
 %%Pages: 1
 %%DocumentResources: procset mpost-minimal
 %%DocumentSuppliedResources: procset mpost-minimal
@@ -297,19 +297,19 @@ newpath 44.5928 -34.21721 moveto
 newpath 52.89526 14.17323 moveto
 24.54881 14.17323 lineto stroke
 newpath 27.01944 42.41197 moveto
-60.92238 95.62885 lineto stroke
+45.69177 71.72163 lineto stroke
 newpath -27.01944 42.41197 moveto
--60.92238 95.62885 lineto stroke
+-45.69177 71.72163 lineto stroke
 newpath -52.46446 19.09544 moveto
--106.54762 38.78004 lineto stroke
+-79.91112 29.08517 lineto stroke
 newpath -52.46446 -9.251 moveto
--111.6631 -19.68944 lineto stroke
+-83.74733 -14.76709 lineto stroke
 newpath -42.76968 -35.88765 moveto
--86.85895 -72.88255 lineto stroke
+-65.14389 -54.66164 lineto stroke
 newpath 44.5928 -34.21721 moveto
-89.95517 -69.02493 lineto stroke
+67.46622 -51.76857 lineto stroke
 newpath 52.89526 14.17323 moveto
-109.52264 29.34648 lineto stroke
+82.14198 22.00986 lineto stroke
  0 0.25 dtransform truncate idtransform setlinewidth pop
  [3 3 ] 0 setdash
 newpath 0 0 moveto

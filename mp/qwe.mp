@@ -801,4 +801,51 @@ draw subpath(0.000000, 3.000000) of (big shifted d[2][1]) withcolor .3 * white;
 
 endfig;
 
+outputtemplate := "distance_d.mps";
+beginfig(8);
+
+numeric k, r, r', dev;
+
+k = 1.5cm;
+
+r' = 10k;
+dev = (sqrt(3) / 2 * 1.3) * k;
+
+numeric pi;
+pi = 3.14159265358;
+
+path small;
+small = fullcircle scaled (2 * r');
+
+draw subpath(2 - dev * 1.5 / pi / r' * 4, 2 + dev * 1.5 / pi / r' * 4) of small;
+pair p, q;
+p = point (2 - dev / pi / r' * 4) of small;
+q = point (2 + dev / pi / r' * 4) of small;
+
+pair t;
+t = (fullcircle scaled 4k shifted p) intersectionpoint (fullcircle scaled 4k shifted q);
+path big;
+big = fullcircle scaled (2 * abs(t));
+draw subpath(2 - dev * 1.5 / pi / r' * 4, 2 + dev * 1.5 / pi / r' * 4) of big;
+
+pickup pencircle scaled 0.3;
+draw q--t--p;
+draw subpath(1, 4.5) of (fullcircle scaled 4k) shifted p dashed evenly;
+draw subpath(7.5, 11) of (fullcircle scaled 4k) shifted q dashed evenly;
+
+dotlabel.bot(btex$p$etex, p);
+dotlabel.bot(btex$q$etex, q);
+dotlabel.top(btex$t$etex, t);
+
+label.llft(btex$2$etex, .5[p, t]);
+label.lrt(btex$2$etex, .5[q, t]);
+
+drawdblarrow (point 2 of small)--t dashed evenly;
+label.rt(btex$d$etex, .5[point 2 of small, t]);
+
+label.bot(btex radius $= r$ etex, point (2 - dev * 1.5 / pi / r' * 4) of big);
+label.lrt(btex radius $= r'$ etex, point (2 - dev * 1.5 / pi / r' * 4) of small);
+
+endfig;
+
 end

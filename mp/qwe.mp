@@ -294,6 +294,10 @@ drawarrow d[0][0]--d[1][1];
 drawarrow d[1][0]--d[2][0];
 drawarrow d[1][1]--d[2][1];
 
+for i := 0 step 1 until 1:
+  draw d[2][i]--(d[2][i] scaled (1 + 1.5r / abs(d[2][i])));
+endfor;
+
 pickup pencircle scaled 0.5;
 draw small shifted ((-1.772333, 0.922618) scaled r);
 pickup pencircle scaled 0.25;
@@ -845,6 +849,345 @@ label.rt(btex$d$etex, .5[point 2 of small, t]);
 
 label.bot(btex radius $= r$ etex, point (2 - dev * 1.5 / pi / r' * 4) of big);
 label.lrt(btex radius $= r'$ etex, point (2 - dev * 1.5 / pi / r' * 4) of small);
+
+endfig;
+
+
+outputtemplate := "tree.mps";
+beginfig(9);
+
+
+numeric r, R;
+
+r = 2cm;
+R = 4r;
+% pair u;
+% u = (r, 0);
+
+path small, big;
+small = fullcircle scaled r;
+big = fullcircle scaled (2 * r);
+
+pair d[][];
+d[0][0] = (0.000000, 0.000000) scaled r;
+d[1][0] = (-0.866025, 0.500000) scaled r;
+d[1][1] = (-0.866025, -0.500000) scaled r;
+d[1][2] = (0.866025, -0.500000) scaled r;
+d[1][3] = (0.866025, 0.500000) scaled r;
+d[2][0] = (0.953181, 1.496195) scaled r;
+d[2][1] = (-0.953181, 1.496195) scaled r;
+d[2][2] = (-1.850833, 0.673648) scaled r;
+d[2][3] = (-1.850833, -0.326352) scaled r;
+d[2][4] = (-1.508813, -1.266044) scaled r;
+d[2][5] = (1.573132, -1.207107) scaled r;
+d[2][6] = (1.866025, 0.500000) scaled r;
+for i := 0 step 1 until 0:
+  pickup pencircle scaled 0.25;
+  draw small shifted d[0][i] dashed evenly;  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 3:
+  pickup pencircle scaled 0.25;
+  draw small shifted d[1][i] dashed evenly;  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 6:
+  pickup pencircle scaled 0.25;
+  draw small shifted d[2][i] dashed evenly;  pickup pencircle scaled 0.5;
+endfor;
+
+pickup pencircle;
+drawarrow d[0][0]--d[1][0];
+drawarrow d[0][0]--d[1][1];
+drawarrow d[0][0]--d[1][2];
+drawarrow d[0][0]--d[1][3];
+drawarrow d[1][3]--d[2][0];
+drawarrow d[1][0]--d[2][1];
+drawarrow d[1][0]--d[2][2];
+drawarrow d[1][1]--d[2][3];
+drawarrow d[1][1]--d[2][4];
+drawarrow d[1][2]--d[2][5];
+drawarrow d[1][3]--d[2][6];
+
+endfig;
+
+
+outputtemplate := "empty-type.mps";
+beginfig(10);
+
+numeric r;
+r = 3cm;
+
+draw subpath(-1, 5) of (fullcircle scaled r) dashed evenly;
+draw subpath(0.5, 3.5) of (fullcircle scaled r) withcolor .5*white withpen pencircle scaled 1.5;
+
+draw subpath(-1, 5) of (fullcircle scaled r shifted (1.2r, 0)) dashed evenly;
+draw subpath(3, 5) of (fullcircle scaled r shifted (2r, 0)) dashed evenly;
+draw subpath(-0.5, 3.5) of (fullcircle scaled r shifted (1.2r, 0)) withcolor .5*white withpen pencircle scaled 1.5;
+
+dotlabel(btex$$etex, (fullcircle scaled r shifted (2r, 0)) intersectionpoint (fullcircle scaled r shifted (1.2r, 0)));
+
+draw subpath(-1, 5) of (fullcircle scaled r shifted (2.4r, 0)) dashed evenly;
+draw subpath(-1, 5) of (fullcircle scaled r shifted (3.2r, 0)) dashed evenly;
+
+numeric alpha;
+alpha = directiontime ((fullcircle scaled r shifted (0.8r, 0)) intersectionpoint (fullcircle scaled r)) of (fullcircle scaled r shifted (2.4r, 0)) - 6;
+draw subpath(alpha, 3.5) of (fullcircle scaled r shifted (2.4r, 0)) withcolor .5*white withpen pencircle scaled 1.5;
+draw subpath(0.5, 4 - alpha) of (fullcircle scaled r shifted (3.2r, 0)) withcolor .5*white withpen pencircle scaled 1.5;
+
+dotlabel(btex$$etex, (fullcircle scaled r shifted (3.2r, 0)) intersectionpoint (fullcircle scaled r shifted (2.4r, 0)));
+
+endfig;
+
+outputtemplate := "case-%c.mps";
+beginfig(11);
+
+numeric r;
+r = 1.5cm;
+% R = 4r;
+% pair u;
+% u = (r, 0);
+
+path small, big;
+small = fullcircle scaled r;
+big = fullcircle scaled (2 * r);
+
+pair d[][];
+d[0][0] = (0.000000, 0.000000) scaled r;
+d[1][0] = (-0.000000, 1.000000) scaled r;
+d[2][0] = (0.642788, 1.766044) scaled r;
+d[2][1] = (-0.642788, 1.766044) scaled r;
+for i := 0 step 1 until 0:
+  draw small shifted d[0][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[0][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 0:
+  draw small shifted d[1][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[1][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[2][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[2][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+pickup pencircle;
+drawarrow d[0][0]--d[1][0];
+drawarrow d[1][0]--d[2][0];
+drawarrow d[1][0]--d[2][1];
+for i := 0 step 1 until 1:
+draw d[2][i]--(d[2][i] scaled (1 + 2.1 * r / 2 / abs(d[2][i])));
+endfor;
+drawarrow d[2][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+drawarrow d[2][1]--((big shifted d[2][0]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+
+pickup pencircle scaled 1.5;
+draw subpath(1.555556, 2.888889) of (big shifted d[2][0]) withcolor .3 * white;
+draw subpath(1.111111, 2.444444) of (big shifted d[2][1]) withcolor .3 * white;
+
+endfig;
+
+beginfig(12);
+
+numeric r;
+r = 1.5cm;
+% R = 4r;
+% pair u;
+% u = (r, 0);
+
+path small, big;
+small = fullcircle scaled r;
+big = fullcircle scaled (2 * r);
+
+pair d[][];
+d[0][0] = (0.000000, 0.000000) scaled r;
+d[1][0] = (-0.000000, 1.000000) scaled r;
+d[2][0] = (0.939693, 1.342020) scaled r;
+d[2][1] = (-0.939693, 1.342020) scaled r;
+for i := 0 step 1 until 0:
+  draw small shifted d[0][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[0][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 0:
+  draw small shifted d[1][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[1][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[2][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[2][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+pickup pencircle;
+drawarrow d[0][0]--d[1][0];
+drawarrow d[1][0]--d[2][0];
+drawarrow d[1][0]--d[2][1];
+for i := 0 step 1 until 1:
+draw d[2][i]--(d[2][i] scaled (1 + 2.1 * r / 2 / abs(d[2][i])));
+endfor;
+drawarrow d[2][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+drawarrow d[1][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+drawarrow d[1][0]--((big shifted d[1][0]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+drawarrow d[2][1]--((big shifted d[1][0]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+
+pickup pencircle scaled 1.5;
+draw subpath(1.222222, 3.111111) of (big shifted d[2][0]) withcolor .3 * white;
+draw subpath(1.777778, 2.222222) of (big shifted d[1][0]) withcolor .3 * white;
+draw subpath(0.888889, 2.777778) of (big shifted d[2][1]) withcolor .3 * white;
+
+endfig;
+
+outputtemplate := "phi-and-psi.mps";
+
+beginfig(12);
+
+% ld psi = deg(100);
+% ld v1u2 = deg(80);
+% ld u1v2 = deg(70);
+numeric r;
+r = 3.5cm;
+% R = 4r;
+% pair u;
+% u = (r, 0);
+
+path small, big;
+small = fullcircle scaled r;
+big = fullcircle scaled (2 * r);
+
+pair d[][];
+d[0][0] = (0.000000, 0.000000) scaled r;
+d[1][0] = (0.766044, 0.642788) scaled r;
+d[1][1] = (-0.766044, 0.642788) scaled r;
+d[2][0] = (1.266044, 1.508813) scaled r;
+d[2][1] = (-1.108065, 1.582480) scaled r;
+for i := 0 step 1 until 0:
+  draw small shifted d[0][i];  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[1][i];  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[2][i];  pickup pencircle scaled 0.5;
+endfor;
+
+pair c';
+c' = (big shifted d[1][0]) intersectionpoint (big shifted d[1][1]);
+
+% pickup pencircle;
+drawarrow d[0][0]--d[1][0];
+drawarrow d[0][0]--d[1][1];
+drawarrow d[1][0]--d[2][0];
+drawarrow d[1][1]--d[2][1];
+for i := 0 step 1 until 1:
+draw d[2][i]--(d[2][i] scaled (1 + 2.1 * r / 2 / abs(d[2][i])));
+endfor;
+drawarrow d[1][0]--c' dashed evenly;
+drawarrow d[1][1]--c' dashed evenly;
+
+pickup pencircle scaled 0.25;
+drawarrow (unitvector(d[1][0] - d[0][0]){(d[1][0] - d[0][0]) rotated 90}..unitvector(d[1][1] - d[0][0])) scaled 0.2r shifted d[0][0];
+label.top(btex$\psi$etex, (0, 0.2r));
+label.ulft(btex$v_1$etex, .6[d[1][0], d[2][0]]);
+label.urt(btex$v_2$etex, .6[d[1][1], d[2][1]]);
+label.ulft(btex$u_1$etex, .7[d[0][0], d[1][0]]);
+label.urt(btex$u_2$etex, .7[d[0][0], d[1][1]]);
+label.top(btex$u_2$etex, .6[d[1][0], c']);
+label.top(btex$u_1$etex, .6[d[1][1], c']);
+
+endfig;
+
+outputtemplate := "profile-pic.mps";
+
+beginfig(13);
+
+numeric r;
+r = 1.5cm;
+path disk;
+disk = fullcircle scaled r;
+pickup pencircle scaled 0.7;
+pair c[];
+c[0] = (0.000000, 0.000000) scaled r;
+c[1] = (0.990901, 0.134594) scaled r;
+c[2] = (1.888442, 0.575525) scaled r;
+c[3] = (2.112109, 1.550191) scaled r;
+c[4] = (2.290308, 2.534185) scaled r;
+c[5] = (1.459680, 3.091012) scaled r;
+c[6] = (0.578912, 3.564561) scaled r;
+c[7] = (-0.395753, 3.788228) scaled r;
+c[8] = (-1.118297, 3.096903) scaled r;
+c[9] = (-1.341965, 2.122237) scaled r;
+c[10] = (-1.408877, 1.124479) scaled r;
+c[11] = (-0.974665, 0.223668) scaled r;
+c[12] = (0.000000, 0.000000) scaled r;
+for i := 0 step 1 until 11:
+  drawarrow(c[i]--c[i+1]);
+endfor;
+draw (c[0] - ((r * 12 / 6, 0) rotated 0))--(c[0] + ((r * 12 / 6, 0) rotated 0)) dashed evenly;
+draw (c[2] - ((r * 12 / 6, 0) rotated 60))--(c[2] + ((r * 12 / 6, 0) rotated 60)) dashed evenly;
+draw (c[4] - ((r * 12 / 6, 0) rotated 120))--(c[4] + ((r * 12 / 6, 0) rotated 120)) dashed evenly;
+draw (c[7] - ((r * 12 / 6, 0) rotated 180))--(c[7] + ((r * 12 / 6, 0) rotated 180)) dashed evenly;
+draw (c[8] - ((r * 12 / 6, 0) rotated 240))--(c[8] + ((r * 12 / 6, 0) rotated 240)) dashed evenly;
+draw (c[11] - ((r * 12 / 6, 0) rotated 300))--(c[11] + ((r * 12 / 6, 0) rotated 300)) dashed evenly;
+for i := 0 step 1 until 11:
+  dotlabel(btex$$etex, c[i]);
+  draw disk shifted c[i] dashed evenly;
+endfor;
+pickup pencircle scaled 0.2;
+pair outer[];
+numeric par[];
+outer[0] = c[0] shifted ((r, 0) rotated 240);
+par[0] = 0;
+outer[1] = c[0] shifted ((r, 0) rotated 300);
+par[1] = 0;
+outer[2] = c[1] shifted ((r, 0) rotated 300);
+par[2] = 1;
+outer[3] = c[2] shifted ((r, 0) rotated 300);
+par[3] = 2;
+outer[4] = c[2] shifted ((r, 0) rotated 0);
+par[4] = 2;
+outer[5] = c[3] shifted ((r, 0) rotated 0);
+par[5] = 3;
+outer[6] = c[4] shifted ((r, 0) rotated 0);
+par[6] = 4;
+outer[7] = c[4] shifted ((r, 0) rotated 60);
+par[7] = 4;
+outer[8] = c[5] shifted ((r, 0) rotated 60);
+par[8] = 5;
+outer[9] = c[6] shifted ((r, 0) rotated 60);
+par[9] = 6;
+outer[10] = c[7] shifted ((r, 0) rotated 60);
+par[10] = 7;
+outer[11] = c[7] shifted ((r, 0) rotated 120);
+par[11] = 7;
+outer[12] = c[8] shifted ((r, 0) rotated 120);
+par[12] = 8;
+outer[13] = c[8] shifted ((r, 0) rotated 180);
+par[13] = 8;
+outer[14] = c[9] shifted ((r, 0) rotated 180);
+par[14] = 9;
+outer[15] = c[10] shifted ((r, 0) rotated 180);
+par[15] = 10;
+outer[16] = c[11] shifted ((r, 0) rotated 180);
+par[16] = 11;
+outer[17] = c[11] shifted ((r, 0) rotated 240);
+par[17] = 11;
+outer[18] = outer[0];
+for i := 0 step 1 until 17:
+  dotlabel(btex$$etex, outer[i]);
+  drawarrow(c[par[i]]--outer[i]);
+  drawarrow(outer[i]--outer[i+1]);
+  draw disk shifted outer[i];
+endfor;
 
 endfig;
 

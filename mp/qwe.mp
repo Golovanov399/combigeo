@@ -1,3 +1,37 @@
+def Dot expr a = draw a withpen pencircle scaled dotlabeldiam enddef;
+
+vardef thewhitelabel@#(expr s,z) =  % Position s near z
+  save p; picture p;
+  if picture s:  p=nullpicture;
+    for n = 0 upto 63:
+      addto p also s shifted (point (n/8) of fullcircle scaled 2) withcolor white;
+    endfor
+    addto p also s
+  else:    p = s infont defaultfont scaled defaultscale
+  fi;
+  p shifted (z + labeloffset*laboff@# -
+     (labxf@#*lrcorner p + labyf@#*ulcorner p
+       + (1-labxf@#-labyf@#)*llcorner p
+     )
+  )
+enddef;
+
+vardef dotwhitelabel@#(expr s,z)=
+  draw thewhitelabel@#(s,z);
+  Dot(z);
+enddef;
+
+vardef whitelabel@#(expr s,z)=
+  draw thewhitelabel@#(s,z);
+enddef;
+
+vardef dtwlbl(expr lab,pt,a,b)=
+  save lb; picture lb;
+  lb=thewhitelabel(lab,pt) shifted (a,b);
+  Dot(pt);
+  draw lb
+enddef;
+
 prologues:=3;
 verbatimtex
 %&latex
@@ -1104,6 +1138,16 @@ label.urt(btex$u_2$etex, .7[d[0][0], d[1][1]]);
 label.top(btex$u_2$etex, .6[d[1][0], c']);
 label.top(btex$u_1$etex, .6[d[1][1], c']);
 
+label.lrt(btex$D_i$etex, d[2][0]);
+label.lrt(btex$D_{i+1}$etex, d[1][0]);
+label.bot(btex$D_{i+2}=D_{j-2}$etex, d[0][0]);
+label.llft(btex$D_{j-1}$etex, d[1][1]);
+label.llft(btex$D_j$etex, d[2][1]);
+
+pickup pencircle;
+draw subpath(angle(d[2][0] - d[1][0]) / 45, angle(c' - d[1][0]) / 45) of (big shifted d[1][0]) dashed evenly;
+draw subpath(angle(c' - d[1][1]) / 45, angle(d[2][1] - d[1][1]) / 45) of (big shifted d[1][1]) dashed evenly;
+
 endfig;
 
 outputtemplate := "profile-pic.mps";
@@ -1188,6 +1232,93 @@ for i := 0 step 1 until 17:
   drawarrow(outer[i]--outer[i+1]);
   draw disk shifted outer[i];
 endfor;
+
+endfig;
+
+outputtemplate := "direction-jump.mps";
+
+beginfig(14);
+
+% ld psi = deg(100);
+% ld v1u2 = deg(80);
+% ld u1v2 = deg(70);
+numeric r;
+r = 2.28cm;
+% R = 4r;
+% pair u;
+% u = (r, 0);
+
+path small, big;
+small = fullcircle scaled r;
+big = fullcircle scaled (2 * r);
+
+pair d[][];
+d[0][0] = (0.000000, 0.000000) scaled r;
+d[1][0] = (0.766044, 0.642788) scaled r;
+d[1][1] = (-0.766044, 0.642788) scaled r;
+d[2][0] = (1.266044, 1.508813) scaled r;
+d[2][1] = (-1.108065, 1.582480) scaled r;
+pickup pencircle scaled 0.25;
+for i := 0 step 1 until 0:
+  draw small shifted d[0][i] dashed evenly;
+  draw big shifted d[0][i] dashed evenly scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[1][i] dashed evenly;
+  draw big shifted d[1][i] dashed evenly scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[2][i] dashed evenly;
+  draw big shifted d[2][i] dashed evenly scaled 0.5;
+endfor;
+pickup pencircle scaled 0.5;
+
+pickup pencircle;
+drawarrow d[0][0]--d[1][0];
+drawarrow d[0][0]--d[1][1];
+drawarrow d[1][0]--d[2][0];
+drawarrow d[1][1]--d[2][1];
+for i := 0 step 1 until 1:
+draw d[2][i]--(d[2][i] scaled (1 + 2.1 * r / 2 / abs(d[2][i])));
+endfor;
+drawarrow d[2][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+drawarrow d[1][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+drawarrow d[1][0]--((big shifted d[1][0]) intersectionpoint (big shifted d[1][1])) dashed evenly;
+drawarrow d[1][1]--((big shifted d[1][0]) intersectionpoint (big shifted d[1][1])) dashed evenly;
+drawarrow d[1][1]--((big shifted d[1][1]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+drawarrow d[2][1]--((big shifted d[1][1]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+
+whitelabel.top(btex$w_1^f$etex, .5[d[2][0], ((big shifted d[2][0]) intersectionpoint (big shifted d[1][0]))]);
+whitelabel.urt(btex$w_2^s$etex, .5[d[1][0], ((big shifted d[2][0]) intersectionpoint (big shifted d[1][0]))]);
+whitelabel.llft(btex$w_2^f$etex, .5[d[1][0], ((big shifted d[1][0]) intersectionpoint (big shifted d[1][1]))]);
+whitelabel.lrt(btex$w_3^s$etex, .5[d[1][1], ((big shifted d[1][0]) intersectionpoint (big shifted d[1][1]))]);
+whitelabel.ulft(btex$w_3^f$etex, .5[d[1][1], ((big shifted d[1][1]) intersectionpoint (big shifted d[2][1]))]);
+whitelabel.top(btex$w_4^s$etex, .5[d[2][1], ((big shifted d[1][1]) intersectionpoint (big shifted d[2][1]))]);
+whitelabel.ulft(btex$w_1^s$etex, .5[d[2][0], (d[2][0] scaled (1 + 2.1 * r / 2 / abs(d[2][0])))]);
+whitelabel.urt(btex$w_4^f$etex, .5[d[2][1], (d[2][1] scaled (1 + 2.1 * r / 2 / abs(d[2][1])))]);
+
+drawarrow (unitvector(d[1][0] - ((big shifted d[2][0]) intersectionpoint (big shifted d[1][0]))){(d[1][0] - ((big shifted d[2][0]) intersectionpoint (big shifted d[1][0]))) rotated 90}..unitvector(d[2][0] - ((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])))) scaled 0.2r shifted ((big shifted d[2][0]) intersectionpoint (big shifted d[1][0]));
+%drawarrow d[2][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+%drawarrow d[1][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+
+drawarrow (unitvector(d[1][1] - ((big shifted d[1][0]) intersectionpoint (big shifted d[1][1]))){(d[1][1] - ((big shifted d[1][0]) intersectionpoint (big shifted d[1][1]))) rotated 90}..unitvector(d[1][0] - ((big shifted d[1][0]) intersectionpoint (big shifted d[1][1])))) scaled 0.2r shifted ((big shifted d[1][0]) intersectionpoint (big shifted d[1][1]));
+%drawarrow d[1][0]--((big shifted d[1][0]) intersectionpoint (big shifted d[1][1])) dashed evenly;
+%drawarrow d[1][1]--((big shifted d[1][0]) intersectionpoint (big shifted d[1][1])) dashed evenly;
+
+drawarrow (unitvector(d[2][1] - ((big shifted d[1][1]) intersectionpoint (big shifted d[2][1]))){(d[2][1] - ((big shifted d[1][1]) intersectionpoint (big shifted d[2][1]))) rotated 90}..unitvector(d[1][1] - ((big shifted d[1][1]) intersectionpoint (big shifted d[2][1])))) scaled 0.2r shifted ((big shifted d[1][1]) intersectionpoint (big shifted d[2][1]));
+%drawarrow d[1][1]--((big shifted d[1][1]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+%drawarrow d[2][1]--((big shifted d[1][1]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+
+drawarrow (unitvector(d[1][0] - d[0][0]){(d[1][0] - d[0][0]) rotated 90}..unitvector(d[1][1] - d[0][0])) scaled 0.2r shifted d[0][0];
+
+pickup pencircle scaled 1.5;
+draw subpath(1.111111, 4.000000) of (big shifted d[2][0]) withcolor .3 * white;
+draw subpath(2.666667, 3.111111) of (big shifted d[1][0]) withcolor .3 * white;
+draw subpath(0.888889, 1.111111) of (big shifted d[1][1]) withcolor .3 * white;
+draw subpath(7.777778, 8.000000) of (big shifted d[2][1]) withcolor .3 * white;
+draw subpath(0.000000, 2.777778) of (big shifted d[2][1]) withcolor .3 * white;
 
 endfig;
 

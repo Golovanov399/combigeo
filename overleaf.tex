@@ -1,0 +1,796 @@
+\section{Introduction}
+
+A collection $\mathcal C=\{C_1, C_2, \ldots \}$ of convex bodies in $\mathbb R^d$ is called a \emph{packing} if no two of them have an interior point in common. We assume that two convex bodies of $\mathcal{C}$ may touch each other. % We will also only consider packings of unit disks~--- that is, disks of unit diameter.
+In the current paper, we are only interested in finite packings of disks (and balls) of unit diameters, and therefore, we omit the phrase ``of unit diameter'' most of the time.
+
+% If not constraining ourselves to two dimensions, different types of packings are interesting to people.
+% One of the classical problems of discrete geometry is the so-called Kepler conjecture asserting that the maximal possible density of a packing of unit balls in $\mathbb{R}^3$ is \frac{\pi}{3\sqrt{2}}. Since then, various other problems \cite{thue1892om, thue1911dichteste} about optimal packings were considered. For example, L\'{a}szl\'{o} Fejes T\'{o}th has shown \cite{Fejes_Toth2013-wc} that the density of an optimal packing of the space can be reduced to a finite case analysis.
+
+% In 1911, Thue~\cite{thue1892om, thue1911dichteste} showed the upper bound on the packing density of disks of the same size in the plane. In 1950, this result was generalized by Fejes Toth~\cite{toth1950some} for translates of a convex body. These works had a great influence on the research of packing problems. In the current paper, we are interested in packings of unit-diameter disks.
+
+% When considering centers of balls in finite packings, some special properties and problems may arise. For example, for a finite set of points one can define a \emph{minimum-distance graph}, where vertices are the points of the set, and edges are drawn between all pairs of points with the minimum distance among all pairwise distances in the set. It it known \cite{min-distance-edges} that the maximal possible number of edges in a minimum-distance graph of a set of $n$ points of the plane equals $\lfloor3n - \sqrt{12n - 3}\rfloor$. If there is at least one pair of touching balls in the packing, the minimum-distance graph of their centers becomes the \emph{unit-distance graph}, defined similarly. \cite{Swanepoel2018} may serve as a survey on these concepts.
+
+The concept of \emph{minimum-distance graphs} is tightly connected with packings of balls.
+% In the study of disc packing problems, it is useful to consider the so-called \emph{minimum distance graph}.
+Given a finite set of points in $\mathbb{R}^d$, the minimum-distance graph is the graph whose vertices are points of the set and edges are drawn between all pairs of points within the minimum distance among all pairwise distances in the set. In particular, if a packing of congruent balls in $\mathbb{R}^d$ contains at least one pair of touching balls, then there is a correspondence between pairs of touching balls and edges in the minimum-distance graph induced by the centeres of the balls. % Harborth~\cite{min-distance-edges} showed that the number of edges in a minimum-distance graph in the plane on $n$ vertices does not exceed $\lfloor3n - \sqrt{12n - 3}\rfloor$, and moreover, this upper bound is tight.
+We refer the interested reader to a recent survey~\cite{Swanepoel2018} on various distance problems in discrete geometry and their relation to packing problems.
+
+% If $X$ is a normed space, then the maximum possible degree of a vertex of a minimum-distance graph in $X$ is called the \emph{kissing number of $X$}. In other words, the kissing number of a space shows how many unit balls can simultaneously touch (or kiss) another unit ball and not overlap with each other. Finding the kissing number of $\mathbb{R}^n$ is yet another classical problem, which originates from 1694, when Isaac Newton and David Gregory had a disagreement about that of the three-dimensional space. The kissing number of $\mathbb{R}^2$ is obviously $6$. Now it is known \cite{bender1874bestimmung, gunther1875stereometrisches, schutte1952problem, leech1956problem} that the kissing number of $\mathbb{R}^3$ is $12$. Coxeter \cite{coxeter1963upper} showed some bounds on kissing numbers of $\mathbb{R}^n$ for some other $n$.
+
+Another concept closely related to the local structure of a packing of balls and minimum-distance graphs is the \emph{kissing number}. Recall that the kissing number in $\mathbb{R}^d$ is the maximum number of $d$-dimensional congruent balls that can touch a given ball of the same size. One can easily see that the kissing number of a space is the maximum possible degree of a vertex in a minimum-distance graph of any set of points from that space.
+% When studying packages of balls, it may be necessary to understand the local structure. For example, it is important to find the \emph{kissing number}, that is, the maximum number of unit balls that can touch a given unit ball.
+It is easy to show that the kissing number in the plane is $6$. One of the classical questions in discrete geometry is the thirteen spheres problem raised by Isaac Newton and David Gregory whether the kissing number in $\mathbb{R}^3$ is $12$ or $13$, which was settled by TODO in TODO. % We refer the interested reader to the survey~\cite{coxeter1963upper} on the kissing number.
+
+L. Fejes T\'{o}th and A. Heppes~\cite{toth_heppes} considered a problem generalizing the kissing number problem. Given a ball and a bunch of balls of the same size, all touching the initial one, add another bunch of balls of the same size that all of them touch at least one previous ball. Find the maximal number $T_d$ of balls, except the first one, in such configuration. Fejes T\'{o}th and Heppes proved some lower and upper bounds for $T_2$, $T_3$, and $T_4$; for instance, $T_2 = 18$. In the last paragraph of \cite{toth_heppes}, they also wrote: `we can continue the process of
+successively enlarging a bunch of balls, but in the next step the problem becomes extremely intricate, even in the plane.' % We generalize this concept in another direction.
+Z.~F\"{u}redi and P.\,A.~Loeb attribute the following conjecture to L.\,F.~Toth and A.~Heppes: the similar three-layer configuration in the plane contains at most $36$ disks (except the first given disk). Our goal is to confirm this conjecture.
+
+Let us introduce this problem formally. Given a packing $\mathcal{P}$ of disks, for two disks $A$, $B\in\mathcal{P}$ we define the \emph{kissing distance} between $A$ and $B$, denoted by $\dist_{\mathcal{P}}(A, B)$, as the smallest $n$ such that there is a sequence of disks $D_0$, $D_1$, \ldots, $C_n\in\mathcal{P}$, where $A = D_0$, $B = D_n$, and for $1\leq i\leq n$ the disks $D_{i-1}$ and $D_i$ touch each other. If there is no such sequence, then we set $\dist_{\mathcal{P}}(A, B) = \infty$. We say that a packing $\mathcal{P}$ \emph{has kissing radius $n$} if there is a disk $D_0\in\mathcal{P}$, which we call \emph{the source} or \emph{the 0-disk}, such that for every other disk $B$ we have $\dist_{\mathcal{P}}(D_0, B)\leq n$. Denote by $f(n)$ the maximum number of disks in a packing of kissing radius $n$.
+
+% \textbf{Todo:} add some back story. Most of the time we consider disks of unit diameter, so unless specified, all disks are assumed to have unit diameter. An arrangement of disks is called \textit{packing} if no two of them overlap. For a packing $\mathcal{P}$ and $A$, $B\in\mathcal{P}$, the \textit{kissing distance} between $A$ and $B$, denoted by $\dist_{\mathcal{P}}(A, B)$, is the smallest $n$ such that there is a sequence of disks $C_0$, $C_1$, \ldots, $C_n\in\mathcal{P}$, where $A = C_0$, $B = C_n$, such that for $1\leq i\leq n$, the disks $C_{i-1}$ and $C_i$ touch each other; if there is no such sequence, then we set $\dist_{\mathcal{P}}(A, B) = \infty$. We say that a packing $\mathcal{P}$ \textit{has kissing radius $n$} if there is a disk $C_0\in\mathcal{P}$, which we call \textit{the source} or \textit{the 0-disk}, such that for every other disk $B$ we have $\dist_{\mathcal{P}}(C_0, B)\leq n$. Denote by $f(n)$ the maximum number of disks in a packing of kissing radius $n$.
+
+In terms of minimum-distance graphs, $f(n)$ is the maximum possible number of vertices in the induced subgraph with just the vertices at distance $n$ or less from a given vertex. % For instance, $f(1)$ is one plus the kissing number of the plane.
+
+The hexagonal arrangement of disks gives the trivial lower bound $f(n) \geq 1 + {3n(n+1)}.$ Since the kissing number of the plane is $6$, we have $f(1) = 7$. According to~\cite{toth_heppes}, we have $f(2) = 19$. The main result of this paper is to confirm the conjecture $f(3) = 37$ mentioned in~\cite{furedi}.
+% Moreover, they conjectured that $f(3) = 1 + 3\cdot3\cdot(3+1) = 37$; see~\cite[last paragraph of Section~6]{furedi}.
+% We confirm this conjecture.
+
+\begin{theorem}\label{theorem:f_of_3} $f(3) = 37$.
+\end{theorem}
+
+% Let a packing $\mathcal{P}$ have a kissing radius $n$. Therefore, the disk $D$ of radius $n + 1/2$ concentric with the source disk of $\mathcal{P}$ covers all disks of $\mathcal{P}$. Let $\mathcal{P}'_n$ be any densest packing in $D$ \textit{without} any restriction on its kissing radius. We prove that $f(n)$ is asymptotically close to the size of $\mathcal{P}'_n$.
+
+% % We prove that for large $n$ the function $f(n)$ is asymptotically close to the densest packing of $D$.
+
+% \begin{theorem}\label{theorem:f_asymptotic}
+% $f(n) = (1 - o(1))\dfrac{2\pi}{\sqrt{3}}n^2$.
+% \end{theorem}
+
+This paper is organized as follows. In Section~2 we introduce the required notation and two lemmas, Lemma~\ref{lemma:master} and Lemma~\ref{lemma:good_curve}. After this we deduce Theorem~\ref{theorem:f_of_3} from these lemmas. In Section~3 we prove Lemma~\ref{lemma:master}. The proof of Lemma~\ref{lemma:good_curve} is separated into constructing a curve of certain type (Section~4), reducing Lemma~\ref{lemma:good_curve} to a certain local inequality Claim~\ref{lemma:can-construct} (Section~5), and, finally, establishing this inequality (Section~6).
+
+% \textbf{Todo: mention lemma 2.1 and compare it with the triangle inequality, also add the detailed plan of section 2.} The paper is organized as follows. In Section 2 (todo: make this number relative) we prove Theorem \ref{theorem:f_of_3}, in Section 3 we give an example of an arrangement showing $f(n) > 1 + 3n(n+1)$, and in Section 4 we adapt this example to prove Theorem \ref{theorem:f_asymptotic}. 
+
+\section{Proof of Theorem \ref{theorem:f_of_3} modulo the key lemmas}
+
+% \subsection{Preliminaries}
+
+% \subsubsection{Definitions}
+
+\subsection{Definitions}
+
+Let $\mathcal{P}$ be a packing of kissing radius $n$, with $D_0$ being its source. A disk $D \in \mathcal{P}$ is called a \textit{$d$-disk} if $\dist_{\mathcal{P}}(D_0, D) = d$. Note that this definition justifies the name ``0-disk''. We call the set of $d$-disks the \textit{$d\textsuperscript{th}$ layer}. % ; with a slight abuse of notation, we sometimes use the same word \textit{layer} to refer to the corresponding set of centers intstead of the disks themselves. %We may also abuse the definition of the $d$-th layer to express the corresponding set of centers instead of the disks theirselves.
+
+Consider any $k$-disk $A$, where $k > 0$. There is at least one disk $B$ from the $(k-1)$\textsuperscript{th} layer such that $A$ and $B$ touch each other. Pick any of these disks and call it the \textit{parent} of the disk $A$.
+% Denote the parent of the disk $A$ by $\parent(A)$.
+In particular, $C_0$ is the parent of every $1$-disk. We will also say that each disk is a \emph{child} of its parent. A disk without children is called \emph{childfree}.
+% We say that a disk $A$ is a \textit{parent} of a disk $B$ if $\dist(C_0, A) + 1 = \dist(C_0, B)$, and disks $A$ and $B$ touch each other. In particular, $C_0$ is a parent of every $1$-disk. A disk can have multiple parents, but in this case we say that it only has one of them and pick it arbitrarily.
+
+The crucial role in the argument will be played by curves of special type, which we now introduce. A curve $\gamma = \{\gamma(t)\,\colon\,t\in[0, \ell]\} \subset \mathbb{R}^2$ is \textit{sparse-centered} if the following conditions hold:
+
+\begin{enumerate}[label=(\alph*)]
+  \item There exists a sequence of numbers $t_0 = 0 < t_1 < \ldots < t_m=\ell$ such that $\gamma([t_{i-1}, t_i])$ is a circle arc of unit radius with center $c_i$, for all $i\in\{1, \ldots, m\}$;
+  \item $\gamma(t)$ is a natural parametrization of $\gamma$; hence, the length of $\gamma$ equals $\ell$, that is, $|\gamma'(t)| = 1$ for $t\in[0, \ell]\setminus\{t_i\}_{i=0}^m$;
+  \item For all $i\in\{1, \ldots, m\}$ and $t\in(t_{i-1}, t_i)$, the cross product $(\gamma(t) - c_i)\times \gamma'(t)$ is positive, that is, each arc is directed counterclockwise;
+  \item For all $i$, $j\in\{1, \ldots, m\}$, either $c_i = c_j$ or $|c_j - c_i|\geq 1$.
+\end{enumerate}
+
+In the sequel we often omit the word ``sparse-centered'' when talking about curves.
+
+\subsection{Outline of the proof of Theorem \ref{theorem:f_of_3}}
+
+Consider an arbitrary packing $\mathcal{P}$ of kissing radius $3$. To bound the number of disks in it, we do the following. First, consider the union $S$ of open disks of unit radii whose centers are the centers of all disks of $\mathcal{P}$, except $3$-disks and childfree $1$-disks (note that the disks of $\mathcal{P}$ were of unit diameter, not of unit radius).
+% Then we consider the union $S$ of open disks of unit radii whose centers are the centers of $0$-, $1$-, and $2$-disks (note that the disks of $\mathcal{P}$ were of unit diameter, not of unit radius).
+Then we denote by $C_i$ the number of remaining $i$-disks~--- that is, the number of $i$-disks in the obtained packing after removal all $3$-disks and childfree $1$-disks.
+% We use this notation throughout the section.
+One can see that centers of the disks we excluded lie on the boundary of this union.
+% We construct a closed, possibly self-intersecting, sparse-centered curve $\gamma$ containing the whole boundary of $S$. Then we prove that the centers of the excluded disks break $\gamma$ into parts of length at least $\pi/3$. Finally, we establish the following inequality:
+
+% $$C_1 + C_2 + \frac{|\gamma|}{\pi/3} \leq 36.$$
+
+% In some simple cases $\gamma$ coincides with $\partial S$, the boundary of $S$; in general (for instance, when $S$ is not simply connected), $\gamma$ covers but does not coincide with $\partial S$.
+
+Theorem~\ref{theorem:f_of_3} follows from the lemmas below.
+
+\begin{lemma}
+Let $\gamma$ be a sparse-centered curve, and let $A$ and $B$ be the endpoints of $\gamma$. If $|AB|\geq 1$ then the length of $\gamma$ is at least $\pi/3$.
+\label{lemma:master}
+\end{lemma}
+
+\begin{lemma}
+\label{lemma:good_curve}
+There exists a sparse-centered $\gamma$ covering the boundary of $S$ and satisfying the inequality
+
+$$C_1 + C_2 + \frac{|\gamma|}{\pi/3} \leq 36.$$
+\end{lemma}
+% \begin{lemma}
+% If the inequalities above hold then the curve we construct satisfies the condition of Lemma \ref{lemma:good_curve}.
+% \end{lemma}
+
+\begin{proof}[Deriving Theorem~\ref{theorem:f_of_3} from Lemma~\ref{lemma:master} and Lemma~\ref{lemma:good_curve}]
+Consider the curve $\gamma$ from Lemma~\ref{lemma:good_curve}. All centers of excluded disks belong to $\gamma$. Moreover, by Lemma~\ref{lemma:master}, they split $\gamma$ into parts of length at least $\pi/3$. Therefore, there is at most $\frac{|\gamma|}{\pi/3}$ excluded points, which implies that the initial number of disks in the packing $\mathcal{P}$ does not exceed
+
+$$1 + C_1 + C_2 + \frac{|\gamma|}{\pi/3} \leq 37.$$
+\end{proof}
+
+\section{Proof of Lemma \ref{lemma:master}}
+
+\begin{lemma}
+Given points $c_1$, \ldots, $c_n$, consider all sparse-centered curves with centers at a subset of $\{c_i\}$ and with endpoints are at least $1$ apart. Then if there is at least one such curve, then there are such curves of shortest possible length.
+\end{lemma}
+
+\begin{proof}
+First of all, we notice that it suffices to prove the statement only for simple (that is, non-self-intersecting) curves. Indeed, if there is a valid curve, then there exists a shorter simple valid curve.
+
+Consider all circles of unit radius centered at $c_1$, \ldots, $c_n$. Let $U$ be the union of these circles, and let $I$ be the set of their intersection points. Some of these circles are partitioned into closed arcs by the elements of $I$ (each arc is bounded by two adjacent points from $I$ on its circle). Let $A$ be the set of all these arcs, directed counterclockwise. The set $A$ is obviously finite.
+
+Let $(a_1, \ldots, a_m)$ be a nonempty sequence of distinct elements of $A$. We say that a curve $\gamma$ \emph{has type $(a_1, \ldots, a_m)$}, if there are $0 \leq t_1 < \ldots < t_{m+1} \leq \ell = |\gamma|$, such that:
+
+\begin{itemize}
+    \item for all $i\in[m]$, the image $\gamma([t_i, t_{i+1}])$ is $a_i$;
+    \item neither of $\gamma([0, t_1))$ and $\gamma((t_{m+1}, \ell])$ contains an element of $I$;
+    \item the curve $\gamma$ is simple;
+    \item $\gamma(0)$ and $\gamma(\ell)$ are at least $1$ apart.
+\end{itemize}
+
+Note that each curve of type $(a_1, \ldots, a_m)$ is defined by the pair $(\gamma(0), \gamma(\ell)) = (p, q) \in U^2$, and the set of all such curves is compact. Since the length of the curve is a continuous function of $(p, q)$, due to the Weierstrass extreme value theorem, there is a curve of type $(a_1, \ldots, a_m)$ with the shortest possible length, unless there are no such curves at all.
+
+We also say that a curve is of \emph{the empty type} (or of type $()$), if it contains at most one element of $I$ (see Figure~\ref{fig:emptytype}). It is obvious that the statement above also holds for the curves of the empty type.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.9\textwidth]{pics/empty-type.mps}
+    \caption{Examples of curves of empty type}
+    \label{fig:emptytype}
+\end{figure}
+
+Since there is a finite number of nonempty sequences $(a_1, \ldots, a_m)$ of distinct elements of $A$, and each simple curve can be uniquely assigned a type, we established that there is a minimum possible value of the length of a valid curve, and there is a simple curve of this length.
+\end{proof}
+
+Let $\gamma$ be the sparse-centered curve from Lemma~\ref{lemma:master}. If it is not the shortest possible sparse-centered curve with the same centers, replace it with the shortest one.
+
+\begin{observation}
+There do not exist $0 < t_1 < t_2 < \ell$ such that the derivatives $\gamma'(t_1)$ and $\gamma'(t_2)$ exist and are equal.
+\end{observation}
+
+\begin{proof}
+Suppose the contrary. Let $p_1$ and $p_2$ be the points $\gamma(t_1)$ and $\gamma(t_2)$, respectively. Let $c_1$ and $c_2$ be the centers of the arcs containing $p_1$ and $p_2$. According to the definition, $\gamma'(t_1)$ equals $p_1 - c_1$ rotated by the angle $\pi/2$ counterclockwise, and the same holds for $\gamma'(t_2)$ and $p_2 - c_2$. Since $\gamma'(t_1) = \gamma'(t_2)$, it follows that $p_1 - c_1 = p_2 - c_2$ and, therefore, $c_2 - c_1 = p_2 - p_1$. Consider two cases.
+
+\begin{itemize}
+    \item Suppose that $c_1 = c_2$. Then the curve $\gamma([0, t_1)\cup[t_2, \ell])$ is a shorter sparse-centered curve with endpoints being $1$ apart. This contradicts the minimality of $\gamma$.
+    
+    \item Otherwise, $|c_2 - c_1| \geq 1$. Hence, $|p_2 - p_1|\geq 1$. But in this case $\gamma([t_1, t_2])$ is, again, a sparse-centered curve with length strictly less than $\ell$, which contradicts the minimality of $\gamma$ just as in the previous case.
+\end{itemize}
+
+In both cases we arrive at a contradiction, which finishes the proof of the lemma.
+\end{proof}
+
+\begin{corollary}
+The set $\{\gamma'(t)\}$ has measure $\ell$.
+\end{corollary}
+
+Denote the set $\{\gamma'(t)\}$ of all directions along $\gamma$ by $S$. Let us note that $$\overrightarrow{AB} = \int\limits_0^{\ell}\gamma'(t)\,\mathrm{d}t = \int\limits_Sv\,\mathrm{d}v.$$
+
+Let $\proj_{AB}(v)$ be the projection of vector $v$ on the line $AB$. Then the value of $|AB|$ can be bounded from above by
+
+$$\left|\int\limits_Sv\,\mathrm{d}v\right| = \left|\int\limits_S\proj_{AB}(v)\,\mathrm{d}v\right| \leq \int\limits_{-\ell/2}^{\ell/2}\cos(\varphi)\,\mathrm{d}\varphi = 2\sin(\ell/2).$$
+
+Since $|AB| = 1$, we have $\sin(\ell/2)\geq 1/2$, or $\ell\geq\pi/3$.
+
+\section{Building a curve in Lemma \ref{lemma:good_curve}}
+
+Our goal is to construct a sufficiently short sparse-centered curve containing the boundary $\partial S$. The packing $\mathcal{P}$ corresponds to a plane tree (a planar drawing of a tree) as follows; see Figure~\ref{fig:tree}. The vertices of the tree are the centers of the disks of $\mathcal{P}$. For each disk, except the source, its vertex is connected to the vertex of its parent by an edge. The resulting graph is a tree, as there is a path from any disk to the source, and it has no cycles; otherwise the greatest-layer disk of this cycle has two parents. One can also see that all edges have unit length, and that the distance between any two vertices is at least $1$, which implies that no two edges intersect, except, possibly, at their common endpoint. We call this graph the \textit{$\mathcal{P}$-tree}. It can be seen that the $\mathcal{P}$-tree is a subgraph of the minimum-distance graph of the centers of the disks. From now on we consider all edges as unit vectors directed from the parent.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{.48\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/tree.mps}
+    \caption{The $\mathcal{P}$-tree}
+    \end{subfigure}
+    \begin{subfigure}[t]{.48\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/traversal.mps}
+    \caption{A traversal example. Some disks are counted multiple times, one time per visiting the corresponding vertex}
+    \end{subfigure}
+    \caption{}
+    \label{fig:tree}
+\end{figure}
+
+Let us fix a traversal of the $\mathcal{P}$-tree (see Figure~\ref{fig:tree}). 
+Since it is a plane tree, we can consider it as a planar graph with the only face. Traversing the boundary of this face, we get a cyclic ordering $(c_1, c_2, \ldots, c_n)$ of the set of vertices with multiplicities. The multiplicity of a vertex (the number of times it occurs in the ordering) is its degree\footnote{this ordering is basically a depth-first search (DFS) traversal of the configuration tree.}.
+This implies that every 2-vertex occurs exactly once in this order.
+Let $(D_1, \ldots, D_n)$ be the corresponding ordering of the disks from the arrangement; we also assume $D_{n+1} = D_1$, $D_{n+2} = D_2$, etc; the same about $c_i$ for $i > n$. Also, let $B_1$, \ldots, $B_n$ be the disks of unit radius centered respectively at $c_1$, \ldots, $c_n$. %Denote the center of the disk $D_i$ by $c_i$. 
+We assume that the $0$-disk is centered at the origin.
+
+Given $i,j\in[n]$, call a \textit{subsegment} $\mathcal{D}_{ij}$ (of our traversal) the sequence $(D_i, \ldots, D_j)$, if $i \leq j$, or $(D_i, \ldots, D_n, D_1, \ldots, D_j)$, otherwise. For simplicity, we assume that $i\leq j$ in the rest of the paper. For any $i$ such that $D_i$ is not the $0$-disk, denote by $f_i$ the farthest point of the disk $B_i$ from the origin.
+% Since $c$ is not the center of $B_i$, the point $f_i$ is well-defined.
+Formally,
+
+$$f_i = c_i\cdot\left(1 + \frac{1}{|c_i|}\right).$$
+
+By $[ab)$ we denote the ray starting at point $a$ and passing through $b$. If $D_i$ and $D_j$ are two consecutive occurrences of $2$-disks, consider segments $c_ic_{i+1}$, \ldots, $c_{j-1}c_j$, and two rays $[c_if_i)$ and $[c_jf_j)$. Their union divide the plane into two parts; denote by $R_{ij}$ the closed one for which $(c_i, \ldots, c_j)$ is the clockwise ordering of vertices. Since the current packing was obtained from $\mathcal{P}$ by removing $3$-disks and childfree $1$-disks, currently each region contains either $3$ or $5$ vertices (we do not consider the trivial case when there is at most one $2$-disk remaining, as in that case a very rough bound on the number of disks in $\mathcal{P}$ would be $19 + 1 + 6$, where $1$ is that remaining $2$-disk and $6$ is the maximal number of its deleted neighbors).
+
+The plane is then partitioned into such regions (see Figure~\ref{fig:regions}), and in each of them we will construct a sparse-centered curve $\gamma_{ij}\subset R_{ij}$ with centers among $(c_i, \ldots, c_j)$ and with endpoints $f_i$ and $f_j$. After this, we consider $\gamma$ as the union of all $\gamma_{ij}$.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{.4\textwidth}
+    \includegraphics[width=\textwidth]{pics/fig.mps}
+    \caption{$\partial{S}$ is in bold}
+    \end{subfigure}
+    \begin{subfigure}{.4\textwidth}
+    \includegraphics[width=\textwidth]{pics/fig_reg.mps}
+    \caption{Division into regions}
+    \end{subfigure}
+    % \caption{A disk arrangement and the associated partition}
+    \caption{}
+    \label{fig:regions}
+\end{figure}
+
+% \subsubsection{Auxiliary lemmas}
+
+% comment: moved up
+% To construct $\gamma$ by parts in this way, we denote by $f_i$ the farthest point of the 2-disk $D_i$ from $c$. Since $c$ is not the center of $D_i$, the point $f_i$ is well-defined. Formally, $$f_i = c_i + (c_i - c)\cdot\left(1 + \frac{1}{|c_i - c|}\right).$$
+
+We need the following lemmas.
+
+\begin{lemma}
+If $D_i$ is a $2$-disk then no point $g_i$ of the ray $[c_if_i)$ outside the segment $c_if_i$ belongs to any disk. In particular, $f_i\in\partial S$.
+% Moreover, $f_i$ is the only point where the ray $[c_if_i)$ intersects $\partial S$.
+\label{lemma:far}
+\end{lemma}
+
+\begin{proof}
+Assume that $g_i$ is covered by some disk $D'_k$, and let $D_0 = D'_0$, \ldots, $D'_k$ ($1\leq k\leq 2$) be the disks corresponding to the path in the tree from the source to the center of $D'_k$; denote by $c'_j$ the center of $D'_j$. Consider the sequence $(c'_0, \ldots, c'_k, g_i)$. Since $k\leq 2$, this sequence consists of at most four points. Note that for any $j\in[k - 1]$, all sides of the triangle $c'_jc'_{j+1}c_i$ have lengths at least $1$, and $|c'_{j+1} - c'_j| = 1$, therefore the angle between $c'_j - c_i$ and $c'_{j+1} - c_i$ is at most $\pi/3$. Similarly, the angle between $c'_k - c_i$ and $g_i - c_i$ is strictly less than $\pi/3$. Since $k\leq 2$, these inequalities contradict the fact that the angle between $c'_0 - c_i$ and $g_i - c_i$ equals $\pi$.
+
+However, the segment $c_if_i$ clearly lies in $S$; thus, $f_i\in\partial{S}$.
+\end{proof}
+
+% \textbf{Remark.} The same proof shows that any point on the ray $[c_if_i)$ behind $f_i$ cannot be covered by any closed disk of the arrangement.
+
+\begin{lemma}
+Let $D_i$ and $D_j$ be two consecutive $2$-disks in the traversal. Let $S'$ be the union of open disks of unit radius centered at $c_i$, \ldots, $c_j$ (recall that $S$ is the union of open disks of unit radius centered at all points $c_k$, not only at $c_i$, \ldots, $c_j$). Then $S\cap R_{ij} = S'\cap R_{ij}$  (see Figure~\ref{fig:only_inner}).
+
+% Let $D_i$ and $D_j$ be two consecutive 2-disks in the cyclic ordering $(D_1, \ldots, D_n)$. Consider the part $R$ of the plane which is bounded by segments $c_ic_{i+1}$, $c_{i+1}c_{i+2}$, \ldots, $c_{j-1}c_j$, and two rays $[c_if_i)$ and $[c_jf_j)$, and which does not contain the rest of the tree (see Figure~\ref{fig:only_inner}). Let $S'$ be the union of disks of unit radius with centers at $c_i$, $c_{i+1}$, \ldots, $c_j$. Then $S\cap R = S'\cap R$.
+\label{lemma:only_inner}
+\end{lemma}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{pics/only_inner.mps}
+    \captionsetup{width=.7\textwidth}
+    \caption{The part of the left disk's border in the region is completely in the gray area and therefore does not add anything to the border}
+    \label{fig:only_inner}
+\end{figure}
+
+% An informal reformulation of this lemma is that each time we consider a particular subsegment, its disks give us all information about $S$ that we need to build a corresponding part of $\gamma$.
+
+\begin{proof}
+Suppose the contrary. Let $p$ be any point in $(S\setminus S')\cap R_{ij}$, and let $c'$ be the center of any disk containing the point $p$. Since $c'\not\in R_{ij}$ and $p\in R_{ij}$, the segment $c'p$ intersects $\partial{R_{ij}}$. Consider two cases.
+
+If $c'p$ intersects some $c_kc_{k+1}$ then by the triangle inequality one of the segments $c_kp$ and $c_{k+1}c'$ is strictly shorter than $1$, which cannot be the case.
+
+Otherwise $c'p$ intersects one of the rays $[c_if_i)$ and $[c_jf_j)$. Without loss of generality assume that it is $[c_if_i)$. By Lemma \ref{lemma:far} one can assume that the intersection is on the segment $c_if_i$. But again, at least one of the segments $c_ip$ and $f_ic'$ is strictly shorter than $1$, which also leads to a contradiction.
+\end{proof}
+
+%\subsubsection{Notation}
+
+Denote $\partial(S\cap R_{ij})$ by $S_{ij}$.
+
+Recall that in order to construct $\gamma$ we consider regions for different subsegments and define the part of $\gamma$ belonging to the region. How we build each separate part depends heavily on the structure of the corresponding subsegment. In particular, there can be zero or one occurrence of the source in the subsegment.
+
+% Note that there cannot be more than one occurrence of the source in the subsegment, because we excluded all childfree $1$-disks and none of the $2$-disks.
+% Next, there is a major difference between the cases when some angles are greater than or no more than $\pi/3$ or $2\pi/3$.
+% To construct the part of the curve we introduce the following angular notation.
+
+Now we show how to build $\gamma_{ij}$ having centers among $\{c_i, \ldots, c_j\}$ and endpoints $f_i$ and $f_j$.
+
+% Note that we can assume that in all regions $k\leq 1$. Indeed, suppose that there exists at least one $1$-disk without children. For each such disk $D_i$ we create a unique $2$-disk, centered at $f_i$. According to Lemma~\ref{lemma:far}, if we add all new disks step by step, then the packing remains valid after each step. After this operation, each region with $k > 1$ occurrences of the source in the corresponding subsegment is separated into $k$ regions, each having exactly one occurrence of the source. However, the total upper bound of their $\gamma_{ij}$ is $3\psi - \frac{2\pi}{3}k + 2\pi$, which is the same as it was before separating. Thus, to bound the total number of disks, it suffices to consider packings with no region having $k > 1$.
+
+We say that a disk $B$ is \textit{involved in the boundary non-strictly} if $\partial{B}\cap S_{ij}$ for some $S_{ij}$ is nonempty; or, in other words, if there is a part of its boundary of nonzero length in the current region that is not covered by interiors of other disks. We also say that a disk $B$ is just \textit{involved in the boundary} if $\partial{B}\cap S_{ij}$ for some $S_{ij}$ is nonempty and has nonzero length. % there is a part of its boundary (possibly of zero length) in the current region which is not covered by interiors of other disks.
+
+% \begin{lemma}\label{lemma:construct-by-involved}
+% If $i = k_1 < k_2 < \ldots < k_l = j$ is the sequence of indices of all involved disks and some of non-strictly involved disks (possibly none, possibly all of them), then we can construct a required curve with direction jumps between $B_{k_1}$ and $B_{k_2}$, between $B_{k_2}$ and $B_{k_3}$, etc.
+% \end{lemma}
+
+\begin{proof}[Constructing $\gamma_{ij}$]
+First of all, there are either 3 or 5 disks in the subsegment $\mathcal{D}_{ij}$.
+
+Let $i = k_1 < \ldots < k_l = j$ be a sequence of indices of all involved disks and some of non-strictly involved disks (possibly none, possibly all of them).
+
+Note that for each valid $m$ the disks $B_{k_m}$ and $B_{k_{m+1}}$ intersect; that is, distance between points $c_{k_m}$ and $c_{k_{m+1}}$ is at most $2$. Indeed, if $k_{m+1}\leq k_m + 2$, then by the triangle inequality $|c_{k_{m+1}} - c_{k_m}|\leq k_{m+1}-k_m\leq 2$. Otherwise, either $k_{m+1} = k_m + 4$ (that is, $i = k_m$ and $j = k_{m+1}$), and the disks $B_{k_m}$ and $B_{k_{m+1}}$ are the only disks involved in the boundary in their region, and therefore, they have to intersect, or $k_{m+1} = k_m + 3$. In the latter case, disks $D_{k_m}$ and $D_{k_{m+1}}$ belong to the same region $R_{ij}$, where, without loss of generality, $i = k_m$ and $j = k_{m+1} + 1$. But then, if we condider any arc of $\partial B_{k_{m+1}}\cap S_{ij}$, we can see that one of its endpoints belongs to $\partial B_j$, and the other belongs to $\partial B_i$, so disks $B_{k_m}$ and $B_{k_{m+1}}$ intersect.
+
+Denote by $p_m$ the point at distance $1$ from $c_{k_m}$ and $c_{k_{m+1}}$, such that $(p_m - c_{k_m})\times(c_{k_{m+1}} - c_{k_m})\geq 0$. Also put $p_0 = f_i$ and $p_l = f_j$. Then the curve we construct is the concatenation of the following arcs, in order: for each $m\in[l]$ take the arc of $B_{k_m}$ going counterclockwise from $p_{m-1}$ to $p_m$. We claim that this curve is valid.
+
+Indeed, consider any two disks $B_{k_m}$ and $B_{k_{m+1}}$. We claim that the part of the arc of $B_{k_m}$ after $p_m$ is entirely inside $S$. Suppose the contrary and consider any point $q$ on the arc of $B_{k_m}$ between $p_m$ and $c_{k_{m+1}}$. Let $q'$ be the nearest point after $q$ on that arc where the next arc of $\partial{S}$ starts. Then $q'$ is at unit distance from some center $c_u$ where $u\neq k_m$. One can note that $u\neq k_{m+1}$. Since all disks between $B_{k_m}$ and $B_{k_{m+1}}$ are not involved, $u$ is not from $[k_m, k_{m+1}]$. Consider a polygon whose vertices are, in order, $c_{k_m}$, $c_{k_m + 1}$, \ldots, $c_{k_{m+1}}$, $p_m$. All sides of this polygon are of unit length, yet $|q' - c_u| = 1$, and $c_u$ is outside of this polygon. This is absurd according to the same reasoning as in the proof of Lemma~\ref{lemma:only_inner}.
+
+\end{proof}
+
+
+\section{Reduction of Lemma~\ref{lemma:good_curve} to the local inequality}
+
+The goal of this section is to formulate a bound on each $\gamma_{ij}$, which would imply Lemma~\ref{lemma:good_curve}, and prove it.
+% In order to prove Lemma~\ref{lemma:good_curve}, we need to build sufficiently short parts $\gamma_{ij}$. In this section we formalize what ``sufficiently short'' means, and then show that the inequality we state is enough to establish Lemma~\ref{lemma:good_curve}. % To bound the length of $\gamma_{ij}$, we introduce the following angular notation.
+
+\subsection{Angular notation}
+
+Recall that the edges of the configuration tree are directed from parents. Consider these edges as unit vectors.
+% While there may exist an edge from the 0-disk and an edge from a 1-disk which equal each other as directed segments, we still distinguish the edges from the source and the edges from 1-disks.
+% In this section we denote the vectors from the 0-disk by $u_1$, $u_2$, etc., and the vectors from 1-disks by $v_1$, $v_2$, etc. (the choice of index is completely defined by the context).
+For any $2$-disk $D_i$ let $u_i$ and $v_i$ be the edges composing the tree path from the source to $D_i$; namely, $v_i = c_{i+1} - c_i$, and $u_i = c_{i+1} - c$.
+
+Next, denote by $E$ the set of all edges of the $\mathcal{P}$-tree. We define two functions $\angle(\cdot, \cdot)\colon E^2\to\mathbb{R}$ and $\angccw(\cdot, \cdot)\colon (\mathbb{R}^2\setminus\{\boldsymbol{0}\})^2\to[0, 2\pi)$. Essentially, each of them is a directed angle between two vectors (that is, the angle the first vector needs to be rotated by counterclockwise in order to become the vector, collinear to the second one), but we need to define the range of values for $\angle(\cdot, \cdot)$, and we do it in the following way (here $i$ and $j$ are indices of some $2$-disks):
+
+\begin{itemize}
+\item $\angle(u_i, u_j)\in[0, 2\pi)$;
+\item $\angle(u_i, v_i)\in(-\pi, \pi)$. Furthermore, a stronger inequality $\angle(u_i, v_i)\in[-2\pi/3, 2\pi/3]$ follows from the fact that every two centers are distance at least $1$ away from each other; hence, all edges from any tree vertex (both incoming and outgoing) are at least $\pi/3$ away from each other;
+\item $\angle(v_i, u_i) = -\angle(u_i, v_i)$;
+\item $\angle(v_i, u_j) = \angle(v_i, u_i) + \angle(u_i, u_j)$, and $\angle(u_j, v_i) = \angle(u_j, u_i) + \angle(u_i, v_i)$;
+% \item If $u_2$ points at the parent of an edge $v_2$, then for any $u_1$ we have $\angle(u_1, v_2) = \angle(u_1, u_2) + \angle(u_2, v_2)$;
+\item $\angle(v_i, v_j) = \angle(v_i, u_i) + \angle(u_i, u_j) + \angle(u_j, v_j)$.
+\end{itemize}
+
+% We will also use a similar operator $\angccw(\cdot, \cdot)$ returning an ordinary counterclockwise angle between two vectors.
+
+% Now we are ready to consider all possible cases.
+% % For a subsegment $\mathcal{D}_{ij}$,
+% Consider all tree edges connecting consecutive vertices of $\mathcal{D}_{ij}$
+% % (that is, $c_ic_{i+1}$, \ldots, $c_{j-1}c_j$),
+% and denote by $v_i$ and $v_j$ the two of them that outgo from $1$-disks (namely, we denote $\overrightarrow{c_{i+1}c_i}$ by $v_i$ and $\overrightarrow{c_{j-1}c_j}$ by $v_j$). We also denote $\overrightarrow{cc_{i+1}}$ by $u_i$ and $\overrightarrow{cc_{j-1}}$ by $u_j$. In particular, if $k = 0$, then $u_i = u_j$.
+
+\begin{claim}
+\label{lemma:can-construct}
+
+Let $i$ and $j$ be two consecutive $2$-disks, and let $k$ be the number of occurrences of the source in $\mathcal{D}_{ij}$. Denote $\angle(v_i, v_j)$ by $\varphi_{ij}$, $\angle(u_i, u_j)$ by $\psi_{ij}$, and $\angccw(c_i, c_j)$ by $\alpha_{ij}$. Then the following holds:
+
+\begin{equation}
+\label{eq:curve_bound}
+|\gamma_{ij}|\leq\begin{cases}
+\displaystyle
+3\psi_{ij} - \frac{2\pi}{3} + 2\varphi_{ij} + \alpha_{ij}, & \text{when }k = 1, \\
+\varphi_{ij} + \alpha_{ij}, & \text{when }k = 0.
+\end{cases}%\tag{*}
+\end{equation}
+\end{claim}
+
+% We prove Claim~\ref{lemma:can-construct} in the next section.
+
+If we denote by $\mathcal{R}$ the set of all regions $R_{ij}$, then it is obvious that $\sum_{R_{ij}\in\mathcal{R}}\alpha_{ij} = 2\pi$. One can also see from the definition that $\sum_{R_{ij}\in\mathcal{R}}\psi_{ij} = 2\pi$, as it is the sum of all angles the vectors from the source divide $2\pi$ into. Finally, $\sum_{R_{ij}\in\mathcal{R}}\varphi_{ij} = \sum_{R_{ij}\in\mathcal{R}}\psi_{ij}$ from the definition.
+
+\begin{proof}[Claim~\ref{lemma:can-construct} implies Lemma~\ref{lemma:good_curve}]
+Concatenating all $\gamma_{ij}$ in the proper order, we obtain the curve $\gamma$. At this moment we have an intermediate condition on the curve $\gamma$: namely, the upper bound for the length of each $\gamma_{ij}$. % Next, we show how to finish the proof. % that this upper bound implies that the total number of disks will be sufficiently small, and the rest of this section will be devoted to the manual construction of~$\gamma_{ij}$.
+
+% \begin{lemma}
+% If the inequalities from~(\ref{eq:curve_bound}) hold, then the curve satisfies the assumptions of Lemma~\ref{lemma:good_curve}.
+% \end{lemma}
+
+%Let $C_1'$ be the number of non-childfree $1$-disks of $\mathcal{P}$. Clearly, $C_1'\leq C_1$.
+%
+Denote by $\mathcal{R}_0$ the set of all regions $R_{ij}$, for which the source does not occur in $\mathcal{D}_{ij}$. Denote the set of all other regions by $\mathcal{R}_1$. In particular, $\mathcal{R} = \mathcal{R}_0\cup\mathcal{R}_1$. If $R = R_{ij}$, denote the angles $\psi_{ij}$, $\varphi_{ij}$, and $\alpha_{ij}$ by $\psi_R$, $\varphi_R$, and $\alpha_R$ respectively. Let us bound the length of $\gamma$.
+
+% \begin{align*}
+%     |\gamma| &\leq \sum_{k=0}(\varphi + \alpha) + \sum_{k > 0}\left(3\psi - \frac{2\pi}{3}k + 2\varphi + \alpha\right)  \\
+%     &= \sum_{\textrm{all segments}}(2\varphi + \alpha) + 3\sum_{k > 0}\psi - \frac{2\pi}{3}\sum_{k > 0}k - \sum_{k = 0}\varphi  \\
+%     &= 2\sum_{\mathrm{all}}\varphi + \sum_{\mathrm{all}}\alpha + 3\sum_{\mathrm{all}}\psi - \frac{2\pi}{3}\cdot C_1 - \sum_{k = 0}\varphi  \\
+%     &\leq 2\cdot 2\pi + 2\pi + 3\cdot 2\pi - \frac{2\pi}{3}\cdot C_1 - (C_2 - C_1')\cdot\frac{\pi}{3}  \\
+%     &= 12\pi - \frac{\pi}{3}(C_1 + C_2) - \frac{\pi}{3}(C_1 - C_1') \\
+%     &\leq 12\pi - \frac{\pi}{3}(C_1 + C_2).
+% \end{align*}
+
+\begin{align*}
+    |\gamma| &\leq \sum_{R\in\mathcal{R}_0}(\varphi_R + \alpha_R) + \sum_{R\in\mathcal{R}_1}\left(3\psi_R - \frac{2\pi}{3} + 2\varphi_R + \alpha_R\right)  \\
+    &= \sum_{R\in\mathcal{R}}(2\varphi_R + \alpha_R) + 3\sum_{R\in\mathcal{R}_1}\psi_R - \frac{2\pi}{3}|\mathcal{R}_1| - \sum_{R\in\mathcal{R}_0}\varphi_R  \\
+    &= 2\sum_{R\in\mathcal{R}}\varphi_R + \sum_{R\in\mathcal{R}}\alpha_R + 3\sum_{R\in\mathcal{R}}\psi_R - \frac{2\pi}{3}\cdot C_1 - \sum_{R\in\mathcal{R}_0}\varphi_R  \\
+    &\leq 2\cdot 2\pi + 2\pi + 3\cdot 2\pi - \frac{2\pi}{3}\cdot C_1 - |\mathcal{R}_0|\cdot\frac{\pi}{3}  \\
+    &= 12\pi - \frac{2\pi}{3}\cdot C_1 - (C_2 - C_1)\cdot\frac{\pi}{3}  \\
+    &\leq 12\pi - \frac{\pi}{3}(C_1 + C_2).
+\end{align*}
+
+The last inequality is equivalent to $C_1 + C_2 + \frac{|\gamma|}{\pi/3}\leq 36$.
+\end{proof}
+
+\section{Proof of Claim~\ref{lemma:can-construct}}
+
+\subsection{Direction jump}
+
+We introduce some notation in order to bound $|\gamma_{ij}|$.
+
+Let a sparse-centered curve be composed of $m$ arcs. Let $w_k^s$ and $w_k^f$ be the unit vectors from the center of the $k\textsuperscript{th}$ arc to its beginning and its end, respectively (for all $k\in[m]$). By the \emph{direction jump} between the $k\textsuperscript{th}$ and the $(k+1)\textsuperscript{th}$ arcs, or the \emph{$k\textsuperscript{th}$ direction jump}, we define $\angccw(w_{k+1}^s, w_k^f)$; see Figure~\ref{fig:direction-jumps}. In particular, it can be seen on Figure~\ref{fig:direction-jumps} that there may appear a rhombus, whose two opposite angles are $\psi$ and a direction jump. In such situations we sometimes replace the corresponding direction jump by $\psi$ without any further comments. We denote the $k\textsuperscript{th}$ direction jump by $\beta_k$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.8\textwidth]{pics/direction-jump.mps}
+    \caption{Direction jumps}
+    \label{fig:direction-jumps}
+\end{figure}
+
+\begin{lemma}
+Consider the curve $\gamma_{ij}$. Let $i = k_1 < \ldots < k_m = j$ be the set of indices of disks, whose arcs compose $\gamma_{ij}$. Introduce vectors $w_{k}^s$ and $w_{k}^f$ and direction jumps $\beta_k$ as in the definition above. Then the length of $\gamma_{ij}$ is $\sum_{k=1}^{m-1}\beta_k + \alpha_{ij}$.
+\end{lemma}
+
+\begin{proof}
+% Denote the length of $\gamma_{ij}$ by $\ell$. By definition,
+Note that
+
+\begin{equation}
+\alpha_{ij} & = \angccw(w_{1}^s, w_{m}^f) \\
+& = \sum_{k=1}^{m}\angccw(w_{k}^s, w_{k}^f) - \sum_{k=1}^{m-1}\angccw(w_{k+1}^s, w_{k}^f) \\
+& = |\gamma_{ij}| - \sum_{k=1}^{m-1}\beta_k. \\
+\end{equation}
+
+% $$|\gamma_{ij}| = \int_0^{\ell}|\gamma'_{ij}(t)|\mathrm{d}t.$$
+
+% Let $t_k$ be such that $\gamma_{ij}(t_k)$ is the point of the $k$-th direction jump. Also, set $t_0 = 0$ and $t_m = \ell$. Then
+
+% $$\int_0^{\ell}|\gamma'_{ij}(t)|\mathrm{d}t = \sum_{k=1}^m\int_{t_{k-1}}^{t_k}|\gamma'_{ij}(t)|\mathrm{d}t = \sum_{k=1}^m\angccw(w_{k}^s, w_{k}^f)\mathrm{d}t.$$
+
+% On the other hand, as $\angccw(w_{0}^s, w_{m}^f) = \alpha_{ij}$, 
+\end{proof}
+
+% \begin{lemma}
+% Let a sparse-centered curve be composed of $m$ arcs. Suppose that the circles containing its first and last arcs are centered respectively at $c_i$ and $c_j$. Also suppose that the curve starts at $f_i$ and ends at $f_j$. Denote $\angccw(f_i, f_j)$ by $\alpha$, and denote the $l\textsuperscript{th}$ direction jump by $\beta_l$. Then the length of this curve equals $\alpha + \sum_{l=1}^{m-1}\beta_l$.
+% \end{lemma}
+
+% \begin{proof}
+% We keep track of how $\gamma'(t)$ rotates as $t$ increases (assuming that $\gamma$ is parametrized naturally). The direction of $\gamma'(t)$ rotates with a constant speed along the smooth arcs, and increases by exactly $\alpha$ in total. The direction jumps add extra $\sum\beta_l$.
+% \end{proof}
+
+% Thus, instead of bounding the length of the part of the curve inside a region $R$ by $3\psi_R - \frac{2\pi}{3} + 2\varphi_R + \alpha_R$ (and $\varphi_R + \alpha_R$ for $k = 0$), we can bound the sum of all direction jumps by $3\psi_R - \frac{2\pi}{3} + 2\varphi_R$ (respectively, $\varphi_R$) instead.
+
+\begin{claim}
+$$\sum{\beta_l}\leq\begin{cases}3\psi - \frac{2\pi}{3} + 2\varphi, & \textrm{if }k = 1, \\ \varphi, & \textrm{if }k = 0.\end{cases}$$
+\end{claim}
+
+\section{Proof of Claim~TODO}
+
+\subsection{Case $k = 0$}
+
+\begin{enumerate}[label={\bf Case \arabic*: }, wide, labelwidth=!, labelindent=0pt]
+%\subsubsection{$k = 0$, $\varphi\leq 2\pi/3$}
+%\textbf{Case 1: $k = 0$, $\varphi\leq 2\pi/3$.}
+\caseitem{0a}{$k = 0$, $\varphi\leq 2\pi/3$}
+
+In this case the subsegment consists of $D_i$, $D_j$, and the disk centered at the common parent of $v_i$ and $v_j$. Since $\varphi\leq 2\pi/3$, both $D_i$ and $D_j$ cover the whole boundary of this disk belonging to the region; hence, there is the only direction jump of size $\varphi$.
+
+% \subsubsection{$k = 0$, $\varphi > 2\pi/3$}
+\caseitem{0b}{$k = 0$, $\varphi > 2\pi/3$}
+
+
+In this case the disk between $D_i$ and $D_j$ is involved in the boundary, so there are two direction jumps, each of them equal to $\pi/3$, so their sum is $2\frac{\pi}{3} < \varphi$.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{.4\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-11.mps}
+    % \caption{both angles are at most $\pi/3$}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-12.mps}
+    % \caption{only one angle is at most $\pi/3$}
+    \end{subfigure}
+    \caption{Cases 0a and 0b}
+    % \label{fig:my_label}
+\end{figure}
+
+% \subsubsection{$k = 1$: general observations}
+% \caseitem{1}{$k = 1$, general observations}
+\subsection{Case $k = 1$, general observations}
+
+
+There are two $2$-disks ($D_i$ and $D_j$), two $1$-disks ($D_{i+1}$ and $D_{j-1}$), and one $0$-disk occurring in this subsegment.
+
+Assume that $\psi\geq\pi$. In this case
+$$3\psi - \frac{2\pi}{3} + 2\varphi\geq 3\pi - \frac23\pi + 2\left(-\frac{2\pi}{3} + \psi - \frac{2\pi}{3}\right)\geq \frac53\pi.$$
+
+On the other hand, the sum of all direction jumps does not exceed $\frac43\pi$. Indeed, for every direction jump between one disk and another, each pair of adjacent disks in the subsegment of this jump is visible from the point of the jump at an angle of at most $\pi/3$, as it is the smallest angle in the triangle between two centers and the jump point.
+
+Therefore, if $\psi\geq\pi$, then what we want to prove is obvious, and furthermore we deal with the remaining case $\psi < \pi$.
+
+Let $c'$ be the point such that $c_{i+1}cc_{j-1}c'$ is a parallelogram (hence a rhombus). It is evident that $c'\in R_{ij}$ (see Fig.~\ref{fig:phi-and-psi}). Indeed, the triangle $c_{i+1}cc'$ lies in $B_{i+1}$, and the triangle $c_{j-1}cc'$ lies in $B_{j-1}$. If $c'\notin R_{ij}$, then there is a unit segment or a row which separates $c'$ from $c$ in this region, which is obviously not the case. We state the following:
+
+\begin{observation}
+\begin{align*}
+\psi + \varphi & = \angle(u_i, v_j) + \angle(v_i, u_j) \\
+& = \angccw(c_i - c_{i+1}, c' - c_{i+1}) + \angccw(c' - c_{j-1}, c_j - c_{j-1}).    
+\end{align*}
+
+\end{observation}
+
+\begin{proof}
+Note that neither $c_i$ nor $c_j$ is inside the rhombus $c_{i+1}cc_{j-1}c'$, as otherwise it would be at distance strictly less than $1$ either from $c_{i+1}$ or from $c_{j-1}$. Thus, $\angle(v_i, u_j)\geq 0$ and $\angle(u_i, v_j)\geq 0$. Hence,
+
+\begin{align*}
+\psi + \varphi & = \angle(v_i, v_j) + \angle(u_i, u_j) \\ &= \angle(v_i, u_j) + \angle(u_i, v_j) \\
+&= \angccw(c_i - c_{i+1}, c' - c_{i+1}) + \angccw(c' - c_{j-1}, c_j - c_{j-1}).
+\end{align*}
+\end{proof}
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.6\textwidth]{pics/phi-and-psi.mps}
+    \caption{}
+    \label{fig:phi-and-psi}
+\end{figure}
+
+\begin{observation}
+$\psi + \varphi\geq \pi/3$.
+\end{observation}
+
+\begin{proof}
+Consider the curve that starts at $c_i$, follows the perimeter of $D_{i+1}$ counterclockwise until it reaches $c'$, then switches to the perimeter of $D_{j-1}$ until it reaches $c_j$. It satisfies the assumption of Lemma \ref{lemma:master}; therefore, its arc length is at least $\pi/3$. According to the previous observation, its arc length is exactly $\psi + \varphi$.
+\end{proof}
+
+%In what follows, we will refer to the point $c'$ in the next paragraphs.
+
+Note that, since $k = 1$, then $\psi\geq\pi/3$. Indeed, otherwise $|c_{i+1} - c_{j-1}| < 1$. Suppose that we know that neither of the $0$-disk and the $1$-disks is involved in the boundary. This clearly means that the only direction jump is between the $2$-disks. In this case the following lemma holds.
+
+\begin{lemma}
+If the only disks involved in the boundary are the $2$-disks then the only direction jump does not exceed $2\psi - \frac{\pi}{3} + 2\varphi$ (which is not greater than $3\psi - \frac{2\pi}{3} + 2\varphi$ since $\psi\geq\pi/3$).
+\end{lemma}
+
+\begin{proof}
+If $\psi + \varphi\geq 2\pi/3$, then, obviously, the direction jump does not exceed $\pi = 2\cdot\frac{2\pi}{3} - \frac{\pi}{3}\leq 2(\psi + \varphi) - \frac{\pi}{3}$. Hence, one may safely assume that $\psi + \varphi\leq 2\pi/3$, which, combined with the inequality $\psi\geq\pi/3$, gives us
+
+\begin{equation}
+\label{eq:straighten}
+\psi \geq \frac{\pi}{3}\geq \psi + \varphi - \frac{\pi}{3}\geq \varphi.\tag{$\star$}
+\end{equation}
+
+The following observation will be useful:
+
+\begin{observation}
+Let $\psi$ and $\varphi$ be fixed. If $\varphi > 0$, then the distance between $c_i$ and $c_j$ (and, consequently, the direction jump between $D_i$ and $D_j$) is greatest possible when $\angle(u_i, v_j) = \angle(v_i, u_j)$. Otherwise, if $\varphi < 0$, this distance is maximized when one of $\angle(u_i, v_j)$ and $\angle(v_i, u_j)$ is zero (and the other is, therefore, $\psi + \varphi$). Finally, if $\varphi = 0$, then the distance between $c_i$ and $c_j$ does not depend on anything else.
+\end{observation}
+
+\begin{proof}
+We have
+$$c_i - c_j = (u_j - u_i) + (v_j - v_i),$$
+
+and $(u_j - u_i)$ and $(v_j - v_i)$ are of fixed lengths. Hence, the closer their directions are to each other, the longer their sum is. If $\varphi > 0$, then $(u_j - u_i)$ and $(v_j - v_i)$ have the same direction if and only if $\angle(u_i, v_j) = \angle(v_i, u_j)$. If $\varphi < 0$, then in the same symmetric position the right hand side summands have opposite directions, so their sum is longest when $\angle(u_i, v_j)$ and $\angle(v_i, u_j)$ differ as much as possible, that is, when one of them is zero. If $\varphi = 0$, the same reasoning leads to the conclusion that there is no difference how $\psi + \varphi$ is distributed between $\angle(u_i, v_j)$ and $\angle(v_i, u_j)$. Furthermore, one can see this directly just from the fact that when $v_i = v_j$ the quadrilateral $c_{i+1}c_{j-1}c_jc_i$ is a parallelogram, and the direction jump we estimate equals $\psi$.
+\end{proof}
+
+As the direction jump we estimate is greatest when the distance between $c_i$ and $c_j$ is greatest, we can assume that either $\varphi\geq 0$ and $\angle(u_i, v_j) = \angle(v_i, u_j)$, or $\varphi < 0$ and $\angle(u_i, v_j) = 0$. We consider both of these cases.
+
+Assume that $\angle(u_i, v_j) = \angle(v_i, u_j)$. The distance between $c_i$ and $c_j$ equals $|(u_j + v_j) - (u_i + v_i)|$. If we replace $(\psi, \varphi)$ by $(\pi/3, \psi + \varphi - \pi/3)$, then, according to (\ref{eq:straighten}), we have that both $(u_j + v_j)$ and $(u_i + v_i)$ elongate by the same factor, thus increasing $|c_j - c_i|$. At the same time, $\psi + \varphi$ remains the same. Denote $\psi + \varphi$ by $s$. After that we have:
+
+$$\frac{\pi}{3} \geq \frac{s}{2} \geq\frac{\pi}{6};$$
+$$\frac12 \leq \cos\frac{s}{2};$$
+$$\frac12 \leq \cos\frac{s - \pi/3}{2}\cos\frac{\pi}{6} - \sin\frac{s - \pi/3}{2}\sin\frac{\pi}{6};$$
+$$1 \leq 2\cos\frac{s - \pi/3}{2}\cos\frac{\pi}{6} - \sin\frac{s - \pi/3}{2};$$
+$$\sin\frac{s - \pi/3}{2} \leq 2\sin\frac{s - \pi/3}{2}\cos\frac{s - \pi/3}{2}\cos\frac{\pi}{6} - \sin^2\frac{s - \pi/3}{2};$$
+$$\frac12 + \sin\frac{s - \pi/3}{2} \leq 2\sin\frac{s - \pi/3}{2}\cos\frac{s - \pi/3}{2}\cos\frac{\pi}{6} + \frac12 - \sin^2\frac{s - \pi/3}{2};$$
+$$\frac12 + \sin\frac{s - \pi/3}{2} \leq \sin\left(s - \frac{\pi}{3}\right)\cos\frac{\pi}{6} + \cos\left(s - \frac{\pi}{3}\right)\sin\frac{\pi}{6};$$
+$$\frac12 + \sin\frac{s - \pi/3}{2} \leq \sin\left(s - \frac{\pi}{3} + \frac{\pi}{6}\right);$$
+$$\sin\frac{\pi}{6} + \sin\frac{s - \pi/3}{2} \leq \sin\left(s - \frac{\pi}{6}\right).$$
+
+On the other hand, the left hand side of the last inequality is exactly $\frac12|c_j - c_i|$ and its right hand side is the same as if the direction jump was $2s - \frac{\pi}{3}$, so this establishes the required relation.
+
+If $\angle(u_i, v_j) = 0$, then the direction jump is exactly
+
+$$\angle(v_i, u_j) = \varphi + \psi - \angle(u_i, v_j) = \varphi + \psi \leq \varphi + \psi + \left(\varphi + \psi - \frac{\pi}{3}\right),$$
+
+which finishes this case.
+\end{proof}
+
+% We will also need another observation of a similar type. For the sake of convenience we formulate it as a completely external lemma in the language of elementary geometry.
+
+% \begin{lemma}
+% Let $ABCDE$ be a convex pentagon with all sides of length $1$ and all angles at least $\pi/3$. Let $F$ be the point such that $ABFE$ is a parallelogram. Then $\angle{EDC}\leq\angle{BAE} + 2(\angle{CBF} + \angle{FED}) - \pi/3$. \label{lemma:pentagon}
+% \end{lemma}
+
+% \begin{proof}
+% First of all, note that $F$ lies in the pentagon. Indeed, otherwise let $P$ be the intersection point of segments $AF$ and $CD$. One can see that $BP = EP < 1$, and obviously $CP < 1$ and $DP < 1$. This means that $\angle{EDP}>\pi/3$ as the greatest angle in the triangle $EDP$. Similarly, $\angle{PDC}>\pi/3$. Therefore, $\angle{EPB}<\pi/3$. Combined with $\angle{BAE}=\angle{EFB}<\angle{EPB}$, this leads to a contradiction. 
+
+% \begin{figure}[h!]
+%     \centering
+%     \begin{subfigure}{.45\textwidth}
+%     \includegraphics[width=\textwidth]{pics/pentagon.mps}
+%     \caption{General picture}
+%     \end{subfigure}
+%     \begin{subfigure}{.35\textwidth}
+%     \includegraphics[width=.9\textwidth]{pics/pentagon_wrong.mps}
+%     \caption{What if $F$ lies outside}
+%     \end{subfigure}
+%     \caption{Lemma \ref{lemma:pentagon}}
+%     \label{fig:pentagons}
+% \end{figure}
+
+% Denote $\angle{CBF}$ by $x$, $\angle{FED}$ by $y$, and $\angle{EDC}$ by $z$. Let us also note that $x + y\geq\pi / 3$. Indeed, it follows from Lemma \ref{lemma:master} for the curve composed of arcs $CF$ with center $B$ and $FD$ with center $E$.
+
+% But this means that
+
+% \begin{align*}
+% z & = 3\pi - \angle{EDC} - x - y - (2\pi - \angle{BAE}) \\ & \leq \frac{2\pi}{3} + \angle{BAE} - (x + y) \\ & \leq \angle{BAE} + 2(x + y) - \frac{\pi}{3},
+% \end{align*}
+
+% which completes the proof.
+% \end{proof}
+
+Finally, let us state a couple of simple propositions helping us to detect involved and non-involved disks, and construct a curve using involved disks.
+
+\begin{observation}
+If for some $l$ such that $i < l < j$ the inequality $\angccw(c_{l-1} - c_l, c_{l+1} - c_l)\leq 2\pi/3$ holds, then $D_l$ is not involved in the boundary.
+\end{observation}
+
+\begin{proof}
+$D_l$ has an arc from $c_{l-1}$ to $c_{l+1}$ in the region $R_{ij}$. Consider any point $p$ of this arc. This point $p$ divides the arc into two parts. At least one of them has length at most $\pi/3$. Then, according to Lemma~\ref{lemma:master}, $p$ is at most $1$ away from the corresponding point of $c_{l-1}$ and $c_{l+1}$.
+\end{proof}
+
+\begin{observation}
+$D_i$ and $D_j$ are always non-strictly involved.
+\end{observation}
+
+\begin{proof}
+This follows from the fact that $f_i$ and $f_j$ are always points of the boundary.
+\end{proof}
+
+\subsection{Case $k = 1$, finishing the proof}
+
+% \subsubsection{$k = 1$, $\psi\leq 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)\leq \pi/3$}\label{subsec:case-lll}
+\caseitem[subsec:case-lll]{1a}{$k = 1$, $\psi\leq 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)\leq \pi/3$}
+
+
+Since $\psi\leq 2\pi/3$, the $0$-disk is not involved in the boundary. Moreover, neither of $1$-disks is involved in the boundary as well. Indeed, since $\angle(u_i, v_j)\leq\pi/3$, the part of the arc of $D_{j-1}$ in this region that is not covered by $D_{i+1}$ has endpoints $c'$ and $c_j$. Recall that $c'$ was defined so that $c_{i+1}cc_{j-1}c'$ is a rhombus; therefore, $\angccw(c_{j-1}c', c_{j-1}c_j) = \angccw(u_i, v_j) = \angle(u_i, v_j)\in[0, \pi/3]$. Therefore, this part is covered by $D_j$, and the disk $D_{j-1}$ is not involved in the boundary. Similarly, $D_{i+1}$ is also not involved in the boundary.
+
+This implies that there is the only direction jump, and it is between $2$-disks, which we handled earlier.
+
+% \subsubsection{$k = 1$, $\psi\leq 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)> \pi/3$}\label{subsec:case-llg}
+\caseitem[subsec:case-llg]{1b}{$k = 1$, $\psi\leq 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)> \pi/3$}
+
+
+As before, the $0$-disk is not involved in the boundary. Also, $D_{j-1}$ is not involved in the boundary, as described in the previous case. However, there may be an arc from $D_{i+1}$ that is a part of the boundary. 
+If this is not the case, and $D_{i+1}$ is not involved in the boundary, then the only involved disks are the $2$-disks, which is, again, considered above. If $D_{i+1}$ is involved in the boundary, then there is a direction jump of size $\pi/3$ between $D_i$ and $D_{i+1}$ and another one between $D_{i+1}$ and $D_j$ (possibly of different size).
+
+Let $t$ be the point of the latter direction jump.
+%According to Lemma~\ref{lemma:pentagon}, the direction jump between $D_{i+1}$ and $D_j$ is bounded by $\psi + 2(\angle(u_i, v_j) + \angccw(c_{i+1}t, u_j)) - \pi/3$; thus, the sum of the direction jumps does not exceed
+% \begin{multline*}
+% \psi + 2(\angle(u_i, v_j) + \angccw(t - c_{i+1}, u_j)) \\
+% = \psi + 2(\angle(u_i, v_j) + \angle(v_i, u_j)) - 2\angccw(c_i - c_{i+1}, t - c_{i+1}) \\
+% \leq \psi + 2(\psi + \varphi) - \frac{2\pi}{3} = 3\psi - \frac{2\pi}{3} + 2\varphi.
+% \end{multline*}
+Note that the point $c'$ lies in the pentagon $c_{j}c_{j-1}cc_{i+1}t$. Similar to what we had before, it is because point $t$ cannot lie inside the rhombus $cc_{i+1}c'c_{j-1}$. Hence,
+
+$$\angccw(c_{i+1}t, c_{i+1}c') + \angccw(c_{j-1}c', c_{j-1}c_j)\geq\frac{\pi}{3},$$
+
+due to Lemma~\ref{lemma:master}. Therefore, the sum of the direction jumps can be bounded as follows:
+
+\begin{align*}
+\frac{\pi}{3} + \angccw(c_jt, c_{i+1}t) & = \frac{\pi}{3} + \pi - \angccw(c_{i+1}t, tc_j) \\
+& = \frac{4\pi}{3} - \angccw(c_{i+1}t, c_{i+1}c') + \angccw(c_{j-1}c', c_{i+1}c') \\ & - \angccw(c_{j-1}c', c_{j-1}c_j) - \angccw(c_{j-1}c_j, tc_j) \\
+& \leq \pi + \psi - (\angccw(c_{i+1}t, c_{i+1}c') + \angccw(c_{j-1}c', c_{j-1}c_j)) \\
+& \leq \psi + 2(\angccw(c_{i+1}t, c_{i+1}c') + \angle(u_i, v_j)) \\
+& \leq -\frac{2\pi}{3} - \psi + 2(\angle(v_i, u_j) + \angle(u_i, v_j)) \\
+& = 3\psi - \frac{2\pi}{3} + 2\varphi.
+% & \leq \frac{4\pi}{3} + 3(\angccw(c_{i+1}t, c_{i+1}c') + \angccw(c_{j-1}c', c_{j-1}c_j)-\frac{\pi}{3}) \\
+% & \leq \frac{4\pi}{3} + 3(\angccw(c_{i+1}c_i, c_{i+1}t) + \angccw(c_{i+1}t, c_{i+1}c') + \angle(u_i, v_j)-\frac{2\pi}{3}) \\
+% & \leq -\frac{2\pi}{3} + 3(\angccw(c_{i+1}c_i, c_{i+1}c') + \angle(u_i, v_j)) \\
+% & = -\frac{2\pi}{3} + 3(\angle(v_i, u_j) + \angle(u_i, v_j)) \\
+% & = -\frac{2\pi}{3} + 3(\psi + \varphi) \\
+% & =3\psi - \frac{2\pi}{3} + 3\varphi.
+\end{align*}
+
+\caseitem{1b'}{$k = 1$, $\psi\leq 2\pi/3$, $\angle(u_i, v_j)> \pi/3$, $\angle(v_i, u_j)\leq \pi/3$}
+
+This case is similar to the previous one.
+
+% \subsubsection{$k = 1$, $\psi\leq 2\pi/3$, $\angle(u_i, v_j)> \pi/3$, $\angle(v_i, u_j)> \pi/3$}\label{subsec:case-lgg}
+\caseitem[subsec:case-lgg]{1c}{$k = 1$, $\psi\leq 2\pi/3$, $\angle(u_i, v_j)> \pi/3$, $\angle(v_i, u_j)> \pi/3$}
+
+
+Again, the $0$-disk is not involved in the boundary. Also, if at least one of $D_{i+1}$ and $D_{j-1}$ is not involved, we are back in a situation we have already considered before. Therefore, the boundary will be of maximal possible length if there are three direction jumps: two of size $\pi/3$ (between $D_i$ and $D_{i+1}$; between $D_{j-1}$ and $D_j$), and one of size $\psi$. Thus, we need to prove that
+
+$$\frac{2\pi}{3} + \psi \leq 3\psi - \frac{2\pi}{3} + 2\varphi,$$
+or, equivalently, $2\pi/3\leq \psi + \varphi$.
+%After simple transformations, one can see that it is equivalent to $2\pi/3\leq \psi + \varphi$. 
+We know that $\psi + \varphi = \angle(u_i, v_j) + \angle(v_i, u_j) \ge \pi/3 + \pi/3$, which completes the proof of this case.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{.3\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-1.mps}
+    \caption{both angles are at most $\pi/3$}
+    \end{subfigure}
+    \begin{subfigure}[t]{.3\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-2.mps}
+    \caption{only one angle is at most $\pi/3$}
+    \end{subfigure}
+    \begin{subfigure}[t]{.3\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-3.mps}
+    \caption{both angles exceed $\pi/3$}
+    \end{subfigure}
+    \caption{$k = 1$, $\psi\leq2\pi/3$}
+    % \label{fig:my_label}
+\end{figure}
+
+% \subsubsection{$k = 1$, $\psi > 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)\leq \pi/3$}\label{subsec:case-gll}
+\caseitem[subsec:case-gll]{1d}{$k = 1$, $\psi > 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)\leq \pi/3$}
+
+
+Note that neither of the $1$-disks is involved in the boundary. For example, the arc of $D_{j-1}$ from $O$ to $c_j$ is completely covered by $D_{j-2}$ and $D_j$ as
+
+\begin{multline*}
+\angccw(c_{j-2} - c_{j-1}, c_j - c_{j-1}) \\
+= \angccw(c_{j-2} - c_{j-1}, c' - c_{j-1}) + \angccw(c' - c_{j-1}, c_j - c_{j-1}) \\
+\leq \left(\pi - \frac{2\pi}{3}\right) + \frac{\pi}{3} \leq \frac{2\pi}{3}. 
+\end{multline*}
+
+If the $0$-disk is also not involved, then we are back in the case where only $2$-disks are involved in the boundary. If, however, the $0$-disk is involved, then it implies that the arc of $D_{i+2}$ between $c_{i+1}$ and $c_{j-1}$ is not completely covered by other disks; in particular, it is not fully covered by $D_i$ and $D_j$. Since $D_i$ covers $\max(\angle(u_i, v_i), 0)$ of it and $D_j$ covers $\max(\angle(v_j, u_j), 0)$ of it from the other side, we have the following inequality:
+
+$$\psi\geq\angle(u_i, v_i) + \angle(v_j, u_j) = \angle(u_i, u_j) + \angle(v_j, v_i) = \psi - \varphi,$$
+
+which implies that $\varphi\geq 0$. But in this case the direction jumps are exactly $\angle(u_i, v_i)$ and $\angle(v_j, u_j)$; hence, the following holds:
+
+$$\angle(u_i, v_i) + \angle(v_j, u_j) = \psi - \varphi \leq \psi \leq 3\psi - 2\frac{\pi}{3} \leq 3\psi - \frac{2\pi}{3} + 2\varphi.$$
+
+% \subsubsection{$k = 1$, $\psi > 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)> \pi/3$}\label{subsec:case-glg}
+\caseitem[subsec:case-glg]{1e}{$k = 1$, $\psi > 2\pi/3$, $\angle(u_i, v_j)\leq \pi/3$, $\angle(v_i, u_j)> \pi/3$}
+
+
+As in the previous case, $D_{j-1}$ is not involved in the boundary. If the $0$-disk is also not involved in the boundary then this case is identical to case~\ref{subsec:case-llg}. If the $0$-disk is involved in the boundary, then, as in the previous case, we obtain that $\varphi\geq 0$.
+
+Now there are two options: either $D_{i+1}$ is involved in the boundary or not. The latter case is similar to case~\ref{subsec:case-gll}. In the other case there are three direction jumps: between $D_i$ and $D_{i+1}$ of size $\pi/3$, between $D_{i+1}$ and $D_{i+2}$ of size $\pi/3$, and between $D_{i+2}$ and $D_j$. The sum of first two direction jumps is obviously no more than $\angccw(c_i - c_{i+1}, c_{i+2} - c_{i+1})$; hence, the rest can also be done exactly as in case~\ref{subsec:case-gll}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{.45\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-4.mps}
+    \caption{both angles are at most $\pi/3$}
+    \end{subfigure}
+    \begin{subfigure}{.45\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-5.mps}
+    \caption{only one angle is at most $\pi/3$. Note that the real boundary is not connected here}
+    \end{subfigure}
+    \caption{$k = 1$, $\psi > 2\pi/3$}
+    % \label{fig:my_label}
+\end{figure}
+
+\caseitem{1e'}{$k = 1$, $\psi > 2\pi/3$, $\angle(u_i, v_j)> \pi/3$, $\angle(v_i, u_j)\leq \pi/3$}
+
+This case is similar to the previous one.
+
+% \subsubsection{$k = 1$, $\psi > 2\pi/3$, $\angle(u_i, v_j) > \pi/3$, $\angle(v_i, u_j) > \pi/3$}\label{subsec:case-ggg}
+\caseitem[subsec:case-ggg]{1f}{$k = 1$, $\psi > 2\pi/3$, $\angle(u_i, v_j) > \pi/3$, $\angle(v_i, u_j) > \pi/3$}
+
+
+If the $0$-disk is not involved in the boundary, the case is identical to case~\ref{subsec:case-lgg}. Otherwise, if either of $D_{i+1}$ and $D_{j-1}$ is not involved, then this is already handled in the previous case. Finally, if all of the disks are involved in the boundary, then the total direction jump is $4\pi/3$, which does not exceed $\angccw(c_{i+1}c_i, c_{i+1}c_{i+2}) + \angccw(c_{j-1}c_{j-2}, c_{j-1}c_j)$, and this is considered in \ref{subsec:case-gll}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{.45\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-7.mps}
+    \caption{ordinary case}
+    \end{subfigure}
+    \begin{subfigure}{.45\textwidth}
+    \includegraphics[width=\textwidth]{pics/case-6.mps}
+    \caption{a possible case where the real boundary is not connected}
+    \end{subfigure}
+    \caption{$k = 1$, $\psi > 2\pi/3$, both angles exceed $\pi/3$}
+    % \label{fig:my_label}
+\end{figure}
+
+% \subsubsection{$k > 1$}
+% \caseitem{2}{$k > 1$}
+% no need in this section anymore
+
+% In this case the segment consists of two $2$-disks $D_i$ and $D_j$, $k + 1$ $1$-disks (every second from $D_{i+1}$ to $D_{j-1}$, including both) and $k$ occurrences of the $0$-disk (every second from $D_{i+2}$ to $D_{j-2}$, including both). We divide it into the following subsegments: from $D_i$ to $D_{i+3}$, from $D_{j-3}$ to $D_j$, and split everything between by $1$-disks: that is, the remaining sebsegments are from $D_{i+3}$ to $D_{i+5}$, from $D_{i+5}$ to $D_{i+7}$, \ldots, from $D_{j-5}$ to $D_{j-3}$; we call these subsegments \textit{small}. We will consider all occurrences involved in the boundary and estimate the total direction jump.
+
+% First of all, note that all $1$-disks from $D_{i+3}$ to $D_{j-3}$ are necessarily included in the boundary, possibly non-strictly. Indeed, \textbf{todo: insert proof}.
+
+% Each occurrence $D_k$ of the $0$-disk in any small subsegment is either not involved in the boundary, which means that the direction jump between $D_{k-1}$ and $D_{k+1}$ is exactly $\angccw(c_{k-1} - c_k, c_{k+1} - c_k)$, or is involved, which means that it takes part in two direction jumps of size $\pi/3$ each, which sum in something smaller than $\angccw(c_{k-1} - c_k, c_{k+1} - c_k)$, hence, in any case the sum of this subsegment's direction jumps does not exceed $\angccw(c_{k-1} - c_k, c_{k+1} - c_k)$.
+
+% Now consider the first subsegment consisting of disks from $D_i$ to $D_{i+3}$. Again, let $c'$ be such point that $c_{i+1}cc_{i+3}c'$ is a parallelogram, hence a rhombus. As before, $c_i$ is not inside this rhombus, therefore $\angle(v_i, u_j)\geq 0$ (we recall that $v_i$ stands for the vector from $c_{i+1}$ to $c_i$ and $u_j$ stands for the vector from $c_{i+2}$ to $c_{i+3}$). Either $\angle(v_i, u_j)\geq\pi/3$, and there is a direction jump between $D_i$ and $D_{i+1}$ of size $\pi/3$ and one or two direction jumps of total size at most $\angle(u_i, u_j) = \angccw(c_{i+1} - c, c_{i+3} - c)$; or $\angle(v_i, u_j) < \pi/3$, which implies that $D_{i+1}$ is not involved in the boundary, and this leaves us with two cases: if $D_{i+2}$ is not involved in the boundary then the only direction jump here is between $D_i$ and $D_{i+3}$. If we denote the point of this direction jump by $p$ then by Lemma 9 (\textbf{todo: normal number}) its size is at most
+
+% \begin{multline*}
+% \angle(u_i, u_j) + 2(\angle(v_i, u_j) + \angccw(c' - c_{i+3}, p - c_{i+3})) - \frac{\pi}{3} = \\
+% = (\angle(u_i, u_j) + 2\angle(v_i, u_j)) + \left(2\angccw(c' - c_{i+3}, p - c_{i+3}) - \frac{\pi}{3}\right).
+% \end{multline*}
+
+% If $\angccw(c' - c_{i+3}, p - c_{i+3})\leq\pi/6$ then this expression does not exceed $\angle(u_i, u_j) + 2\angle(v_i, u_j)$. 
+
+\end{enumerate}
+
+\section{Conclusion}
+
+We have shown that $f(3) = 37$, where $f(n)$ is the maximum possible number of disks in a packing of kissing radius $n$. In other words, triangular lattice provides the optimal size of the packing. It is not known if $f(4) = f(3) + 24 = 61$ or not.
+
+\bibliographystyle{unsrt}
+\bibliography{three-layers}

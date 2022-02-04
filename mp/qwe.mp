@@ -1087,7 +1087,7 @@ beginfig(12);
 % ld v1u2 = deg(80);
 % ld u1v2 = deg(70);
 numeric r;
-r = 3.5cm;
+r = 2.5cm;
 % R = 4r;
 % pair u;
 % u = (r, 0);
@@ -1138,11 +1138,12 @@ label.urt(btex$u_2$etex, .7[d[0][0], d[1][1]]);
 label.top(btex$u_2$etex, .6[d[1][0], c']);
 label.top(btex$u_1$etex, .6[d[1][1], c']);
 
-label.lrt(btex$D_i$etex, d[2][0]);
-label.lrt(btex$D_{i+1}$etex, d[1][0]);
-label.bot(btex$D_{i+2}=D_{j-2}$etex, d[0][0]);
-label.llft(btex$D_{j-1}$etex, d[1][1]);
-label.llft(btex$D_j$etex, d[2][1]);
+label.lrt(btex$c_i$etex, d[2][0]);
+label.lrt(btex$c_{i+1}$etex, d[1][0]);
+label.bot(btex$c$etex, d[0][0]);
+label.llft(btex$c_{j-1}$etex, d[1][1]);
+label.llft(btex$c_j$etex, d[2][1]);
+label(btex$c'$etex, c' shifted (0, r/6));
 
 pickup pencircle;
 draw subpath(angle(d[2][0] - d[1][0]) / 45, angle(c' - d[1][0]) / 45) of (big shifted d[1][0]) dashed evenly;

@@ -2,7 +2,7 @@
 %%BoundingBox: -91 -10 72 286 
 %%HiResBoundingBox: -90.91086 -9.8078 71.22726 285.38907 
 %%Creator: MetaPost 2.00
-%%CreationDate: 2021.12.21:1841
+%%CreationDate: 2022.02.04:2029
 %%Pages: 1
 %%DocumentResources: procset mpost-minimal
 %%+ font CISZRO-CMMI10 JCMPSG-CMR7 TJTAFR-CMMI7 DRMNLU-CMR10

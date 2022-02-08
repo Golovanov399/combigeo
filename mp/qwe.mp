@@ -1323,4 +1323,81 @@ draw subpath(0.000000, 2.777778) of (big shifted d[2][1]) withcolor .3 * white;
 
 endfig;
 
+outputtemplate := "huge-formula-pic.mps";
+beginfig(1);
+
+% ld psi = deg(100);
+% ld v1u2 = deg(90);
+% ld u1v2 = deg(50);
+numeric r;
+r = 2.5cm;
+% R = 4r;
+% pair u;
+% u = (r, 0);
+
+path small, big;
+small = fullcircle scaled r;
+big = fullcircle scaled (2 * r);
+
+pair d[][];
+d[0][0] = (0.000000, 0.000000) scaled r;
+d[1][0] = (0.766044, 0.642788) scaled r;
+d[1][1] = (-0.766044, 0.642788) scaled r;
+d[2][0] = (1.408832, 1.408832) scaled r;
+d[2][1] = (-0.766044, 1.642788) scaled r;
+
+pair c', t;
+c' = d[1][0] shifted d[1][1];
+t = ((big shifted d[1][0]) intersectionpoint (big shifted d[2][1]));
+
+for i := 0 step 1 until 0:
+  pickup pencircle scaled 0.25;
+  draw big shifted d[0][i] dashed evenly scaled 0.5 withcolor .5 * white;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  pickup pencircle scaled 0.25;
+  draw big shifted d[1][i] dashed evenly scaled 0.5 withcolor .5 * white;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  pickup pencircle scaled 0.25;
+  draw big shifted d[2][i] dashed evenly scaled 0.5 withcolor .5 * white;
+  pickup pencircle scaled 0.5;
+endfor;
+
+pickup pencircle;
+drawarrow d[0][0]--d[1][0];
+drawarrow d[0][0]--d[1][1];
+drawarrow d[1][0]--d[2][0];
+drawarrow d[1][1]--d[2][1];
+
+draw d[1][0]--c'--d[1][1] dashed evenly;
+
+for i := 0 step 1 until 1:
+draw d[2][i]--(d[2][i] scaled (1 + 2.1 * r / 2 / abs(d[2][i])));
+endfor;
+drawarrow d[2][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+drawarrow d[1][0]--((big shifted d[2][0]) intersectionpoint (big shifted d[1][0])) dashed evenly;
+drawarrow d[1][0]--((big shifted d[1][0]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+drawarrow d[2][1]--((big shifted d[1][0]) intersectionpoint (big shifted d[2][1])) dashed evenly;
+
+pickup pencircle scaled 1.5;
+draw subpath(1.000000, 3.777778) of (big shifted d[2][0]) withcolor .3 * white;
+draw subpath(2.444444, 2.734267) of (big shifted d[1][0]) withcolor .3 * white;
+draw subpath(7.793172, 8.000000) of (big shifted d[2][1]) withcolor .3 * white;
+draw subpath(0.000000, 2.555556) of (big shifted d[2][1]) withcolor .3 * white;
+
+dotlabel.lrt(btex$c_i$etex, d[2][0]);
+dotlabel.lrt(btex$c_{i+1}$etex, d[1][0]);
+dotlabel.bot(btex$c$etex, d[0][0]);
+dotlabel.llft(btex$c_{j-1}$etex, d[1][1]);
+dotlabel.lft(btex$c_j$etex, d[2][1]);
+dotlabel.ulft(btex$c'$etex, c');
+dotlabel.llft(btex$t$etex, t);
+
+endfig;
+
 end

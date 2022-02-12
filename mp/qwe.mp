@@ -1400,4 +1400,97 @@ dotlabel.llft(btex$t$etex, t);
 
 endfig;
 
+outputtemplate := "only-middle-involved.mps";
+beginfig(1);
+
+% ld psi = deg(130);
+% ld v1u2 = deg(90);
+% ld u1v2 = deg(90);
+numeric r;
+r = 1.5cm;
+% R = 4r;
+% pair u;
+% u = (r, 0);
+
+path small, big;
+small = fullcircle scaled r;
+big = fullcircle scaled (2 * r);
+
+pair d[][];
+d[0][0] = (0.000000, 0.000000) scaled r;
+d[1][0] = (0.906308, 0.422618) scaled r;
+d[1][1] = (-0.906308, 0.422618) scaled r;
+d[2][0] = (1.328926, 1.328926) scaled r;
+d[2][1] = (-1.328926, 1.328926) scaled r;
+for i := 0 step 1 until 0:
+  draw small shifted d[0][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[0][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[1][i];  pickup pencircle scaled 0.25;
+%   draw big shifted d[1][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+for i := 0 step 1 until 1:
+  draw small shifted d[2][i];  pickup pencircle scaled 0.25;
+  draw big shifted d[2][i] dashed evenly scaled 0.5;
+  pickup pencircle scaled 0.5;
+endfor;
+
+pickup pencircle;
+drawarrow d[0][0]--d[1][0];
+drawarrow d[0][0]--d[1][1];
+drawarrow d[1][0]--d[2][0];
+drawarrow d[1][1]--d[2][1];
+
+draw d[0][0]--(d[0][0] + d[2][1] - d[1][1])--d[2][1] dashed evenly;
+draw d[0][0]--(d[0][0] + d[2][0] - d[1][0])--d[2][0] dashed evenly;
+
+pickup pencircle scaled 1.5;
+draw subpath(13/9, 23/9) of (big shifted d[0][0]) withcolor .3 * white;
+
+pickup pencircle scaled 0.3;
+drawarrow (d[0][0] + (d[0][0] - d[1][1]) scaled 1.2)--(d[0][0] + (r/6, r/6));
+drawarrow (d[0][0] + (d[0][0] - d[1][0]) scaled 1.2)--(d[0][0] + (-r/6, r/6));
+label.rt(btex$\angle(u_i, v_i)$etex, d[0][0] + (d[0][0] - d[1][1]) scaled 1.2);
+label.lft(btex$\angle(v_j, u_j)$etex, d[0][0] + (d[0][0] - d[1][0]) scaled 1.2);
+
+endfig;
+
+outputtemplate := "incorrect-curve.mps";
+
+beginfig(1);
+
+numeric r, h;
+
+r = 1.5cm;
+h = (1 +-+ 1/4) * r;
+
+pair c[];
+c[0] = (r/4, h);
+c[1] = (-r/4, -h);
+
+numeric t;
+t = 8 - (directiontime (r/4, h) of fullcircle);
+
+pickup pencircle scaled 0.35;
+
+draw subpath(4.5, 7.5) of (fullcircle scaled 2r shifted c[0]) dashed evenly;
+draw subpath(0.5, 3.5) of (fullcircle scaled 2r shifted c[1]) dashed evenly;
+
+pickup pencircle;
+
+drawarrow subpath(6 + t, 6) of (fullcircle scaled 2r shifted c[0]);
+draw subpath(6, 6 - t) of (fullcircle scaled 2r shifted c[0]);
+drawarrow subpath(2 - t, 2 + t/2) of (fullcircle scaled 2r shifted c[1]);
+draw subpath(2 + t/2, 2 + t) of (fullcircle scaled 2r shifted c[1]);
+
+% dotlabel(btex$$etex, point (6 + t) of (fullcircle scaled 2r shifted c[0]));
+% dotlabel(btex$$etex, point (2 + t) of (fullcircle scaled 2r shifted c[1]));
+
+endfig;
+
 end

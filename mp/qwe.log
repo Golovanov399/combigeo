@@ -1,4 +1,4 @@
-This is MetaPost, version 2.00 (TeX Live 2019/Debian) (kpathsea version 6.3.1)  12 FEB 2022 14:01
+This is MetaPost, version 2.00 (TeX Live 2019/Debian) (kpathsea version 6.3.1)  15 FEB 2022 17:36
 **qwe.mp
 (/usr/share/texlive/texmf-dist/metapost/base/mpost.mp
 (/usr/share/texlive/texmf-dist/metapost/base/plain.mp
@@ -7,6 +7,7 @@ p}<cmmi10.pfb><cmr7.pfb>] [3] [4<cmmi10.pfb>] [5<cmmi10.pfb><cmr7.pfb><cmmi7.pf
 b><cmr10.pfb>] [1] [2] [3] [4] [5] [6] [7] [8<cmmi10.pfb><cmr10.pfb><cmsy7.pfb>
 ] [9] [10] [11] [12] [12<cmmi10.pfb><cmr7.pfb><cmmi7.pfb><cmsy7.pfb>] [13]
 [14<cmmi10.pfb><cmr7.pfb><cmmi7.pfb>] [1<cmmi10.pfb><cmr7.pfb><cmmi7.pfb><cmsy7
-.pfb>] [1<cmmi10.pfb><cmmi7.pfb><cmr10.pfb><cmsy7.pfb>] [1] )
-24 output files written: fig.mps .. direction-jump.mps
+.pfb>] [1<cmmi10.pfb><cmmi7.pfb><cmr10.pfb><cmsy7.pfb>] [1] [1<cmmi10.pfb><cmsy
+7.pfb>] )
+25 output files written: fig.mps .. direction-jump.mps
 

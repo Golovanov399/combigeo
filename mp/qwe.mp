@@ -1131,12 +1131,12 @@ drawarrow d[1][1]--c' dashed evenly;
 pickup pencircle scaled 0.25;
 drawarrow (unitvector(d[1][0] - d[0][0]){(d[1][0] - d[0][0]) rotated 90}..unitvector(d[1][1] - d[0][0])) scaled 0.2r shifted d[0][0];
 label.top(btex$\psi$etex, (0, 0.2r));
-label.ulft(btex$v_1$etex, .6[d[1][0], d[2][0]]);
-label.urt(btex$v_2$etex, .6[d[1][1], d[2][1]]);
-label.ulft(btex$u_1$etex, .7[d[0][0], d[1][0]]);
-label.urt(btex$u_2$etex, .7[d[0][0], d[1][1]]);
-label.top(btex$u_2$etex, .6[d[1][0], c']);
-label.top(btex$u_1$etex, .6[d[1][1], c']);
+label.ulft(btex$v_i$etex, .6[d[1][0], d[2][0]]);
+label.urt(btex$v_j$etex, .6[d[1][1], d[2][1]]);
+label.ulft(btex$u_i$etex, .7[d[0][0], d[1][0]]);
+label.urt(btex$u_j$etex, .7[d[0][0], d[1][1]]);
+label.top(btex$u_j$etex, .6[d[1][0], c']);
+label.top(btex$u_i$etex, .6[d[1][1], c']);
 
 label.lrt(btex$c_i$etex, d[2][0]);
 label.lrt(btex$c_{i+1}$etex, d[1][0]);
@@ -1312,7 +1312,7 @@ drawarrow (unitvector(d[2][1] - ((big shifted d[1][1]) intersectionpoint (big sh
 %drawarrow d[1][1]--((big shifted d[1][1]) intersectionpoint (big shifted d[2][1])) dashed evenly;
 %drawarrow d[2][1]--((big shifted d[1][1]) intersectionpoint (big shifted d[2][1])) dashed evenly;
 
-drawarrow (unitvector(d[1][0] - d[0][0]){(d[1][0] - d[0][0]) rotated 90}..unitvector(d[1][1] - d[0][0])) scaled 0.2r shifted d[0][0];
+% drawarrow (unitvector(d[1][0] - d[0][0]){(d[1][0] - d[0][0]) rotated 90}..unitvector(d[1][1] - d[0][0])) scaled 0.2r shifted d[0][0];
 
 pickup pencircle scaled 1.5;
 draw subpath(1.111111, 4.000000) of (big shifted d[2][0]) withcolor .3 * white;
@@ -1490,6 +1490,52 @@ draw subpath(2 + t/2, 2 + t) of (fullcircle scaled 2r shifted c[1]);
 
 % dotlabel(btex$$etex, point (6 + t) of (fullcircle scaled 2r shifted c[0]));
 % dotlabel(btex$$etex, point (2 + t) of (fullcircle scaled 2r shifted c[1]));
+
+endfig;
+
+outputtemplate := "general-master-lemma.mps";
+
+beginfig(1);
+
+numeric r, n, off;
+r = 20mm;
+n = 4;
+off = 0.4;
+
+path big;
+big = fullcircle scaled 2r;
+
+pair a, b, b';
+a = point (2 + off) of big;
+b = point (2 - off) of (big shifted ((n - 1) * r, 0));
+b' = point (2 - off) of (big shifted ((n - 2) * r, 0));
+
+for i := 0 upto n-1:
+  draw big shifted (i * r, 0);
+endfor;
+
+draw (r * (n - 1), 0)--b--b'--(r * (n - 2), 0);
+
+draw ((r, 0) * -1.1)..((r, 0) * (n + 0.1)) dashed evenly;
+draw (r * (n - 1) / 2, -1.5r)..(r * (n - 1) / 2, 1.5r) dashed evenly;
+
+pickup pencircle scaled 3;
+
+for i := 1 upto n-2:
+  draw subpath(4/3, 8/3) of (big shifted (i * r, 0)) withcolor .5 * white;
+endfor;
+
+draw subpath(2 - off, 8/3) of (big shifted ((n - 1) * r, 0)) withcolor .5 * white;
+draw subpath(4/3, 2 + off) of (big shifted (0 * r, 0)) withcolor .5 * white;
+
+pickup pencircle;
+draw a--b dashed evenly;
+
+dotlabel.ulft(btex$a$etex, a);
+dotlabel.urt(btex$b$etex, b);
+dotlabel.urt(btex$b'$etex, b');
+label.bot(btex$l$etex, (-r/2, 0));
+label.lft(btex$n$etex, (r * (n - 1) / 2, 1.25r));
 
 endfig;
 

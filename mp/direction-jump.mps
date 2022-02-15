@@ -2,12 +2,12 @@
 %%BoundingBox: -137 -65 147 168 
 %%HiResBoundingBox: -136.36882 -64.75487 146.57867 167.65494 
 %%Creator: MetaPost 2.00
-%%CreationDate: 2022.02.12:1401
+%%CreationDate: 2022.02.15:1736
 %%Pages: 1
 %%DocumentResources: procset mpost-minimal
-%%+ font KDIXDA-CMMI10 VONMBB-CMR7 OWZNWE-CMMI7
+%%+ font KDIXDA-CMMI10 DLZUOA-CMR7 OWZNWE-CMMI7
 %%DocumentSuppliedResources: procset mpost-minimal
-%%+ font KDIXDA-CMMI10 VONMBB-CMR7 OWZNWE-CMMI7
+%%+ font KDIXDA-CMMI10 DLZUOA-CMR7 OWZNWE-CMMI7
 %%EndComments
 %%BeginProlog
 %%BeginResource: procset mpost-minimal
@@ -260,7 +260,7 @@ F600370C3EC00BDBDBC8D4BD3EBDFAB4BACB7C18137A35A63F26
 cleartomark
 {restore}if
 %%EndResource
-%%BeginResource: font VONMBB-CMR7
+%%BeginResource: font DLZUOA-CMR7
 %!PS-AdobeFont-1.0: CMR7 003.002
 %%Title: CMR7
 %Version: 003.002
@@ -272,7 +272,7 @@ cleartomark
 % This license is in the accompanying file OFL.txt, and is also
 % available with a FAQ at: http://scripts.sil.org/OFL.
 %%EndComments
-FontDirectory/VONMBB-CMR7 known{/VONMBB-CMR7 findfont dup/UniqueID known{dup
+FontDirectory/DLZUOA-CMR7 known{/DLZUOA-CMR7 findfont dup/UniqueID known{dup
 /UniqueID get 5000790 eq exch/FontType get 1 eq and}{pop false}ifelse
 {save true}{false}ifelse}{false}ifelse
 11 dict begin
@@ -4113,13 +4113,6 @@ newpath -20.69522 93.29651 moveto
 newpath -19.85738 82.92854 moveto
 -18.77797 82.16406 -17.57297 81.55959 -16.27446 81.15019 curveto
 -16.90314 82.35786 -17.32774 83.63739 -17.5504 84.94121 curveto
- closepath
-gsave fill grestore stroke
-newpath 9.90163 8.30858 moveto
-4.73593 14.46478 -4.73593 14.46478 -9.90163 8.30858 curveto stroke
-newpath -8.12865 11.89429 moveto
--8.88062 10.83026 -9.48518 9.62941 -9.90163 8.30858 curveto
--8.67317 8.94804 -7.39655 9.36966 -6.11244 9.5903 curveto
  closepath
 gsave fill grestore stroke
  0.3 0.3 0.3 setrgbcolor 0 1.5 dtransform truncate idtransform setlinewidth pop

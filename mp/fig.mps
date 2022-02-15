@@ -2,7 +2,7 @@
 %%BoundingBox: -82 -65 82 72 
 %%HiResBoundingBox: -81.31091 -64.7341 81.74171 71.25842 
 %%Creator: MetaPost 2.00
-%%CreationDate: 2022.02.12:1401
+%%CreationDate: 2022.02.15:1736
 %%Pages: 1
 %%DocumentResources: procset mpost-minimal
 %%DocumentSuppliedResources: procset mpost-minimal

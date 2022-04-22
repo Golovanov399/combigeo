@@ -1330,7 +1330,7 @@ beginfig(1);
 % ld v1u2 = deg(90);
 % ld u1v2 = deg(50);
 numeric r;
-r = 2.5cm;
+r = 1.3cm;
 % R = 4r;
 % pair u;
 % u = (r, 0);
@@ -1390,13 +1390,14 @@ draw subpath(2.444444, 2.734267) of (big shifted d[1][0]) withcolor .3 * white;
 draw subpath(7.793172, 8.000000) of (big shifted d[2][1]) withcolor .3 * white;
 draw subpath(0.000000, 2.555556) of (big shifted d[2][1]) withcolor .3 * white;
 
-dotlabel.lrt(btex$c_i$etex, d[2][0]);
-dotlabel.lrt(btex$c_{i+1}$etex, d[1][0]);
+dotlabel.top(btex$c_i$etex, d[2][0]);
+dotlabel.rt(btex$c_{i+1}$etex, d[1][0]);
 dotlabel.bot(btex$c$etex, d[0][0]);
 dotlabel.llft(btex$c_{j-1}$etex, d[1][1]);
-dotlabel.lft(btex$c_j$etex, d[2][1]);
-dotlabel.ulft(btex$c'$etex, c');
-dotlabel.llft(btex$t$etex, t);
+dotlabel.urt(btex$c_j$etex, d[2][1]);
+dotlabel.lft(btex$c'$etex, c');
+dotlabel(btex$$etex, t);
+label(btex$t$etex, t shifted (r/9, r/5));
 
 endfig;
 
@@ -1488,8 +1489,8 @@ draw subpath(6, 6 - t) of (fullcircle scaled 2r shifted c[0]);
 drawarrow subpath(2 - t, 2 + t/2) of (fullcircle scaled 2r shifted c[1]);
 draw subpath(2 + t/2, 2 + t) of (fullcircle scaled 2r shifted c[1]);
 
-% dotlabel(btex$$etex, point (6 + t) of (fullcircle scaled 2r shifted c[0]));
-% dotlabel(btex$$etex, point (2 + t) of (fullcircle scaled 2r shifted c[1]));
+dotlabel(btex$$etex, point (6 + t) of (fullcircle scaled 2r shifted c[0]));
+dotlabel(btex$$etex, point (2 + t) of (fullcircle scaled 2r shifted c[1]));
 
 endfig;
 
@@ -1536,6 +1537,124 @@ dotlabel.urt(btex$b$etex, b);
 dotlabel.urt(btex$b'$etex, b');
 label.bot(btex$l$etex, (-r/2, 0));
 label.lft(btex$n$etex, (r * (n - 1) / 2, 1.25r));
+
+endfig;
+
+outputtemplate := "delaunay-blocking-case-%c.mps";
+
+beginfig(1);
+
+numeric r;
+r = 20mm;
+
+path Om;
+Om = fullcircle scaled (r / sind(36));
+
+pair c[];
+c1 = point (10 - 8 / 5) of Om;
+c2 = point (10 - 16 / 5) of Om;
+c3 = point (10 - 24 / 5) of Om;
+c4 = point (10 - 32 / 5) of Om;
+
+fill c1--c3--c4--cycle withcolor .7 * white;
+pickup pencircle;
+draw c1--c2--c3--c4--cycle;
+draw c1--c3;
+
+dotlabel.lrt(btex$c_{k-2}$etex, c1);
+dotlabel.bot(btex$c_{k-1}$etex, c2);
+dotlabel.bot(btex$c_k$etex, c3);
+dotlabel.llft(btex$c_{k+1}$etex, c4);
+
+endfig;
+
+beginfig(2);
+
+numeric r;
+r = 20mm;
+
+path Om;
+Om = fullcircle scaled (r / sind(36));
+
+pair c[];
+c1 = point (10 - 4 / 5) of Om;
+c2 = point (10 - 12 / 5) of Om;
+c3 = point (10 - 20 / 5) of Om;
+c4 = point (10 - 28 / 5) of Om;
+c5 = point (10 - 36 / 5) of Om;
+
+fill c1--c4--c5--cycle withcolor .7 * white;
+pickup pencircle;
+draw c1--c2--c3--c4--c5--cycle;
+draw c1--c4;
+draw c1--c3 dashed withdots;
+draw c2--c4 dashed withdots;
+
+dotlabel.rt(btex$c_i$etex, c1);
+dotlabel.lrt(btex$c_{i+1}$etex, c2);
+dotlabel.bot(btex$c_{i+2}(=c_{j-2})$etex, c3);
+dotlabel.llft(btex$c_{j-1}$etex, c4);
+dotlabel.lft(btex$c_j$etex, c5);
+
+endfig;
+
+beginfig(3);
+
+numeric r;
+r = 20mm;
+
+path Om;
+Om = fullcircle scaled (r / sind(36));
+
+pair c[];
+c1 = point (10 - 4 / 5) of Om;
+c2 = point (10 - 12 / 5) of Om;
+c3 = point (10 - 20 / 5) of Om;
+c4 = point (10 - 28 / 5) of Om;
+c5 = point (10 - 36 / 5) of Om;
+
+fill c1--c4--c5--cycle withcolor .7 * white;
+fill c1--c2--c3--cycle withcolor .7 * white;
+pickup pencircle;
+draw c1--c2--c3--c4--c5--cycle;
+draw c1--c4;
+draw c1--c3;
+
+dotlabel.rt(btex$c_i$etex, c1);
+dotlabel.lrt(btex$c_{i+1}$etex, c2);
+dotlabel.bot(btex$c_{i+2}(=c_{j-2})$etex, c3);
+dotlabel.llft(btex$c_{j-1}$etex, c4);
+dotlabel.lft(btex$c_j$etex, c5);
+
+endfig;
+
+beginfig(4);
+
+numeric r;
+r = 20mm;
+
+path Om;
+Om = fullcircle scaled (r / sind(36));
+
+pair c[];
+c1 = point (10 - 4 / 5) of Om;
+c2 = point (10 - 12 / 5) of Om;
+c3 = point (10 - 20 / 5) of Om;
+c4 = point (10 - 28 / 5) of Om;
+c5 = point (10 - 36 / 5) of Om;
+
+fill c1--c4--c5--cycle withcolor .7 * white;
+fill c2--c3--c4--cycle withcolor .7 * white;
+pickup pencircle;
+draw c1--c2--c3--c4--c5--cycle;
+draw c1--c4;
+draw c2--c4;
+
+dotlabel.rt(btex$c_i$etex, c1);
+dotlabel.lrt(btex$c_{i+1}$etex, c2);
+dotlabel.bot(btex$c_{i+2}(=c_{j-2})$etex, c3);
+dotlabel.llft(btex$c_{j-1}$etex, c4);
+dotlabel.lft(btex$c_j$etex, c5);
 
 endfig;
 

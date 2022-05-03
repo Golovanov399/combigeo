@@ -1590,11 +1590,11 @@ draw c1--c4;
 draw c1--c3 dashed withdots;
 draw c2--c4 dashed withdots;
 
-dotlabel.rt(btex$c_i$etex, c1);
-dotlabel.lrt(btex$c_{i+1}$etex, c2);
-dotlabel.bot(btex$c_{i+2}(=c_{j-2})$etex, c3);
-dotlabel.llft(btex$c_{j-1}$etex, c4);
-dotlabel.lft(btex$c_j$etex, c5);
+dotlabel.rt(btex$c_1$etex, c1);
+dotlabel.lrt(btex$c_2$etex, c2);
+dotlabel.bot(btex$c_3$etex, c3);
+dotlabel.llft(btex$c_4$etex, c4);
+dotlabel.lft(btex$c_5$etex, c5);
 
 endfig;
 
@@ -1620,11 +1620,11 @@ draw c1--c2--c3--c4--c5--cycle;
 draw c1--c4;
 draw c1--c3;
 
-dotlabel.rt(btex$c_i$etex, c1);
-dotlabel.lrt(btex$c_{i+1}$etex, c2);
-dotlabel.bot(btex$c_{i+2}(=c_{j-2})$etex, c3);
-dotlabel.llft(btex$c_{j-1}$etex, c4);
-dotlabel.lft(btex$c_j$etex, c5);
+dotlabel.rt(btex$c_1$etex, c1);
+dotlabel.lrt(btex$c_2$etex, c2);
+dotlabel.bot(btex$c_3$etex, c3);
+dotlabel.llft(btex$c_4$etex, c4);
+dotlabel.lft(btex$c_5$etex, c5);
 
 endfig;
 
@@ -1650,11 +1650,173 @@ draw c1--c2--c3--c4--c5--cycle;
 draw c1--c4;
 draw c2--c4;
 
-dotlabel.rt(btex$c_i$etex, c1);
-dotlabel.lrt(btex$c_{i+1}$etex, c2);
-dotlabel.bot(btex$c_{i+2}(=c_{j-2})$etex, c3);
-dotlabel.llft(btex$c_{j-1}$etex, c4);
-dotlabel.lft(btex$c_j$etex, c5);
+dotlabel.rt(btex$c_1$etex, c1);
+dotlabel.lrt(btex$c_2$etex, c2);
+dotlabel.bot(btex$c_3$etex, c3);
+dotlabel.llft(btex$c_4$etex, c4);
+dotlabel.lft(btex$c_5$etex, c5);
+
+endfig;
+
+outputtemplate := "iterative-delaunay.mps";
+
+beginfig(1);
+
+numeric r;
+r = 20mm;
+path O;
+
+O = fullcircle scaled 2r;
+
+pair p[];
+p1 = point 0 of O;
+p2 = point 2.2 of O;
+p3 = (point 3.5 of O) scaled 0.7;
+p4 = point 5.4 of O;
+
+pickup pencircle;
+draw for i := 1 upto 4: p[i]-- endfor cycle;
+
+pickup pencircle scaled 0.3;
+draw p1--p3;
+draw p2--p4;
+draw O dashed evenly;
+
+dotlabel.rt(btex$q$etex, p1);
+dotlabel.top(btex$r$etex, p2);
+dotlabel.lft(btex$s$etex, p3);
+dotlabel.bot(btex$p$etex, p4);
+
+endfig;
+
+outputtemplate := "delaunay-covers-neighbors-case-%c.mps";
+
+beginfig(1);
+
+numeric r;
+r = 20mm;
+
+path O;
+O = fullcircle scaled 2r;
+
+numeric fr, t;
+fr = 4/3;
+t = 4;
+
+pair c[];
+c4 = (0, 0);
+c5 = point t of O;
+c3 = point fr of O;
+c2 = point 2.8 of O shifted c3;
+
+fill O shifted c2 withcolor .8white;
+fill O shifted c3 withcolor .7white;
+
+pickup pencircle;
+draw c2--c3--c4--c5;
+
+pickup pencircle scaled 0.5;
+draw subpath (fr, t) of O dashed evenly;
+
+dotlabel.bot(btex$d_k$etex, c4);
+dotlabel.rt(btex$d_{k-1}$etex, c3);
+dotlabel.urt(btex$d_{k-2}$etex, c2);
+
+endfig;
+
+
+beginfig(2);
+
+numeric r;
+r = 20mm;
+
+path O;
+O = fullcircle scaled 2r;
+
+numeric fr, tt;
+fr = 4/3;
+tt = 4;
+
+pair c[];
+c4 = (0, 0);
+c5 = point tt of O;
+c3 = point fr of O;
+c2 = point 2.7 of O shifted c3;
+c1 = point 4.1 of O shifted c2;
+
+pair t;
+t = point (fr + 4/3) of O;
+
+fill O shifted c1 withcolor .8white;
+fill O shifted c3 withcolor .7white;
+
+pickup pencircle;
+draw c1--c2--c3--c4--c5;
+draw c1--c3;
+
+pickup pencircle scaled 0.5;
+draw subpath (fr, tt) of O dashed evenly;
+
+draw O shifted c1;
+draw t--.5[c3, c4];
+
+dotlabel.bot(btex$c_4$etex, c4);
+dotlabel.rt(btex$c_3$etex, c3);
+dotlabel.urt(btex$c_2$etex, c2);
+dotlabel.top(btex$c_1$etex, c1);
+
+dotlabel.ulft(btex$t$etex, t);
+
+endfig;
+
+beginfig(3);
+
+numeric r;
+r = 20mm;
+
+path O;
+O = fullcircle scaled 2r;
+
+numeric fr, tt;
+fr = 4/3 - 0.1;
+tt = 4;
+
+pair c[];
+c4 = (0, 0);
+c5 = point tt of O;
+c3 = point fr of O;
+c2 = point 2.9 of O shifted c3;
+c1 = point 4.15 of O shifted c2;
+
+pair t;
+t = point (fr + 4/3) of O;
+
+fill O shifted c1 withcolor .8white;
+fill O shifted c3 withcolor .7white;
+
+pickup pencircle;
+draw c1--c2--c3--c4--c5;
+draw c2--c4;
+
+pickup pencircle scaled 0.5;
+draw subpath (fr, tt) of O dashed evenly;
+
+draw O shifted c1;
+draw t--.5[c3, c4];
+
+pair o;
+o = whatever[t, .5[c3, c4]];
+(o - .5[c1, c4]) dotprod (c1 - c4) = 0;
+
+draw fullcircle scaled 2(abs(o - c1)) shifted o dashed evenly;
+dotlabel(btex$$etex, o);
+
+dotlabel.bot(btex$c_4$etex, c4);
+dotlabel.rt(btex$c_3$etex, c3);
+dotlabel.llft(btex$c_2$etex, c2);
+dotlabel.ulft(btex$c_1$etex, c1);
+
+dotlabel.ulft(btex$t$etex, t);
 
 endfig;
 

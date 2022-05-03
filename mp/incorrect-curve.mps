@@ -2,7 +2,7 @@
 %%BoundingBox: -51 -26 51 26 
 %%HiResBoundingBox: -50.0876 -25.07234 50.0876 25.07234 
 %%Creator: MetaPost 2.00
-%%CreationDate: 2022.02.15:1736
+%%CreationDate: 2022.05.03:1924
 %%Pages: 1
 %%DocumentResources: procset mpost-minimal
 %%DocumentSuppliedResources: procset mpost-minimal
@@ -52,5 +52,8 @@ newpath -12.44724 2.82968 moveto
 gsave fill grestore stroke
 newpath -16.00905 1.0093 moveto
 -17.78342 0.783 -19.53609 0.44563 -21.25726 0.00124 curveto stroke
+ 0 3 dtransform truncate idtransform setlinewidth pop
+newpath 21.25742 -0.0012 moveto 0 0 rlineto stroke
+newpath -21.25742 0.0012 moveto 0 0 rlineto stroke
 showpage
 %%EOF

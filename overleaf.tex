@@ -4,7 +4,7 @@
 
 \section{Introduction}
 
-A collection $\mathcal C=\{C_1, C_2, \ldots \}$ of convex bodies in $\mathbb R^d$ is called a \emph{packing} if no two of them have an interior point in common. We assume that two convex bodies of $\mathcal{C}$ may touch each other. % We will also only consider packings of unit disks~--- that is, disks of unit diameter.
+A collection $\mathcal C$ of convex bodies in $\mathbb R^d$ is called a \emph{packing} if no two of them have an interior point in common. We assume that two convex bodies of $\mathcal{C}$ may touch each other. % We will also only consider packings of unit disks~--- that is, disks of unit diameter.
 In the current paper, we are only interested in finite packings of disks (and balls) of unit diameters, and therefore, we omit the phrase ``of unit diameter'' most of the time.
 
 % If not constraining ourselves to two dimensions, different types of packings are interesting to people.
@@ -54,12 +54,14 @@ The hexagonal arrangement of disks gives the trivial lower bound $f(n) \geq 1 + 
 % $f(n) = (1 - o(1))\dfrac{2\pi}{\sqrt{3}}n^2$.
 % \end{theorem}
 
+It is also worth mentioning that this pattern does not generalize on all $n$. In fact, $f(n) = \dfrac{2\pi}{\sqrt{3}}n^2\cdot(1 + o(1))$, but the paper with this result is in progress at the moment of writing.
+
 This paper is organized as follows. In Section~2 we introduce the required notation and two key lemmas, Lemma~\ref{lemma:master} and Lemma~\ref{lemma:good_curve}. After this we deduce Theorem~\ref{theorem:f_of_3} from these lemmas. In Section~3 we prove Lemma~\ref{lemma:master}. The proof of Lemma~\ref{lemma:good_curve} is separated into constructing a curve of certain type (Section~4), reducing Lemma~\ref{lemma:good_curve} to a certain local inequality Claim~\ref{lemma:can-construct-without-alpha} (Section~5), and, finally, establishing this inequality (Section~6).
 
 % \textbf{Todo: mention lemma 2.1 and compare it with the triangle inequality, also add the detailed plan of section 2.} The paper is organized as follows. In Section 2 (todo: make this number relative) we prove Theorem \ref{theorem:f_of_3}, in Section 3 we give an example of an arrangement showing $f(n) > 1 + 3n(n+1)$, and in Section 4 we adapt this example to prove Theorem \ref{theorem:f_asymptotic}. 
 
 \medskip \textbf{Acknowledgements.}
-The author thanks Alexey Balitskiy and Alexandr Polyanskii for helpful discussions and comments on drafts of this paper. The author also thanks Alexandr Polyanskii for simplifying the proof of Case~\ref{subsec:case-000}.
+The author thanks Alexey Balitskiy, Dmitry Krachun and Alexandr Polyanskii for helpful discussions and comments on drafts of this paper. The author also thanks Alexandr Polyanskii for simplifying the proof of Case~\ref{subsec:case-000}.
 
 \section{Proof of Theorem \ref{theorem:f_of_3} modulo the key lemmas}
 
@@ -324,35 +326,17 @@ This follows from the fact that $f_i$ and $f_j$ are always points of the boundar
 % \end{lemma}
 
 \begin{claim}\label{lemma:can-construct-gamma-ij}
-Let $\mathcal{D}_{ij}$ be a subsegment. Let $i = k_1 < \ldots < k_l = j$ be a sequence of indices of all disks from $\mathcal{D}_{ij}$ that are involved in $\sigma_{ij}$. Then there exists a sparse-centered curve $\gamma_{ij}$ satisfying the following properties.
-\begin{itemize}
-    \item $\gamma_{ij}$ consists of arcs of disks that are involved in $\sigma_{ij}$,
-    \item $\gamma_{ij}$ starts at $f_i$ and ends at $f_j$,
-    \item if $i_1 < i_2$ then the arc of $B_{k_{i_1}}$ occurs in $\gamma_{ij}$ before the arc of $B_{k_{i_2}}$.
-\end{itemize}
+Let $\mathcal{D}_{ij}$ be a subsegment. Let $i = k_1 < \ldots < k_l = j$ be a sequence of indices of all disks from $\mathcal{D}_{ij}$ that are involved in $\sigma_{ij}$. Let $\gamma_{ij}$ be the curve constructed in the following way:
+\begin{enumerate}
+    \item $\gamma_{ij}$ starts at $f_i$ and goes counterclockwise along $\partial B_i$ until meeting $\partial B_{k_2}\cap R_{ij}$,
+    \item Then $\gamma_{ij}$ goes counterclockwise along $\partial B_{k_2}$ until meeting $\partial B_{k_3}$,
+    \item Then it goes in the following manner along $B_{k_3}$, \ldots, $B_{k_{l-1}}$,
+    \item Finally, $\gamma_{ij}$ goes along $\partial B_j$, ending at $f_j$.
+\end{enumerate}
+Let $\gamma$ be the concatenation of all $\gamma_{ij}$. Then $\gamma$ is a well-defined sparse-centered curve containing $\partial S$.
 \end{claim}
 
-\begin{proof}%[Constructing $\gamma_{ij}$ and $\gamma$]
-Recall that there are either 3 or 5 disks in the subsegment $\mathcal{D}_{ij}$.
-
-Note that for each valid $m$ the disks $B_{k_m}$ and $B_{k_{m+1}}$ of unit radius intersect or touch each other, that is, the distance between points $c_{k_m}$ and $c_{k_{m+1}}$ is at most $2$. Indeed, if $k_{m+1}\leq k_m + 2$, then by the triangle inequality $|c_{k_{m+1}} - c_{k_m}|\leq k_{m+1}-k_m\leq 2$. 
-Otherwise, $k_{m+1} = k_m + 4$ or $k_{m+1} = k_m + 3$. If $k_{m+1} = k_m + 4$, that is, $k_m = i$ and $k_{m+1} = j$, the disks $B_{k_m}$ and $B_{k_{m+1}}$ are the only disks involved in $\sigma_{ij}$, and therefore, they have to intersect. If $k_{m+1} = k_m + 3$, we may assume without loss of generality that $i = k_m$ and $j = k_{m+1} + 1$.
-But then, if we condider any arc of $\partial B_{k_{m+1}}\cap \sigma_{ij}$, we can see that one of its endpoints belongs to $\partial B_j$, and the other belongs to $\partial B_i$. Indeed, these endpoints belong to $R_{ij}$, and they cannot both lie on any of $\partial{B_j}$ and $\partial{B_i}$. On the other hand, $B_i$ and $B_j$ are the only involved disks other than $B_{k_{m+1}}$. Therefore, disks $B_{k_m}$ and $B_{k_{m+1}}$ intersect.
-
-Denote by $p_m$ the point at distance $1$ from $c_{k_m}$ and $c_{k_{m+1}}$, such that $(p_m - c_{k_m})\times(c_{k_{m+1}} - c_{k_m})\geq 0$.
-% Note that $p_m\in S_{ij}$. Indeed, otherwise, due to continuity, some point of the interval $(c_{k_m}, p_m)$ is a boundary point of $S_{ij}$
-Also set $p_0 = f_i$ and $p_l = f_j$. Then the curve we construct is the concatenation of the following arcs, in order: For each $m\in[l]$ take the arc of $\partial B_{k_m}$ going counterclockwise from $p_{m-1}$ to $p_m$. We claim that this curve is valid.
-
-Indeed, consider any two disks $B_{k_m}$ and $B_{k_{m+1}}$. We claim that the part of the arc of $B_{k_m}$ after $p_m$ (counterclockwise) is entirely inside $S$. Indeed, suppose the contrary.
-Consider all arcs among $\partial{B_{k_m}}\cap \sigma_{ij}$, and look at the first of them after $p_m$ if we proceed from it counterclockwise. At least one of endpoints of this arc is an intersection point of $\partial{B_{k_m}}$ and some $\partial{B_u}$ for $u\neq k_{m+1}$; denote this point by $q$.
-% Consider any point $q$ of the arc of $B_{k_m}$ between $p_m$ and $c_{k_{m}+1}$. Let $q'$ be the first point after $q$ (counterclockwise) of $\partial{B_{k_m}}$ belonging to $\partial{S}$. Then $q'$ is at unit distance from some center $c_u$ where $u\neq k_m$. One can note that $u\neq k_{m+1}$.
-Since all disks between $B_{k_m}$ and $B_{k_{m+1}}$ are not involved, $u$ is not from $[k_m, k_{m+1}]$. Consider a polygon whose vertices are, in order, $c_{k_m}$, $c_{k_m + 1}$, \ldots, $c_{k_{m+1}}$, $p_m$. All sides of this polygon are of unit length, yet $|q - c_u| = 1$, point $q$ is in this polygon, and point $c_u$ is outside of this polygon. This is absurd according to the same reasoning as in the proof of Lemma~\ref{lemma:only_inner}.
-
-Note that we did not prove that $p_m\in R_{ij}$. In fact, this is always true, but since we do not rely on it, we do not bother showing this. We also did not require $\gamma_{ij}$ to lie in $R_{ij}$.
-
-Finally, connecting all $\gamma_{ij}$, we obtain the curve $\gamma$.
-
-\end{proof}
+The proof is given in Appendix~\ref{section:proof-of-claim}.
 
 
 \section{The local inequality implies Lemma~\ref{lemma:good_curve}}
@@ -855,38 +839,310 @@ $$3\psi - \frac{2\pi}{3} + 2\varphi\geq 2\pi - \frac{2\pi}{3} = \frac{4\pi}{3} =
 
 We have shown that $f(3) = 37$, where $f(n)$ is the maximum possible number of disks in a packing of kissing radius $n$. In other words, triangular lattice provides the optimal size of the packing. It is not known whether $f(4) = f(3) + 24 = 61$ or not.
 
-Lemma~\ref{lemma:master} can be generalized on arbitrary distances.
+% Lemma~\ref{lemma:master} can be generalized on arbitrary distances.
 
-\begin{lemma}
-Let $\gamma$ be a sparse-centered curve with endpoints $a$ and $b$. If $d = |a - b|$, then
-$$|\gamma|\geq \lfloor d\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d\}}{2},$$
-where $\{x\} = x - \lfloor x\rfloor$. Moreover, this inequality is sharp.
-\end{lemma}
+% \begin{lemma}
+% Let $\gamma$ be a sparse-centered curve with endpoints $a$ and $b$. If $d = |a - b|$, then
+% $$|\gamma|\geq \lfloor d\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d\}}{2},$$
+% where $\{x\} = x - \lfloor x\rfloor$. Moreover, this inequality is sharp.
+% \end{lemma}
 
-\begin{proof}
-If $d\leq 1$, then the proof is analogous to the one of Lemma~\ref{lemma:master}. Otherwise, by continuity, $\gamma$ can be split into two curves $\gamma_1$ and $\gamma_2$ where the endpoints of $\gamma_1$ are $d - 1$ from each other. Then, by the triangle inequality, the endpoints of $\gamma_2$ are at least $1$ from each other. By induction on $\lfloor d\rfloor$, we obtain that
-$$|\gamma| = |\gamma_1| + |\gamma_2|\geq \lfloor d - 1\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d - 1\}}{2} + \frac{\pi}{3} = \lfloor d\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d\}}{2}.$$
+% \begin{proof}
+% If $d\leq 1$, then the proof is analogous to the one of Lemma~\ref{lemma:master}. Otherwise, by continuity, $\gamma$ can be split into two curves $\gamma_1$ and $\gamma_2$ where the endpoints of $\gamma_1$ are $d - 1$ from each other. Then, by the triangle inequality, the endpoints of $\gamma_2$ are at least $1$ from each other. By induction on $\lfloor d\rfloor$, we obtain that
+% $$|\gamma| = |\gamma_1| + |\gamma_2|\geq \lfloor d - 1\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d - 1\}}{2} + \frac{\pi}{3} = \lfloor d\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d\}}{2}.$$
 
-To show that the inequality is sharp, pick $c = \lfloor d\rfloor + 1$ points on a line $m$ with distance $1$ between every adjacent pair. Let $\sigma$ be the boundary of unit radius balls centered at these points. The line $m$ divides $\sigma$ into two equal halves, let $n$ be the axis of symmetry of each of them. Let $\gamma$ be a curve lying on $\sigma$ and symmetrical about $n$. We claim that it has the aforementioned length. Again, it can be shown by induction on $\lfloor d\rfloor$. If $d < 1$, then it can be verified by direct computation. Otherwise, let $a$ be the endpoint of $\gamma$ at distance $1$ from $p_1$. Let $b$ be the other endpoint of $\gamma$, and let $b'$ be such point that $b - b' = p_c - p_{c - 1}$.
+% To show that the inequality is sharp, pick $c = \lfloor d\rfloor + 1$ points on a line $m$ with distance $1$ between every adjacent pair. Let $\sigma$ be the boundary of unit radius balls centered at these points. The line $m$ divides $\sigma$ into two equal halves, let $n$ be the axis of symmetry of each of them. Let $\gamma$ be a curve lying on $\sigma$ and symmetrical about $n$. We claim that it has the aforementioned length. Again, it can be shown by induction on $\lfloor d\rfloor$. If $d < 1$, then it can be verified by direct computation. Otherwise, let $a$ be the endpoint of $\gamma$ at distance $1$ from $p_1$. Let $b$ be the other endpoint of $\gamma$, and let $b'$ be such point that $b - b' = p_c - p_{c - 1}$.
 
-\begin{figure}
-    \centering
-    \includegraphics{pics/general-master-lemma.mps}
-    \caption{An optimal curve $\gamma$}
-    \label{fig:my_label}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics{pics/general-master-lemma.mps}
+%     \caption{An optimal curve $\gamma$}
+%     \label{fig:my_label}
+% \end{figure}
 
-Since $a$ and $b$ are symmetrical about $n$, and $b - b' = p_c - p_{c-1}$, points $a$, $b'$ and $b$ belong to the same line. Moreover, $b'$ lies between $a$ and $b$, so $|b' - a| = |b - a| - |b - b'| = d - 1$. This implies that the part of $\gamma$ between $a$ and $b'$ is, by induction, of length $\lfloor d - 1\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d\}}{2}$. On the other hand, the part of $\gamma$ between $\gamma'$ and $\gamma$ has length $\pi/3$. This proves the induction step.
-\end{proof}
+% Since $a$ and $b$ are symmetrical about $n$, and $b - b' = p_c - p_{c-1}$, points $a$, $b'$ and $b$ belong to the same line. Moreover, $b'$ lies between $a$ and $b$, so $|b' - a| = |b - a| - |b - b'| = d - 1$. This implies that the part of $\gamma$ between $a$ and $b'$ is, by induction, of length $\lfloor d - 1\rfloor\cdot\frac{\pi}{3} + 2\arcsin\frac{\{d\}}{2}$. On the other hand, the part of $\gamma$ between $\gamma'$ and $\gamma$ has length $\pi/3$. This proves the induction step.
+% \end{proof}
 
 % $$\Dj = \frac{2\pi}{3} + \psi \leq 3\psi - \frac{2\pi}{3} + 2\varphi,$$
 
 \bibliographystyle{unsrt}
 \bibliography{three-layers}
 
-% \newpage
+\newpage
 
-% \appendix
-% \begin{appendices}
+\appendix
+\begin{appendices}
 
-% \section{Proof of Case~\ref{subsec:case-000}}\label{section:trigonom-proof}
+\section{Proof of Claim~\ref{lemma:can-construct-gamma-ij}}\label{section:proof-of-claim}
+
+Before proving Claim~\ref{lemma:can-construct-gamma-ij}, we first state some properties of Delaunay triangulations, which we then use.
+
+\subsection{Properties of Delaunay triangulations}
+
+Recall that a Delaunay triangulation of a finite set of points is a triangulation where, for each triangle $pqr$ and any other point $s$ of the set, $s$ does not lie inside the circumcircle of $pqr$. If a Delaunay triangulation is fixed, we call any of its triangles just a \emph{Delaunay triangle}. In particular, if $pqr$ and $qps$ are two Delaunay triangles, then $\angle prq + \angle qsp\leq\pi$. For any triangle $\Delta$ denote by $R(\Delta)$ the circumradius of $\Delta$.
+
+\begin{lemma}\label{lemma:no-obtuse-in-delaunay}
+Let $pqrs$ be a convex quadrilateral. Let $\triangle pqr$ and $\triangle rsp$ be the faces of its Delaunay triangulation. If $R(\triangle pqr) < 1 \leq R(\triangle rsp)$, then $\angle rsp < \pi/2$.
+\end{lemma}
+
+\begin{proof}
+We argue by contradiction. Suppose that $\angle rsp \geq \pi/2$. Then, since we have a Delaunay triangulation, $\angle pqr + \angle rsp \leq \pi$, or, equivalently, $\angle pqr \leq \pi - \angle rsp \leq \pi/2$. Thus, $\sin\angle pqr \leq \sin\angle rsp$.
+
+Then, by the law of sines, $$2R(\triangle pqr) = \frac{|p - r|}{\sin\angle pqr} \geq \frac{|p - r|}{\sin\angle rsp} = 2R(\triangle rsp),$$ which contradicts the assumption.
+\end{proof}
+
+Note that the essential condition in this lemma is $R(\triangle pqr) < R(\triangle rsp)$; however, we strenghtened it by separating both sides with $1$ for more clear applications in the future.
+
+\begin{lemma}\label{lemma:delaunay-sorted-process}
+Given a set $S$ of $m$ points on the plane, consider all $\binom{m}{3}$ triangles with vertices among these points in the nondecreasing order of the circumradius. Start with $\mathcal{F} = \varnothing$, and at each step, if the interior of the current triangle does not contain any of the points and does not intersect anything from $\mathcal{F}$, then add the considered triangle to $\mathcal{F}$.
+
+Then the set $\mathcal{F}$ at the end of the process is the set of faces of some Delaunay triangulation of $S$.
+\end{lemma}
+
+\textbf{Remark.} Some properties of Delaunay triangulations regarding the circumradii were already discovered, for example, in~\cite{Musin1997Delaunay}.
+
+\begin{proof}
+It is obvious that at the end $\mathcal{F}$ will be a triangulation of $S$. Indeed, suppose that $\cup\mathcal{F}\neq\mathrm{conv}\,S$. This means that there is a point $p\in\cup\mathcal{F}\setminus\mathrm{conv}\,S$, and we may assume that $p$ does not belong to any segment between any two points of $S$. Then there is at least one way to finish the triangulation, hence the set of all triangles containing $p$ and whose interiors do not intersect $\cup\mathcal{F}$ is not empty. Therefore, we should have added to $\mathcal{F}$ any of such triangles with minimum circumradius.
+
+If the final triangulation is not Delaunay, then it is possible to do a ``flip''; that is, there is a convex quadrilateral $pqrs$ that $\triangle{pqr}\in\mathcal{F}$ and $\triangle{rsp}\in\mathcal{F}$, and also $\angle{pqr} + \angle{rsp} > \pi$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{pics/iterative-delaunay.mps}
+    \caption{Lemma~\ref{lemma:delaunay-sorted-process}}
+    \label{fig:delaunay-flip}
+\end{figure}
+
+Note that no other point belongs to the quadrilateral $pqrs$, even to its boundary. Indeed, if, say, there is a point $t\in [p, q]$, then we should have considered $\triangle ptr$ or $\triangle qtr$ before $\triangle pqr$.
+
+Without loss of generality, assume that $R(\triangle{pqr})\leq R(\triangle{rsp})$. Let $\omega$ be the circumcircle of $\triangle{pqr}$. Since $\angle{pqr} + \angle{rsp} > \pi$, we know that $s$ lies inside $\omega$. This implies that $\angle{rsq} > \angle{rpq}$ and $\angle{qsp} > \angle{qrp}$. Since $\angle{rsq} + \angle{qsp} = \angle{rsp} < \pi$, at least one of $\angle{rsq}$ and $\angle{qsp}$ is acute. If $\angle{rsq} < \pi/2$ then $\sin\angle{rsq} > \sin\angle{rpq}$, and, by the law of sines,
+$$R(\triangle{rsq}) = R(\triangle{rpq})\cdot\frac{\sin\angle{rpq}}{\sin\angle{rsq}} < R(\triangle{rpq})\leq R(\triangle{rsp}).$$
+Then we should have considered $\triangle{rsq}$ before any of $\triangle{pqr}$ and $\triangle{rsp}$ and added it to $\mathcal{F}$.
+
+The case when $\angle{qsp} < \pi/2$ is analogous.
+\end{proof}
+
+We also remind that a \emph{Voronoi diagram} of a set $S$ of points is the division of the plane into (possibly unbounded) regions, which are also called \emph{cells}, and the region corresponding to a point $p\in S$ is defined as
+$$\{x\in\mathbb{R}^2\,\colon\,\forall q\in S\quad |x - p|\leq |x - q|\}.$$
+It is clear that each cell is a polyhedron, that is, an intersection of some halfplanes. It is also known that Voronoi diagram is dual to Delaunay triangulation in a sense that two points are connected by an edge in the Delaunay triangulation if and only if their corresponding Voronoi cells share a side, with some minor nuances.
+
+In particular, a set of points may have several Delaunay triangulations, if there is a circle containing more than three points of $S$ on its boundary and no points from $S$ inside. In this case the points on this circle may be triangulated arbitrarily, and the Voronoi cells of any of them contains the center of this circle. So it would be formally correct to say that if two Voronoi cells share a side, then the corresponding points are connected in every Delaunay triangulation, and if two Voronoi cells share a point, then the corresponding points may or may not be connected in a Delaunay triangulation.
+
+We will use the duality in the following form: if for some points $p$ and $q$ from $S$ and $x$ from $\mathbb{R}^2$ we have
+$$\forall r\in S\setminus\{p, q\}\quad |x - p| = |x - q| < |x - r|,$$
+then $p$ and $q$ are connected in any Delaunay triangulation of $S$.
+
+\subsection{Proof of Claim~\ref{lemma:can-construct-gamma-ij}}
+
+Recall that we are given a packing $\mathcal{P}$, and $(c_1, \ldots, c_n)$ is the cyclic sequence of all centers of disks from $\mathcal{P}$, in the order of traversal. The corresponding disks of unit diameter are denoted by $D_i$, and $B_i$ is the open disk with unit radius, centered at $c_i$. We say that $\mathcal{D}_{ij} = (D_i, \ldots, D_j)$ is a subsegment, if $D_i$ and $D_j$ are two consecutive $2$-disks. For any subsegment $\mathcal{D}_{ij}$ we denote by $R_{ij}$ the region bounded by segments $[c_i, c_{i+1}]$, \ldots, $[c_{j-1}, c_j]$, and two rays going from $c_i$ and $c_j$ in the direction from the origin, which is also the center of the $0$-disk; see Figure~\ref{fig:regions} on page~\pageref{fig:division-into-regions}. The union of all $B_i$ is denoted by $S$, and $\partial{S}\cap R_{ij}$ is denoted by $\sigma_{ij}$. If $D_k\in\mathcal{D}_{ij}$ and $\partial{B_k}\cap\sigma_{ij}\neq\varnothing$, we say that $B_k$ is \emph{involved} in $\sigma_{ij}$.
+
+We want to show that it is possible to remove some points from the sequence $(c_1, \ldots, c_n)$, so that, if we construct the curve $\gamma$ on the remaining points, it will be valid, in particular, in terms of going counterclockwise.
+% Informally, if we just try and build the curve on the initial sequence containing the whole traversal, allowing it to go clockwise, and then exclude the points corresponding to clockwise arcs one by one, we would eventually achieve the goal.
+% Instead of dealing with this removal process, which is hard, we will use Delaunay triangulation, as it is essentially the same and is easier and nicer to work with. More specifically, excluding a point $q$ so that the sequence transforms like $(\ldots, p, q, r, \ldots)\to(\ldots, p, r, \ldots)$ will correspond to $\triangle pqr$ being a special face of some Delaunay triangulation.
+
+Let $\mathcal{F}$ be the Delaunay triangulation of the set of points $\{c_1, \ldots, c_n\}$, and let $\{F_1, \ldots\}$ be the set of its triangular faces.
+% We will call a triangle $\Delta$ a \emph{Delaunay triangle}, if $\Delta = F_i$ for some $i$.
+It can be seen that $\mathcal{F}$ contains an edge between points $c_i$ and $c_{i+1}$. Indeed, if we consider the Voronoi diagram of the set of disks $\{c_1, \ldots, c_n\}$, then, since disks $D_i$ and $D_{i+1}$ touch each other, their common point lies on the common edge of Voronoi cells corresponding to them, as this point is strictly outside all other disks. Since $\mathcal{F}$ is dual to the Voronoi diagram, points $c_i$ and $c_{i+1}$ are connected in $\mathcal{F}$.
+
+Let $T = \bigcup_{i=1}^n[c_i, c_{i+1}]$ be the drawing of the $\mathcal{P}$-tree on the plane. We also define $$E = T\cup\bigcup\{F_i\,\colon\, R(F_i) < 1\}.$$
+
+\textbf{Remark.} The set of all Delaunay triangles and edges with \emph{covering radius} not exceeding $1$ (that is, triangles and edges that can be covered by a disk of unit radius) corresponds to a simplicial complex known as \emph{$\alpha$-complex}~\cite{alpha_shapes}. We, however, are interested in circumradius instead of covering radius. It is also crucial that the circumradius of a triangle must be strictly less than $1$.
+
+\begin{lemma}\label{lemma:small-R-is-good}
+Let $\triangle pqr$ be a triangle. For any point $t$, denote by $B_1(t)$ the open disk of unit radius centered at $t$. Let $K_q$ be the convex cone $\{q + \alpha(p - q) + \beta(r - q)\,\colon\,\alpha, \beta\geq 0\}$, and let $s_q$ be the arc $\partial B_1(q)\cap K_q$. If $R(\triangle pqr) < 1$, then $s_q\subset B_1(p)\cup B_1(r)$.
+\end{lemma}
+
+\begin{proof}
+Let $C_q$ be the part of the Voronoi cell of points $\{p, q, r\}$ corresponding to the point $q$, restricted on $K_q$. Let $o$ be the circumcenter of $\triangle pqr$. It can be shown that $C_q$ lies inside the circle with diameter $oq$. Since $|o - q| = R(\triangle pqr) < 1$, it implies that this circle, in turn, belongs to $B_1(q)$. Therefore, $s_q$ is covered by Voronoi cells of $p$ and $r$; thus, for every point $t$ of $s_q$ either $|t - p|$ or $|t - r|$ is less than $|t - q|$, which is $1$.
+\end{proof}
+
+\begin{lemma}\label{lemma:E-is-connected}
+$E$ is simply connected, or, equivalently, $\mathbb{R}^2\setminus E$ is connected.
+\end{lemma}
+
+\begin{proof}
+Note that every triangle with circumradius less than $1$ has to be in a single region.
+% Indeed, in every such triangle not intersecting $T$ one of the angles has to be at least $2\pi / 3$, and, since all its sides are at least $1$, its curcumradius is also at least $1$. Therefore, from now on we can only consider the triangles belonging to a single region.
+Indeed, suppose that some Delaunay triangle $pqr$ is not contained in any $R_{ij}$. This means that for some $2$-disk $D_k$ the triangle $pqr$ intersects the segment $[c_k, f_k]$, where $f_k = c_k + \frac{c_k}{|c_k|}$.
+Since the segment $[p, q]$ has to intersect the border between regions, and it cannot intersect $T$, we can assume, without loss of generality, that $[p, q]$ intersects $[c_k, f_k]$. We may additionally assume that neither $p$ nor $q$ coincides with $c_k$.
+
+As shown in the proof of Observation~\ref{lemma:far}, angles $\angle pc_k0$ and $\angle 0c_kq$ do not exceed $2\pi/3$. Since $p$ and $q$ are at the different sides from line $\left<c_k\right>$, we have $\angle pc_kq\geq2\pi/3$. This also implies that $|p - q|\geq \sqrt{3}$.
+
+If $r = c_k$, then $R(\triangle pc_kq)\geq 1$ due to the law of sines. Otherwise we can assume that $r$ and $c_k$ are at the different sides from the line through $p$ and $q$. Since $\triangle pqr$ is a Delaunay triangle, the circumcircle of $\triangle pqr$ does not contain $c_k$. Therefore, $\angle pqr\leq\pi/3$, and due to the law of sines, $2R(\triangle pqr)\geq \frac{\sqrt{3}}{\sqrt{3}/2} = 2$.
+
+Therefore, it suffices to prove the lemma separately for each subsegment $\mathcal{D}_{ij}$. More specifically, we need to prove that among all Delaunay faces within the corresponding region no triangle with small circumradius ``blocks'' a triangle with large circumradius. The case when $j = i + 2$ is trivial, so we will stick to the case when $j = i + 4$. For simplicity, we may assume that $i = 1$ and $j = 5$.
+
+We will keep in mind that $|c_k - c_{k+1}| = 1$ for every $k$. In particular, the inequality $R(\triangle c_{k-1}c_kc_{k+1}) < 1$ is equivalent to the inequality $\angle c_{k-1}c_kc_{k+1} < 2\pi/3$. We will also only consider triangles which are in $R_{ij}$.
+
+Suppose that a triangle with circumradius smaller than $1$, merged with $T$, divides the plane into two components, of which the bounded one contains a Delaunay triangle with circumradius at least $1$. Without loss of generality, we can assume that one of the following cases takes place; see Figure~\ref{fig:delaunay-blocking-cases} (in all cases below, when we mention $R(\Delta)$, we assume that $\Delta$ is a Delaunay triangle).
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{.48\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/delaunay-blocking-case-1.mps}
+    \end{subfigure}
+    \begin{subfigure}[t]{.48\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/delaunay-blocking-case-2.mps}
+    \end{subfigure}
+    \begin{subfigure}[t]{.48\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/delaunay-blocking-case-3.mps}
+    \end{subfigure}
+    \begin{subfigure}[t]{.48\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/delaunay-blocking-case-4.mps}
+    \end{subfigure}
+    \caption{Cases from Lemma~\ref{lemma:E-is-connected}. Gray triangles have circumradii less than $1$.}
+    \label{fig:delaunay-blocking-cases}
+\end{figure}
+
+\begin{itemize}
+    \item $R(\triangle c_{k-2}c_{k-1}c_k)\geq 1 > R(\triangle c_{k-2}c_kc_{k+1})$ for $k = 3$ or $k = 4$. % By the law of sines, $\sin \angle c_{k-2}c_{k-1}c_k < \sin \angle c_kc_{k+1}c_{k-2}$; hence, the quadrilateral $c_{k-2}c_{k-1}c_kc_{k+1}$ is convex.
+    In this case the first inequality implies that $\angle c_{k-2}c_{k-1}c_k\geq 2\pi/3 > \pi/2$. Hence, the quadrilateral $c_{k-2}c_{k-1}c_kc_{k+1}$ is convex, and the inequality $\angle c_{k-2}c_{k-1}c_k\geq \pi/2$ contradicts Lemma~\ref{lemma:no-obtuse-in-delaunay}.
+    
+    \item $R(\triangle c_1c_4c_5) < 1$, $c_1c_2c_3c_4$ is a quadrilateral, which is divided by $\mathcal{F}$ into two triangles, both having circumradius at least $1$. In this case, since neither $\triangle c_1c_2c_3$ nor $\triangle c_2c_3c_4$ have circumradius less than $1$ due to Lemma~\ref{lemma:delaunay-sorted-process}, we conclude that both $\angle c_1c_2c_3$ and $\angle c_2c_3c_4$ are at least $2\pi/3$. Then $|c_1 - c_4|\geq 2$, which contradicts the fact that $R(\triangle c_1c_4c_5) < 1$.
+    
+    \item $R(\triangle c_1c_4c_5) < 1$, $R(\triangle c_1c_2c_3) < 1$, $R(\triangle c_1c_3c_4)\geq 1$. By the law of sines for $\triangle c_3c_1c_4$,
+    $$\frac{|c_3 - c_4|}{\sin\angle c_3c_1c_4} \geq 2 \Rightarrow \sin\angle c_3c_1c_4\leq\frac12.$$
+    Since the shortest side of $\triangle c_1c_3c_4$ is $c_3c_4$, this excludes the possibility that $\angle c_3c_1c_4\geq5\pi/6$, leaving us with $\angle c_3c_1c_4\leq\pi/6$.
+    
+    Then, as $R(\triangle c_1c_2c_3) < 1$, we know that $|c_1 - c_3| < \sqrt{3}$. By the law of sines for $\triangle c_1c_4c_3$,
+    $$\frac{|c_1 - c_3|}{\sin\angle c_1c_4c_3} \geq 2 \Rightarrow \sin\angle c_1c_4c_3 < \frac{\sqrt 3}{2}.$$ Since $\angle c_1c_4c_3\leq \pi - \angle c_1c_2c_3\leq2\pi/3$, we have $\angle c_1c_4c_3 < \pi/3$. Finally, by Lemma~\ref{lemma:no-obtuse-in-delaunay}, $\angle c_1c_3c_4 < \pi/2$, which leads to $\triangle c_1c_3c_4$ having angles with sum less than $\pi$, thus a contradiction.
+    
+    \item $R(\triangle c_1c_4c_5) < 1$, $R(\triangle c_2c_3c_4) < 1$, $R(\triangle c_1c_2c_4)\geq 1$. This case is completely analogous to the previous one.
+\end{itemize}
+% Since in all cases we came to a contradiction, we establish the simple connectedness of $E$.
+\end{proof}
+
+According to Lemma~\ref{lemma:E-is-connected}, all triangles $\Delta$ of $\mathcal{F}$ with $R(\Delta) < 1$ can be ordered in such a way, that, if we add them to $T$ one by one, the union is always simply connected. Formally, if $\mathcal{F} = \{F_1, \ldots, F_m\}$, define $\mathcal{F}_k = \{F_1, \ldots, F_k\}$. Also define $E_0 = T$ and $E_k = E_{k-1}\cup F_k$ for all $k\in[m]$. In particular, $\mathcal{F}_0 = \varnothing$, $\mathcal{F}_m = \mathcal{F}$, and $E_m = E$. Then, due to Lemma~\ref{lemma:E-is-connected}, we may assume that all $E_i$ are simply connected. In particular, this means that for all $i\in[m]$ the triangle $F_i$ may be represented as $pqr$, where $p$, $q$, $r$ are three consecutive vertices of $\partial E_i$ in this order.
+
+Let $(d_1, \ldots, d_k) = (c_{i_1}, \ldots, c_{i_k})$ be the cyclic sequence of all endpoints of the counterclockwise traversal of $\partial{E}$, and let $I = \{i_1, \ldots, i_k\}$.
+% Define $pr(i_k) = i_{k-1}$ and $nx(i_k) = i_{k+1}$.
+For all $j$ define $s_j$ as the arc of $B_{i_j}$ within the angle going counterclockwise from ray $[d_jd_{j-1})$ to ray $[d_jd_{j+1})$. If $d_{j-1} = d_{j+1}$ then we assume that $s_j$ has length $2\pi$, not $0$.
+Developing the notation of Lemma~\ref{lemma:small-R-is-good}, for all $j$ define $K_j$ as the cone
+$$d_j + \{\lambda x\,\colon\,\lambda\geq 0, x\in s_j\}.$$
+In particular, $s_j = \partial B_{i_j}\cap K_j$. Note that, unlike in Lemma~\ref{lemma:small-R-is-good}, the cone $K_j$ does not have to be convex.
+
+Lemma~\ref{lemma:small-R-is-good} says that if $F_i = \triangle pqr$, then $s_q\subset B_1(p)\cup B_1(r)$. We need the inverse of this.
+
+\begin{lemma}\label{lemma:covered-arc-implies-small-R}
+% Let $p$, $q$ and $r$ be consecutive members of $(c_{i_j})_{j=1}^k$. Then
+$s_j\not\subset B_{i_{j-1}}\cup B_{i_{j+1}}$.
+\end{lemma}
+
+\begin{proof}
+For simplicity, let $p = d_{j-1}$, $q = d_j$, $r = d_{j+1}$. Also, define for consistency $s_q = s_j$ and $K_q = K_j$.
+
+First of all, if $|s_j|\geq\pi$, then both $B_{i_{j-1}}$ and $B_{i_{j+1}}$ intersect $s_j$ over an arc of length at most $\pi/3$, which implies the required relation. Otherwise, assume that $\angle qrp > \pi/2$. This implies that the side $pq$ is the largest in $\triangle pqr$, thus is longer than $1$. Therefore, there is the triangle $F_i\in\mathcal{F}$ such that $F_i = \triangle psq$ for some $s$.
+
+Since $s$ and $r$ are at different sides from $pq$, we have $\angle psq + \angle qrp\leq\pi$, as otherwise the circumcircle of $\triangle psq$ would contain $s$, and hence, $\triangle psq$ would not be a Delaunay triangle. But then $psqr$ is a convex quadrilateral, and, according to Lemma~\ref{lemma:delaunay-sorted-process}, $\triangle psq$ has the smallest circumradius among all triangles with vertices from $\{p, s, q, r\}$. Hence, triangles $\triangle qrp$ and $\triangle psq$ are the Delaunay triangles in the triangulation of $\{p, q, r, s\}$, and the inequality $\angle qrp > \pi/2$ contradicts Lemma~\ref{lemma:no-obtuse-in-delaunay}. Therefore, the case $\angle qrp > \pi/2$ is impossible; similar to the case $\angle rpq > \pi/2$.
+
+Since none of $\angle qrp$ and $\angle rpq$ is obtuse,
+the proof of Lemma~\ref{lemma:small-R-is-good} works in the opposite way.
+Indeed, let $o$ be the circumcenter of $\triangle pqr$. We know that $o$ is inside $K_q$; thus, the segment $[o, q]$ intersects $s_q$. If $t$ is the intersection point, then $|t - p|\geq |t - q| = 1$ and $|t - r|\geq |t - q| = 1$; thus, $t\in s_q\setminus(B_1(p)\cup B_1(r))$.
+\end{proof}
+
+The following two lemmas are the main lemmas of the whole proof. Lemma~\ref{lemma:delaunay-covers-neighbors} states that $I$ is the sequence of all involved disks, and hence, we only need those disks to build a curve containing $\partial S$. The last lemma establishes the fact that the curve built as formulated in Claim~\ref{lemma:can-construct-gamma-ij} indeed covers $\partial S$.
+
+\begin{lemma}\label{lemma:delaunay-covers-neighbors}
+If $\mathcal{D}_{ij}$ is a subsegment and $D_k\in\mathcal{D}_{ij}$, then $k\in I$ if and only if $B_k$ is involved in $\sigma_{ij}$. In particular, if $D_i$ is a $2$-disk, then $i\in I$.
+\end{lemma}
+
+\begin{proof}
+Denote $F_i = \triangle pqr$, let $K_q = \{q + \alpha(p-q) + \beta(r-q)\,\colon\,\alpha, \beta\geq 0\}$, and let $S_q = B_1(q)\cap K_q$. We claim that $S_q\setminus\triangle{pqr}\subset B_1(p)\cup B_1(r)$. Essentially this means that whatever is covered by $B_1(q)$ within $K_q$, it either belongs to $\triangle pqr$ or is covered by $B_1(p)$ or $B_1(r)$. Then, if a disk $B_{i_k}$ is not involved, its arc $s_k$ must be covered by disks $B_{i_j}$.
+
+If one of $\angle qrp$ and $\angle rpq$ is at least $\pi/2$, then $S_q\setminus\triangle pqr = \varnothing$. Otherwise, the circumcenter $o$ of $\triangle pqr$ belongs to $K_q$, and, as in Lemma~\ref{lemma:small-R-is-good}, the part of the Voronoi cell of $q$ inside $K_q$ belongs to $\triangle pqr$. Therefore, $S_q\setminus\triangle pqr$ is covered by the other two Voronoi cells, which means that each of its points is less than $1$ away from at least one of $p$ and $r$.
+
+So if $B_k$ is involved in some $\sigma_{ij}$, then $k\in I$; therefore, this holds if $D_k$ is a $2$-disk. Indeed, if $k\notin I$, then at some point we added $\triangle pqr$ where $q$ corresponds to $c_k$. Due to Lemma~\ref{lemma:small-R-is-good}, the arc of $q$ between the two rays was covered by $B_1(p)$ and $B_1(r)$. On the other hand, due to what we showed above, the point of involvement should be on the arc of $q$ at the moment of adding $\triangle pqr$.
+
+What remains to prove is that if $\mathcal{D}_{ij}$ is a subsegment, then for any
+% $i < k < j$, if $k\in I$, then $B_k$ is involved in $\sigma_{ij}$.
+$k$ such that $i < i_k < j$, the disk $B_{i_k}$ is involved in $\sigma_{ij}$. Again, for simplicity we assume that $i = 1$ and $j = 5$.
+
+We remind that, due to Lemma~\ref{lemma:only_inner}, if a disk is not involved, then its arc is covered by other disks from the same region. We also remind that $s_k$ is the arc of $B_{i_k}$ within the angle going counterclockwise from ray $[d_kd_{k-1})$ to ray $[d_kd_{k+1})$. If $p\in s_k$, we will call the arc of $B_{i_k}$ withing the angle from ray $[d_kd_{k_1})$ to ray $[d_kp)$ a \emph{prefix} of $s_k$, and the arc from $[d_kp)$ to $[d_kd_{k+1})$ a \emph{suffix} of $s_k$.
+
+We know that $B_{i_{k-1}}$ and $B_{i_{k+1}}$ intersect $s_k$ by some prefix and some suffix of this arc. Since $R(\triangle d_{k-1}d_kd_{k+1})\geq 1$ due to Lemma~\ref{lemma:delaunay-sorted-process}, we know that these two neighbors do not cover $s_k$ entirely due to Lemma~\ref{lemma:covered-arc-implies-small-R}. Therefore, if $B_{i_k}$ is not involved in $\sigma_{ij}$, then there must be another disk $B_l$ covering a point of $s_k\setminus(B_{i_{k-1}}\cup B_{i_{k+1}})$. Without loss of generality we may assume that $l < i_k$. Consider all possible cases, see Figure~\ref{fig:delaunay-covers-neighbors-cases}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{.26\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/delaunay-covers-neighbors-case-1.mps}
+    \caption{$l = i_k - 2$}
+    \label{fig:delaunay-covers-neighbors-case-a}
+    \end{subfigure}
+    \begin{subfigure}[t]{.35\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/delaunay-covers-neighbors-case-2.mps}
+    \caption{$i_{k-1} = i_k - 1$, $i_{k-2} = i_k - 3$}
+    \label{fig:delaunay-covers-neighbors-case-b}
+    \end{subfigure}
+    \begin{subfigure}[t]{.35\textwidth}
+    \includegraphics[width=.95\textwidth]{pics/delaunay-covers-neighbors-case-3.mps}
+    \caption{$i_{k-1} = i_k - 2$, $i_{k-2} = i_k - 3$}
+    \label{fig:delaunay-covers-neighbors-case-c}
+    \end{subfigure}
+    \caption{Cases from Lemma~\ref{lemma:delaunay-covers-neighbors}.}
+    \label{fig:delaunay-covers-neighbors-cases}
+\end{figure}
+
+\begin{itemize}
+    \item $i_{k-1} = i_k - 1$, $l = i_{k-2} = i_k - 2$. Since $B_{i_{k-1}}$ covers an arc of length $\pi/3$ of $s_k$, and $B_l$ covers the prefix of length $\pi - \angle{d_{k-2}d_{k-1}d_k}$, we have $\angle{d_{k-2}d_{k-1}d_k} < 2\pi/3$, which contradicts the fact that $R(\triangle d_{k-2}d_{k-1}d_k)\geq 1$; otherwise our process of adding triangles in ascending order would add this triangle as well. In particular, in this case $\pi - \angle{d_{k-2}d_{k-1}d_k} > 0$ must hold. See Figure~\ref{fig:delaunay-covers-neighbors-case-a}.
+    \item $i_{k-1} = i_k - 1$, $l = i_{k-2} = i_k - 3$. In all remaining cases, including this, $l = i_k - 3$, which implies that $l = 1$ and $i_k = 4$. By the law of sines for $\triangle c_1c_4c_3$,
+    $$\frac{|c_1 - c_3|}{\sin\angle c_1c_4c_3}\geq 2,$$
+    hence,
+    $$\sin\angle c_1c_4c_3 < \frac{\sqrt{3}}{2},$$
+    therefore,
+    $$\angle c_1c_4c_3 < \frac{\pi}{3}\text{ or }\angle c_1c_4c_3 > \frac{2\pi}{3}.$$
+    % \begin{align*}
+    %     \frac{|c_1 - c_3|}{\sin\angle c_1c_4c_3}\geq 2 & \Rightarrow \sin\angle c_1c_4c_3 < \frac{\sqrt{3}}{2} \\
+    %     & \Rightarrow \angle c_1c_4c_3 < \frac{\pi}{3}\text{ or }\angle c_1c_4c_3 > \frac{2\pi}{3}.
+    % \end{align*}
+    If $\angle{c_1c_4c_3} > 2\pi/3$, then $|c_1 - c_3| > \sqrt{3}$, which contradicts the fact that $\triangle c_1c_2c_3\in\mathcal{F}$, which leaves the only option $\angle c_1c_4c_3 < \pi/3$.
+    
+    Let $t\in s_k$ be the point such that $B_3$ covers the arc of $s_k$ between $c_3$ and $t$. In particular, $\triangle c_3c_4t$ is regular. Using our assumption that $B_1$ covers something on $s_k$ except the arc between $c_3$ and $t$, and the fact that $\angle c_3c_4c_1 < \pi/3$, we conclude that $|c_1 - t| < 1$ must hold. But then some point of the segment $[t, (c_4 + c_3)/2]$ must be the circumcenter of $\triangle c_1c_3c_4$. Since it is not $t$, we have $R(\triangle c_1c_3c_4) < 1$, which leads to a contradiction. See Figure~\ref{fig:delaunay-covers-neighbors-case-b}.
+    \item $i_{k-1} = i_k - 2$, $l = i_{k-2} = i_k - 3$. By the law of sines for $\triangle c_1c_4c_2$, we have
+    $$\frac{|c_1 - c_2|}{\sin\angle c_1c_4c_2}\geq 2,$$
+    hence,
+    $$\sin\angle c_1c_4c_2 \leq \frac{1}{2},$$
+    therefore,
+    $$\angle c_1c_4c_2 \leq \frac{\pi}{6}\text{ or }\angle c_1c_4c_2 \geq \frac{5\pi}{6}.$$
+    % \begin{align*}
+    %     \frac{|c_1 - c_2|}{\sin\angle c_1c_4c_2}\geq 2 & \Rightarrow \sin\angle c_1c_4c_2 \leq \frac{1}{2} \\
+    %     & \Rightarrow \angle c_1c_4c_2 \leq \frac{\pi}{6}\text{ or }\angle c_1c_4c_2 \geq \frac{5\pi}{6}.
+    % \end{align*}
+    Since $c_1c_2$ is the minimum side of $\triangle c_1c_2c_4$, we have the inequality $\angle c_1c_4c_2\leq\pi/3$; therefore, $\angle c_1c_4c_2\leq\pi/6$. Since $\triangle c_2c_3c_4$ was added, we know that
+    $$\angle c_3c_4c_2 > \pi/6\Rightarrow \angle c_1c_4c_2 < \angle c_3c_4c_2.$$
+    
+    Let $t\in s_k$ be the point such that $B_2$ covers the arc of $s_k$ between $c_3$ and $t$. In particular, $c_2c_3c_4t$ is a rhombus. Using our assumption that $B_1$ covers something on $s_k$ minus the arc between $c_3$ and $t$, and the fact that $\angle c_2c_4c_1 < \angle c_2c_4c_3 = \angle c_2c_4t$, we conclude that $|c_1 - t| < 1$ must hold.
+    
+    Analogously to the previous case, $\angle{c_2c_1c_4} < \pi/3$. Therefore, $\angle c_2c_1c_4 < \pi/2$, which is equivalent to the inequality
+    $$|c_1 - (c_2 + c_4)/2| > |(c_2 - c_4)/2|.$$
+    But then, due to continuity, some point of the segment $[t, (c_2 + c_4)/2]$ must be the circumcenter of $\triangle c_1c_2c_4$. Since it is not $t$, we have $R(\triangle c_1c_2c_4) < 1$, which leads to a contradiction. See Figure~\ref{fig:delaunay-covers-neighbors-case-c}.
+    \item $i_{k-1} = i_k - 1$, $l = i_{k-3} = i_k - 3$. Since $R(\triangle c_2c_3c_4)\geq 1$ and $R(\triangle c_1c_2c_3)\geq 1$, both $\angle c_2c_3c_4$ and $\angle c_1c_2c_3$ are at least $2\pi/3$. Therefore, $|c_1 - c_4|\geq 2$, which contradicts that $s_k\cap B_1\neq\varnothing$.
+\end{itemize}
+
+As we got a contradiction in each case, we conclude that $s_k$ is covered by $B_{i_{k-1}}$ and $B_{i_{k+1}}$.
+\end{proof}
+
+% To build a curve $\gamma_{ij}$ from Claim~\ref{lemma:can-construct-gamma-ij}, it suffices to show that for any $i_k$ the arc $s_k$ is not completely covered by $B_{i_{k-1}}$ and $B_{i_{k+1}}$.
+
+\begin{lemma}
+If $\mathcal{D}_{ij}$ is a subsegment, and $p\in \sigma_{ij}\cap\partial{B_{i_k}}$ for some $D_{i_k}\in\mathcal{D}_{ij}$, then $p\in s_k$ and $p$ is not covered by any of $B_{i_{k-1}}$ and $B_{i_{k+1}}$.
+\end{lemma}
+
+\begin{proof}
+By construction, $p\notin E$ because every point from $E$ is at distance less than $1$ from one of the points. This fact and Lemma~\ref{lemma:E-is-connected} immediately imply that $p\in s_k$.
+
+Similarly, since $|p - c_{i_{k-1}}|\geq 1$ and $|p - c_{i_{k+1}}|\geq 1$, we also have that $p$ is not covered by any of $B_{i_{k-1}}$ and $B_{i_{k+1}}$.
+\end{proof}
+
+This finishes the proof of Claim~\ref{lemma:can-construct-gamma-ij}.
+
+% This means that the following algorithm builds a sparse-centered curve $\gamma_{ij}$ satisfying the required properties:
+
+% \begin{enumerate}
+%     \item Start at $f_i$,
+%     \item Go counterclockwise along $B_{i}$ until the first intersection with $B_{nx(i)}$,
+%     \item Go counterclockwise along $B_{nx(i)}$ until the first intersection with $B_{nx(nx(i))}$,
+%     \item $\ldots$
+%     \item Go counterclockwise along $B_{nx(\cdots(nx(i))\cdots)} = B_j$ until $f_j$.
+% \end{enumerate}
+
+\end{appendices}

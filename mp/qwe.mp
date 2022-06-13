@@ -32,6 +32,37 @@ vardef dtwlbl(expr lab,pt,a,b)=
   draw lb
 enddef;
 
+vardef windmill(expr a, b) =
+  numeric r;
+  r = 0.5cm;
+
+  path O;
+  O = fullcircle scaled 2r;
+
+  numeric inner_c, ray_c;
+  inner_c = a;
+  ray_c = b;
+
+  numeric R;
+  R = r / sind(180 / inner_c);
+
+  pair v;
+
+  for j := 0 upto ray_c - 1:
+    for k := 0 upto ray_c - 1 - j:
+      v := (R + 2r * j, 0) shifted ((2r * k, 0) rotated -60);
+      exitif (j + k > 0) and (abs(v - ((R + 2r * (j + k - 1), 0) rotated (-360 / inner_c))) < 2r - 0.000000001);
+      exitif (j + k > 1) and (abs(v - ((R + 2r * (j + k - 2), 0) rotated (-360 / inner_c))) < 2r - 0.000000001);
+      for i := 0 upto inner_c - 1:
+        if (k = 0):
+          fill O shifted v rotated (360 / inner_c * i) withcolor .85white;
+        fi
+        draw O shifted v rotated (360 / inner_c * i);
+      endfor
+    endfor
+  endfor
+enddef;
+
 prologues:=3;
 verbatimtex
 %&latex
@@ -1742,7 +1773,7 @@ c4 = (0, 0);
 c5 = point tt of O;
 c3 = point fr of O;
 c2 = point 2.7 of O shifted c3;
-c1 = point 4.1 of O shifted c2;
+c1 = point 4.2 of O shifted c2;
 
 pair t;
 t = point (fr + 4/3) of O;
@@ -1759,6 +1790,14 @@ draw subpath (fr, tt) of O dashed evenly;
 
 draw O shifted c1;
 draw t--.5[c3, c4];
+
+pair o;
+o = whatever[t, .5[c3, c4]];
+(o - .5[c1, c4]) dotprod (c1 - c4) = 0;
+
+draw fullcircle scaled 2(abs(o - c1)) shifted o dashed evenly;
+dotlabel(btex$$etex, o);
+
 
 dotlabel.bot(btex$c_4$etex, c4);
 dotlabel.rt(btex$c_3$etex, c3);
@@ -1789,10 +1828,10 @@ c2 = point 2.9 of O shifted c3;
 c1 = point 4.15 of O shifted c2;
 
 pair t;
-t = point (fr + 4/3) of O;
+t = c2 + c4 - c3;
 
 fill O shifted c1 withcolor .8white;
-fill O shifted c3 withcolor .7white;
+fill O shifted c2 withcolor .7white;
 
 pickup pencircle;
 draw c1--c2--c3--c4--c5;
@@ -1802,10 +1841,10 @@ pickup pencircle scaled 0.5;
 draw subpath (fr, tt) of O dashed evenly;
 
 draw O shifted c1;
-draw t--.5[c3, c4];
+draw t--.5[c2, c4];
 
 pair o;
-o = whatever[t, .5[c3, c4]];
+o = whatever[t, .5[c2, c4]];
 (o - .5[c1, c4]) dotprod (c1 - c4) = 0;
 
 draw fullcircle scaled 2(abs(o - c1)) shifted o dashed evenly;
@@ -1818,6 +1857,24 @@ dotlabel.ulft(btex$c_1$etex, c1);
 
 dotlabel.ulft(btex$t$etex, t);
 
+endfig;
+
+outputtemplate := "windmill-%c.mps";
+
+beginfig(1);
+windmill(4, 6);
+endfig;
+
+beginfig(2);
+windmill(6, 6);
+endfig;
+
+beginfig(3);
+windmill(12, 10);
+endfig;
+
+beginfig(4);
+windmill(24, 20);
 endfig;
 
 end

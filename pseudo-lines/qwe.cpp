@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include "../pe/base/ostream.h"
+#include "../pe/geometry/svg.h"
 
 #define all(x) (x).begin(), (x).end()
 
@@ -9,6 +10,47 @@ inline int nxt() {
 	int x;
 	cin >> x;
 	return x;
+}
+
+using Pt = Point<double>;
+
+void visualize(int n, const vector<pair<int, int>>& res) {
+	SVG svg;
+	const double pi = acos(-1);
+	vector<pair<Pt, Pt>> cur_side(n);
+	for (int i = 0; i < n; ++i) {
+		cur_side[i].first = Pt{0, (double)n}.rotated(pi / n * (i + 1));
+		cur_side[i].second = Pt{0, (double)n}.rotated(pi / n * i) - cur_side[i].first;
+	}
+	for (auto [p, v] : cur_side) {
+		svg.draw(Segment{p, p + v});
+	}
+	vector<int> old(n, -1);
+	vector<Pt> last_center(n);
+	double text_x = n + 0.5;
+	double text_y = n;
+	for (auto [i, j] : res) {
+		if (i > j) {
+			swap(i, j);
+		}
+		Pt new_center = cur_side[j].first + cur_side[i].second / 2 + cur_side[j].second / 2;
+		if (old[i] > -1 && old[i] == old[j]) {
+			int k = old[i];
+			svg.draw(Polygon{vector{last_center[i], last_center[i] - cur_side[i].second / 2, last_center[j], last_center[j] + cur_side[k].second * (k < j ? 1 : -1) / 2, new_center, new_center + cur_side[j].second / 2}}, "#FF7777", "none");
+			text_y -= 0.6;
+			svg.text(to_string(i + 1) + "-" + to_string(j + 1) + "-" + to_string(k + 1), text_x, text_y, "black", 0.5);
+		}
+		last_center[i] = last_center[j] = new_center;
+		old[i] = j;
+		old[j] = i;
+		svg.draw(Segment{new_center - cur_side[j].second / 2, new_center + cur_side[j].second / 2}, "blue", 0.03);
+		svg.draw(Segment{new_center - cur_side[i].second / 2, new_center + cur_side[i].second / 2}, "blue", 0.03);
+		cur_side[i].first -= cur_side[j].second;
+		cur_side[j].first += cur_side[i].second;
+		svg.draw(Segment{cur_side[i].first, cur_side[i].first + cur_side[i].second});
+		svg.draw(Segment{cur_side[j].first, cur_side[j].first + cur_side[j].second});
+	}
+	svg.save("out.svg");
 }
 
 struct Dsu {
@@ -66,8 +108,15 @@ struct Dsu {
 	}
 };
 
-void rec(int n, vector<int>& rem, vector<int>& p, int bad_prefix, int it, Dsu& dsu, vector<int>& old, vector<pair<int, int>>& res) {
+void rec(int n, vector<int>& rem, vector<int>& p, int bad_prefix, int it, Dsu& dsu, vector<int>& old, vector<pair<int, int>>& res, int trs) {
+	if (trs > n - 2) {
+		return;
+	}
 	if (it == n * (n - 1) / 2) {
+		if (trs == n - 2 && rand() % 78687 == 0) {
+			visualize(n, res);
+			exit(0);
+		}
 		if (dsu.cnt != 1) {
 			cout << res << "\n";
 			exit(0);
@@ -91,7 +140,7 @@ void rec(int n, vector<int>& rem, vector<int>& p, int bad_prefix, int it, Dsu& d
 			old[p[i]] = p[i + 1];
 			old[p[i + 1]] = p[i];
 			swap(p[i], p[i + 1]);
-			rec(n, rem, p, max(i, 1), it + 1, dsu, old, res);
+			rec(n, rem, p, max(i, 1), it + 1, dsu, old, res, trs + new_triangle);
 			swap(p[i], p[i + 1]);
 			old[p[i]] = x;
 			old[p[i + 1]] = y;
@@ -112,7 +161,7 @@ void try_all_pseudolines(int n) {
 	iota(all(p), 0);
 	vector<int> old(n, -1);
 	vector<pair<int, int>> res(n * (n - 1) / 2);
-	rec(n, rem, p, 1, 0, dsu, old, res);
+	rec(n, rem, p, 1, 0, dsu, old, res, 0);
 }
 
 int main() {

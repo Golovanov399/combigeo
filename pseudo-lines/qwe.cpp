@@ -29,6 +29,7 @@ void visualize(int n, const vector<pair<int, int>>& res) {
 	vector<Pt> last_center(n);
 	double text_x = n + 0.5;
 	double text_y = n;
+	vector<tuple<Segment<double>, string, double>> segs_to_draw;
 	for (auto [i, j] : res) {
 		if (i > j) {
 			swap(i, j);
@@ -43,12 +44,15 @@ void visualize(int n, const vector<pair<int, int>>& res) {
 		last_center[i] = last_center[j] = new_center;
 		old[i] = j;
 		old[j] = i;
-		svg.draw(Segment{new_center - cur_side[j].second / 2, new_center + cur_side[j].second / 2}, "blue", 0.03);
-		svg.draw(Segment{new_center - cur_side[i].second / 2, new_center + cur_side[i].second / 2}, "blue", 0.03);
+		segs_to_draw.emplace_back(Segment{new_center - cur_side[j].second / 2, new_center + cur_side[j].second / 2}, "blue", 0.03);
+		segs_to_draw.emplace_back(Segment{new_center - cur_side[i].second / 2, new_center + cur_side[i].second / 2}, "blue", 0.03);
 		cur_side[i].first -= cur_side[j].second;
 		cur_side[j].first += cur_side[i].second;
-		svg.draw(Segment{cur_side[i].first, cur_side[i].first + cur_side[i].second});
-		svg.draw(Segment{cur_side[j].first, cur_side[j].first + cur_side[j].second});
+		segs_to_draw.emplace_back(Segment{cur_side[i].first, cur_side[i].first + cur_side[i].second}, "black", 0.1);
+		segs_to_draw.emplace_back(Segment{cur_side[j].first, cur_side[j].first + cur_side[j].second}, "black", 0.1);
+	}
+	for (auto [seg, color, width] : segs_to_draw) {
+		svg.draw(seg, color, width);
 	}
 	svg.save("out.svg");
 }
